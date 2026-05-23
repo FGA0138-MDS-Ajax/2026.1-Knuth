@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+.pytest_cache/
+.pyre/
+
+# Virtual environments
+venv/
+
+# VS Code
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+*.so
+*.dylib
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# SQLite databases
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# IDE/editor
+.idea/
+*.swp
+*~
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+.coverage
+
+# Local environment files
+local_settings.py
+
+# FastAPI/Uvicorn
+*.pid
+
+# macOS
+.DS_Store
+
+# Python virtualenv configuration
+pip-log.txt
+pip-delete-this-directory.txt
