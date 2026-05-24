@@ -39,7 +39,7 @@ Descreva claramente o problema ou a tarefa.
 Exemplos:
 
 * "Criar perfil de professor e delimitar suas funções"
-* "Concertar erro na cehcagem de status da resposta"
+* "Consertar erro na cehcagem de status da resposta"
 * "Adicionar botão para responder pergunta"
 
 ---
@@ -62,7 +62,7 @@ Exemplo:
 
 ---
 
-## 🛠️ 7. Detalhes técnicos / evidências
+## 🛠️ 6. Detalhes técnicos / evidências
 
 * **Logs / erros:**
 * **Arquivo / módulo afetado:**
@@ -71,7 +71,7 @@ Exemplo:
 
 ---
 
-## 🔗 8. Dependências
+## 🔗 7. Dependências
 
 Depende de outra issue ou área?
 
@@ -82,7 +82,7 @@ Exemplo:
 
 ---
 
-## 📋 14. Checklist de conclusão
+## 📋 8. Checklist de conclusão
 
 Marque todos que foram realizados:
 
@@ -101,7 +101,7 @@ Descreva o teste:
 
 ---
 
-## 📷 11. Evidências (se aplicável)
+## 📷 9. Evidências (se aplicável)
 
 * [ ] Print
 * [ ] Vídeo
@@ -113,20 +113,20 @@ Link do docs: (caso seja feito)
 
 ---
 
-## 📅 12. Prazo
+## 📅 10. Prazo
 
 Data limite:
 `DD/MM`
 
 ---
 
-## 👤 13. Responsável
+## 👤 11. Responsável
 
 @nome-do-integrante <também colocar no assignees>
 
 ---
 
-## 🔗 15. Referências
+## 🔗 12. Referências
 
 * Issue relacionada: #
 * Pull Request: #
@@ -134,6 +134,6 @@ Data limite:
 
 ---
 
-## 💬 16. Observações
+## 💬 13. Observações
 
 Qualquer detalhe relevante:
