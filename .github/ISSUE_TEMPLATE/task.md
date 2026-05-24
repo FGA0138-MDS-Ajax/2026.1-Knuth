@@ -1,3 +1,11 @@
+---
+name: Task
+about: Criar uma nova issue de atividade/problema
+title: "[TASK] "
+labels: []
+assignees: []
+---
+
 # 🚧 Atividade / Problema
 
 ## 🧩 1. Tipo de Issue
