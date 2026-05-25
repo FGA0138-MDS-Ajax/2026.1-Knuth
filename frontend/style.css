@@ -52,3 +52,172 @@ button {
     color: white;
     cursor: pointer;
 }
+
+/* Dashboard */
+
+.dashboard-layout {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f7f6;
+}
+
+/* Menu Lateral */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+}
+
+.sidebar .logo {
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a.active, .sidebar ul li a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-sair {
+    margin-top: auto;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Área Principal */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.search-box input {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-box button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Mural e Posts */
+.post-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+/* Seção de Perguntas */
+.secao-perguntas {
+    margin-bottom: 40px;
+}
+
+.fazer-pergunta {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.fazer-pergunta textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.fazer-pergunta button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card-pergunta {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 5px solid #007bff;
+}
+
+.card-pergunta .pergunta {
+    margin: 0 0 8px 0;
+    color: #333;
+}
+
+.card-pergunta .resposta {
+    margin: 0;
+    color: #28a745;
+}
+/* Cabeçalho da Disciplina */
+.disciplina-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.disciplina-header h2 {
+    margin: 0 0 5px 0;
+}
+
+.disciplina-header p {
+    margin: 0;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
