@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Knuths</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-layout">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Knuths</h2>
+            <p>Ester Almeida</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Meu Mural</a></li>
+                <li><a href="#">Buscar Disciplinas</a></li>
+                <li><a href="#">Minhas Turmas</a></li>
+            </ul>
+        </nav>
+        <button id="btnLogout" class="btn-sair">Sair da conta</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <h1 id="boas-vindas">Carregando...</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Buscar disciplina...">
+                <button type="button">Buscar</button>
+            </div>
+        </header>
+
+        <section class="mural">
+            <h2>Últimas Atualizações</h2>
+            
+            <div class="post-card">
+                <div class="post-header">
+                    <strong>Profª. Yoko • Cálculo II</strong>
+                    <span>Há 2 horas</span>
+                </div>
+                <p>As notas da P1 já estão no sistema. Revisão de prova na próxima terça-feira no horário da aula.</p>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <strong>Prof. Ajax • MDS</strong>
+                    <span>Ontem</span>
+                </div>
+                <p>Apresentação dos grupos nessa semana, 3 grupos na terça e outros 3 na quinta.</p>
+            </div>
+        </section>
+
+        <div class="disciplina-header">
+            <h2>MDS - Métodos de Desenvolvimento de Software</h2>
+            <p>Professor: Ajax</p>
+        </div>
+
+        <section class="secao-perguntas">
+            <div class="fazer-pergunta">
+                <h3>Enviar dúvida para o Prof. Ajax</h3>
+                <textarea id="textoPergunta" placeholder="Escreva sua dúvida sobre a matéria ou projeto aqui..."></textarea>
+                <button id="btnEnviarPergunta" type="button">Enviar Dúvida</button>
+            </div>
+
+            <div class="perguntas-respondidas">
+                <h3>Dúvidas Recentes da Turma</h3>
+                
+                <div class="card-pergunta">
+                    <p class="pergunta"><strong>Aluno:</strong> Professor, a entrega do diagrama de classes é no formato PDF?</p>
+                    <p class="resposta"><strong>Prof. Ajax:</strong> Sim, por favor submetam em PDF no repositório.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
