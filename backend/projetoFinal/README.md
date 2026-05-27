@@ -68,6 +68,7 @@ git status
 
 ```bash
 git checkout developer
+git pull
 ```
 
 4. Crie e ative o ambiente virtual (lembre que o usuario logado necessita de permissão para execução de scripts):
