@@ -46,34 +46,44 @@ Isso facilita manutenção, testes e evolução independente de cada camada.
 ## Requisitos
 
 - Python 3.11+ (recomendado)
-- PostgreSQL
+- PostgreSQL (instalação standalone ou via docker)
 - Virtualenv opcional, mas recomendado
+- Git
 
-## Instalação
+## Instalação no Windows
 
 1. Clone o repositório:
 
 ```bash
-git clone <url-do-repositorio>
-cd projetoFinal
+git clone https://github.com/FGA0138-MDS-Ajax/2026.1-Knuth.git
+cd .\2026.1-Knuth\backend\projetoFinal\
 ```
-
-2. Crie e ative o ambiente virtual:
+2. Verificar a branch de trabalho (main ou developer)
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+git status
 ```
 
-3. Instale as dependências:
+3. Se necessário alterne para outra branch
 
 ```bash
-pip install -r requirements.txt
+git checkout developer
 ```
 
-4. Configure as variáveis de ambiente.
+4. Crie e ative o ambiente virtual (lembre que o usuario logado necessita de permissão para execução de scripts):
 
-Se necessario configure o arquivo `.env` na raiz do projeto com algo como:
+```bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+5. Instale as dependências:
+
+```bash
+pip install .
+```
+
+5. Configure as variáveis de ambiente no arquivo `.env` na raiz do projeto com algo como:
 
 ```env
 DB_USER=seu_usuario
@@ -90,9 +100,10 @@ SERVER_PORT=8000
 ## Executando a aplicação
 
 ```bash
-python3 -m app.main
+python -m app.main
 ```
 ou
+
 ```bash
 fastapi dev
 ```
