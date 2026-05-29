@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNUTHS</title>
-
+    <title>Dashboard - KNUTHS</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="dashboard-layout">
 
-<body>
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <ul>
+            <li><a href="dashboard.html" class="active">Mural Geral</a></li>
+            <li><a href="dashboard-academico.html">Acadêmico</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
 
-    <div class="login-box">
+    <main class="main-content">
+        <div class="top-header">
+            <h2>Mural Geral</h2>
+        </div>
 
-        <h1>Dashboard Inicial</h1>
+        <div class="fazer-pergunta">
+            <textarea placeholder="Tem alguma dúvida? Pergunte aqui..."></textarea>
+            <button>Enviar Pergunta</button>
+        </div>
 
-        <p>Bem-vindo ao sistema KNUTHS</p>
+        <div class="post-card">
+            <div class="post-header">
+                <span>Coordenação</span>
+                <span>Hoje, 10:00</span>
+            </div>
+            <p>Bem-vindo ao sistema KNUTHS. Fique de olho no mural para novos avisos.</p>
+        </div>
 
-    </div>
+        <div class="card-pergunta">
+            <p class="pergunta">Quando começam as inscrições em disciplinas?</p>
+            <p class="resposta"><strong>Admin:</strong> Verifique o calendário acadêmico no portal principal.</p>
+        </div>
 
+    </main>
+
+    <script src="dashboard.js"></script>
 </body>
-
 </html>
