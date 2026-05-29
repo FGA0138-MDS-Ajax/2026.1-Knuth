@@ -1,10 +1,5 @@
-const form =
-    document.getElementById("loginForm");
+const btnEntrar = document.getElementById("btnEntrar");
 
-form.addEventListener("submit", (e) => {
-
-    e.preventDefault();
-
+btnEntrar.addEventListener("click", () => {
     window.location.href = "dashboard.html";
-
 });
