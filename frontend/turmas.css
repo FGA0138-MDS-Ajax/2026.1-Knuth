@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    background: #f4f4f4;
+}
+
+
+/* HEADER */
+
+header {
+    position: sticky;
+    top: 0;
+    background: #4f46e5;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+
+/* MAIN */
+
+main {
+    padding: 40px;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #333;
+}
+
+
+/* CARDS */
+
+.container-turmas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    color: #4f46e5;
+    margin-bottom: 15px;
+}
+
+.card p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+
+/* BOTÕES */
+
+button {
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3730a3;
+}
+
+.entrar {
+    width: 100%;
+}
+
+#novaTurma {
+    width: 220px;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media(max-width:768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    nav {
+        display: flex;
+        gap: 15px;
+    }
+    nav a {
+        margin-left: 0;
+    }
+    main {
+        padding: 20px;
+    }
+    .topo {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    #novaTurma {
+        width: 100%;
+    }
+}
