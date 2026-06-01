@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 4. Configure as variáveis de ambiente.
 
-Crie um arquivo `.env` na raiz do projeto com algo como:
+Se necessario configure o arquivo `.env` na raiz do projeto com algo como:
 
 ```env
 DB_USER=seu_usuario

@@ -1,0 +1,10 @@
+site_name: Documentação Knuth
+
+nav:
+  - Início: index.md
+  - Atas de Reunião:
+    - Ata 2: "atas-reuniao/ata-reuniao-2.md" 
+    - Ata 4: "atas-reuniao/ata-reuniao-4.md"
+    - Ata 5: "atas-reuniao/ata-reuniao-5.md"
+    - Ata 6: "atas-reuniao/ata-reuniao-6.md"
+

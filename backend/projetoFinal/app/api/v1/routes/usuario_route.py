@@ -5,8 +5,8 @@ from app.services.usuario_service import UsuarioService
 from app.api.dep import SessionDependency
 from app.core.security import get_current_username  
 
-router = APIRouter(prefix="/usuarios", tags=["Usuários"], dependencies=[Depends(get_current_username)])
-#router = APIRouter(prefix="/usuarios", tags=["Usuários"])
+#router = APIRouter(prefix="/usuarios", tags=["Usuários"], dependencies=[Depends(get_current_username)])
+router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 
 @router.post("/", response_model=UsuarioRead, summary="Criar um novo usuário")
 def create_usuario(usuario_create: UsuarioCreate, session: SessionDependency):

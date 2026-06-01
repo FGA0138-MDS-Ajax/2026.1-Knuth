@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro - Knuths</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Knuths</h1>
+
+            <p>Plataforma acadêmica</p>
+
+            <form id="cadastroForm">
+
+                <input type="text" id="nome" placeholder="Nome completo" required>
+
+                <input type="email" id="email" placeholder="E-mail" required>
+
+                <input type="text" id="matricula" placeholder="Matrícula (8–10 caracteres)" minlength="8" maxlength="10" required>
+
+                <select id="curso_id" required>
+                    <option value="">Carregando cursos...</option>
+                </select>
+
+                <input type="password" id="senha" placeholder="Senha" required>
+
+                <input type="password" id="confirmarSenha" placeholder="Confirmar senha" required>
+
+                <button type="submit">Cadastrar</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="../config.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
