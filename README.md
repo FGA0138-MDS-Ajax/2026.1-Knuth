@@ -12,9 +12,9 @@ O repositório conta com mais 3 branchs:
 
 ## Documentação
 
-- [Visão do Produto e Projeto](KNUTH - MDS-2026.1 -Visão do Produto e do Projeto-Cópia.docx)
-- [Documento de Arquitetura](KNUTH - MDS-2026.1 - Documento de Arquitetura-Cópia.docx)
-- [Declaração de Escopo](guia_padronizacao_git.pdf)
+- [Visão do Produto e Projeto](https://github.com/FGA0138-MDS-Ajax/2026.1-Knuth/blob/c1547174dd134c4939fd58717ac157e8fe08b548/KNUTH%20-%20MDS-2026.1%20-Vis%C3%A3o%20do%20Produto%20e%20do%20Projeto-C%C3%B3pia.docx)
+- [Documento de Arquitetura](https://github.com/FGA0138-MDS-Ajax/2026.1-Knuth/blob/c1547174dd134c4939fd58717ac157e8fe08b548/KNUTH%20-%20MDS-2026.1%20-%20Documento%20de%20Arquitetura-C%C3%B3pia.docx)
+- [Guia de Padronização Github](guia_padronizacao_git.pdf)
 
 ## Especificações Técnicas do Repositório
 
