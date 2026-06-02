@@ -10,6 +10,12 @@ O repositório conta com mais 3 branchs:
 - developer: usada como um intermediário antes do código chegar realmente para produção. É o ambiente ideal para realizar os últimos testes antes das apresentações.
 - gh-pages: Local dos arquivos estáticos de deploy da documentação. (Para deploy da documentação, consultar seu monitor)
 
+## Documentação
+
+- [Visão do Produto e Projeto](KNUTH - MDS-2026.1 -Visão do Produto e do Projeto-Cópia.docx)
+- [Documento de Arquitetura](KNUTH - MDS-2026.1 - Documento de Arquitetura-Cópia.docx)
+- [Declaração de Escopo](guia_padronizacao_git.pdf)
+
 ## Especificações Técnicas do Repositório
 
 Este repositório é planejado e estruturado para que seja realizado documentações de software. Caso haja outra necessidades, deve-se consultar a professora.
