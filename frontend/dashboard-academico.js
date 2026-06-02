@@ -1,21 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("access_token");
 
-    // Redireciona para login se não estiver logado
-    if (!token) {
-        window.location.href = "login.html";
-        return;
-    }
-
     // Função de Logout do Menu Lateral
-    document.getElementById("btnSair").addEventListener("click", () => {
-        localStorage.removeItem("access_token");
-        window.location.href = "login.html";
-    });
+    const btnSair = document.getElementById("btnSair");
+    if (btnSair) {
+        btnSair.addEventListener("click", () => {
+            localStorage.removeItem("access_token");
+            window.location.href = "login.html";
+        });
+    }
 
     // 1. Carrega os dados do Perfil
     async function carregarPerfil() {
         try {
+            // Se não tiver token, já pula direto para o erro para preencher os dados de teste
+            if (!token) throw new Error("Modo protótipo sem backend");
+
             const response = await fetch("http://localhost:8000/me", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
@@ -30,16 +30,19 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("perfilEmail").innerText = payload.aluno_email || payload.sub;
 
         } catch (error) {
-            console.error("Erro no perfil:", error);
-            localStorage.removeItem("access_token");
-            window.location.href = "login.html";
+            console.error("Backend offline. Carregando dados de teste para o layout:", error);
+            // Preenche com dados provisórios em vez de redirecionar para o login
+            document.getElementById("perfilNome").innerText = "Ester Almeida";
+            document.getElementById("perfilMatricula").innerText = "202600123";
+            document.getElementById("perfilCurso").innerText = "Engenharia (UnB)";
+            document.getElementById("perfilEmail").innerText = "ester@knuths.com";
         }
     }
 
     // 2. Carrega Turmas e Avisos
     async function carregarDadosAcademicos() {
-        // Buscar Minhas Turmas (TODO Backend)
         try {
+            if (!token) throw new Error("Sem token");
             const responseTurmas = await fetch("http://localhost:8000/me/disciplinas", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
@@ -52,12 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 listaTurmas.innerHTML = "<li>Nenhuma disciplina encontrada.</li>";
             }
         } catch (error) {
-            console.error("Aguardando backend para turmas.", error);
             document.getElementById("listaTurmas").innerHTML = "<li>Aguardando conexão com o servidor...</li>";
         }
 
-        // Buscar Avisos (TODO Backend)
         try {
+            if (!token) throw new Error("Sem token");
             const responseAvisos = await fetch("http://localhost:8000/avisos", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
@@ -74,19 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 listaAvisos.innerHTML = "<p>Nenhuma atualização recente.</p>";
             }
         } catch (error) {
-            console.error("Aguardando backend para avisos.", error);
             document.getElementById("listaAvisos").innerHTML = "<p>Aguardando conexão com o servidor...</p>";
         }
     }
 
-    // 3. Lógica do Buscador
-    document.getElementById("btnBuscar").addEventListener("click", () => {
-        const termoBusca = document.getElementById("inputBusca").value;
-        if (!termoBusca) return;
-        
-        console.log(`Enviando busca para: /disciplinas/buscar?q=${termoBusca}`);
-        alert(`A busca por "${termoBusca}" foi solicitada. O backend precisa criar esta rota!`);
-    });
+    // 3. Buscador
+    const btnBuscar = document.getElementById("btnBuscar");
+    if (btnBuscar) {
+        btnBuscar.addEventListener("click", () => {
+            const termoBusca = document.getElementById("inputBusca").value;
+            if (!termoBusca) return;
+            
+            console.log(`Enviando busca para: /disciplinas/buscar?q=${termoBusca}`);
+            alert(`A busca por "${termoBusca}" foi solicitada. O backend precisa criar esta rota!`);
+        });
+    }
 
     // Inicializa as funções ao abrir a página
     carregarPerfil();
