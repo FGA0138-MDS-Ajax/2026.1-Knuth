@@ -23,28 +23,20 @@
 
             <p>Plataforma acadêmica</p>
 
-            <form>
-
-                <input type="text" placeholder="Nome completo">
-
-                <input type="email" placeholder="E-mail">
-
-                <input type="text" placeholder="Matrícula">
-
-                <select>
-                    <option>Selecione o tipo</option>
-                    <option>Aluno</option>
-                    <option>Monitor</option>
-                    <option>Professor</option>
-                </select>
-
-                <input type="password" placeholder="Senha">
-
-                <input type="password" placeholder="Confirmar senha">
-
-                <button>Cadastrar</button>
-
-            </form>
+            <form id="cadastroForm">
+    <input type="text" id="nome" placeholder="Nome completo" required>
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="text" id="matricula" placeholder="Matrícula" required>
+    <select id="tipo">
+        <option value="">Selecione o tipo</option>
+        <option value="aluno">Aluno</option>
+        <option value="monitor">Monitor</option>
+        <option value="professor">Professor</option>
+    </select>
+    <input type="password" id="senha" placeholder="Senha" required>
+    <input type="password" id="confirmaSenha" placeholder="Confirmar senha" required>
+    <button type="submit">Cadastrar</button>
+</form>
 
         </div>
 
