@@ -3,19 +3,19 @@ from fastapi import APIRouter, Depends
 from app.schemas.curso_schema import CursoCreate, CursoRead, CursoUpdate
 from app.services.curso_service import CursoService
 from app.api.dep import SessionDependency
-from app.core.security import get_current_username
+from app.core.security import get_current_username, get_current_professor
 
 router = APIRouter(prefix="/cursos", tags=["Cursos"], dependencies=[Depends(get_current_username)])
 
-@router.post("/", response_model=CursoRead,summary="Criar um novo curso")
+@router.post("/", response_model=CursoRead,summary="Criar um novo curso", dependencies=[Depends(get_current_professor)])
 def create_curso(curso_create: CursoCreate, session: SessionDependency):
     return CursoService.create(session, curso_create)
 
-@router.put("/{curso_id}", response_model=CursoRead,summary="Atualizar um curso existente")
+@router.put("/{curso_id}", response_model=CursoRead,summary="Atualizar um curso existente", dependencies=[Depends(get_current_professor)])
 def update_curso(curso_id: int, curso_update: CursoUpdate, session: SessionDependency):
     return CursoService.update(session, curso_id, curso_update)
 
-@router.delete("/{curso_id}", summary="Deletar um curso")
+@router.delete("/{curso_id}", summary="Deletar um curso", dependencies=[Depends(get_current_professor)])
 def delete_curso(curso_id: int, session: SessionDependency):
     return CursoService.delete(session, curso_id)   
 

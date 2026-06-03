@@ -3,19 +3,19 @@ from fastapi import APIRouter, Depends
 from app.schemas.aluno_schema import AlunoCreate, AlunoRead, AlunoUpdate
 from app.services.aluno_service import AlunoService
 from app.api.dep import SessionDependency
-from app.core.security import get_current_username
+from app.core.security import get_current_username, get_current_staff
 
 router = APIRouter(prefix="/alunos", tags=["Alunos"], dependencies=[Depends(get_current_username)])
 
-@router.post("/", response_model=AlunoRead,summary="Criar um novo aluno")
+@router.post("/", response_model=AlunoRead,summary="Criar um novo aluno", dependencies=[Depends(get_current_staff)])
 def create_aluno(aluno_create: AlunoCreate, session: SessionDependency):
     return AlunoService.create(session, aluno_create)
 
-@router.put("/{aluno_id}", response_model=AlunoRead,summary="Atualizar um aluno existente")
+@router.put("/{aluno_id}", response_model=AlunoRead,summary="Atualizar um aluno existente", dependencies=[Depends(get_current_staff)])
 def update_aluno(aluno_id: int, aluno_update: AlunoUpdate, session: SessionDependency):
     return AlunoService.update(session, aluno_id, aluno_update)
 
-@router.delete("/{aluno_id}", summary="Deletar um aluno")
+@router.delete("/{aluno_id}", summary="Deletar um aluno", dependencies=[Depends(get_current_staff)])
 def delete_aluno(aluno_id: int, session: SessionDependency):
     return AlunoService.delete(session, aluno_id)
 
