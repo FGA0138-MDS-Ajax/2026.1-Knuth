@@ -57,6 +57,19 @@
     cursor: pointer;
 }
 
+.cadastro-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro-link:hover {
+    text-decoration: underline;
+}
+
 /* ==========================================
    LAYOUT GERAL DASHBOARD
 ========================================== */
@@ -98,7 +111,8 @@
     margin-bottom: 10px;
 }
 
-.sidebar ul li a.active, .sidebar ul li a:hover {
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
     background-color: #007bff;
     color: white;
 }
@@ -200,20 +214,23 @@
 /* ==========================================
    DASHBOARD ACADÊMICO E BUSCA
 ========================================== */
-.search-section, .search-box {
+.search-section,
+.search-box {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
 }
 
-.search-section input, .search-box input {
+.search-section input,
+.search-box input {
     width: 300px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.search-section button, .search-box button {
+.search-section button,
+.search-box button {
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -242,9 +259,19 @@
     padding-bottom: 10px;
 }
 
-.painel p { margin-bottom: 10px; }
-.painel ul { list-style: none; padding: 0; }
-.painel ul li { padding: 10px 0; border-bottom: 1px solid #eee; }
+.painel p {
+    margin-bottom: 10px;
+}
+
+.painel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.painel ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
 
 /* ==========================================
    TURMAS / DISCIPLINAS
