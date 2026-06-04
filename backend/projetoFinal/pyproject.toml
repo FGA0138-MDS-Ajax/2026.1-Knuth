@@ -1,0 +1,17 @@
+[project]
+name = "projeto-final"
+version = "0.1.0"
+description = "Backend FastAPI"
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi[standard]",
+    "sqlmodel",
+    "psycopg2",
+    "passlib[bcrypt]",
+    "python-jose",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

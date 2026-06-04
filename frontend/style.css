@@ -1,3 +1,16 @@
+/* ==========================================
+   VARIÁVEIS GLOBAIS
+========================================== */
+:root {
+    --roxo-principal: #4f46e5;
+    --roxo-secundario: #7c3aed;
+    --roxo-fundo: #f0eeff;
+    --cinza-fundo: #f4f7f6;
+    --cinza-borda: #ccc;
+    --texto-escuro: #1f2937;
+    --texto-claro: #4b5563;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,33 +19,57 @@
 }
 
 /* ==========================================
+<<<<<<< HEAD
    TELA DE LOGIN
+=======
+   TELA DE LOGIN (Janela Flutuante)
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 ========================================== */
 .login-body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+<<<<<<< HEAD
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     margin: 0;
+=======
+    background: linear-gradient(135deg, var(--roxo-principal), var(--roxo-secundario));
+    margin: 0;
+    overflow: hidden;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .login-box {
-    width: 350px;
-    background: white;
+    width: 380px;
+    background: rgba(255, 255, 255, 0.95); /* Levemente transparente para um visual moderno */
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /* Sombra grande que cria o efeito flutuante */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    /* Animação de flutuação */
+    animation: flutuar 3s ease-in-out infinite alternate;
 }
 
+<<<<<<< HEAD
+=======
+@keyframes flutuar {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 .login-box h1 {
     text-align: center;
-    color: #4f46e5;
+    color: var(--roxo-principal);
+    margin-bottom: 5px;
 }
 
 .login-box p {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: var(--texto-claro);
 }
 
 .login-box form {
@@ -42,29 +79,54 @@
 
 .login-box input {
     margin-top: 15px;
-    padding: 12px;
+    padding: 14px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza-borda);
+    outline: none;
+    transition: border-color 0.3s;
 }
 
+<<<<<<< HEAD
 .login-box button {
     margin-top: 20px;
     padding: 12px;
+=======
+.login-box input:focus {
+    border-color: var(--roxo-principal);
+}
+
+.login-box button {
+    margin-top: 25px;
+    padding: 14px;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     border: none;
     border-radius: 10px;
-    background: #4f46e5;
+    background: var(--roxo-principal);
     color: white;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+<<<<<<< HEAD
+/* ==========================================
+   LAYOUT GERAL DASHBOARD
+=======
+.login-box button:hover {
+    background: var(--roxo-secundario);
+    transform: scale(1.02);
 }
 
 /* ==========================================
-   LAYOUT GERAL DASHBOARD
+   LAYOUT GERAL (Aplica aos dois Dashboards)
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 ========================================== */
 .dashboard-layout {
     display: flex;
     height: 100vh;
     margin: 0;
-    background-color: #f4f7f6;
+    background-color: var(--cinza-fundo);
 }
 
 /* Menu Lateral */
@@ -79,28 +141,35 @@
 
 .sidebar .logo {
     margin-bottom: 30px;
+<<<<<<< HEAD
     font-weight: bold;
     font-size: 24px;
     color: #4f46e5;
+=======
+    color: var(--roxo-principal);
+    font-weight: bold;
+    font-size: 1.5em;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
 }
 
 .sidebar ul li a {
     display: block;
-    padding: 10px;
-    color: #333;
+    padding: 12px;
+    color: var(--texto-escuro);
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 10px;
+    transition: all 0.2s ease;
 }
 
 .sidebar ul li a.active, .sidebar ul li a:hover {
-    background-color: #007bff;
+    background-color: var(--roxo-principal);
     color: white;
+    transform: translateX(5px);
 }
 
 .btn-sair {
@@ -108,9 +177,14 @@
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-sair:hover {
+    background-color: #c82333;
 }
 
 /* Área Principal */
@@ -120,6 +194,7 @@
     overflow-y: auto;
 }
 
+<<<<<<< HEAD
 .top-header {
     display: flex;
     justify-content: space-between;
@@ -136,14 +211,27 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 15px;
+=======
+/* ==========================================
+   DASHBOARD NORMAL (Posts e Perguntas)
+========================================== */
+.post-card, .fazer-pergunta {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    color: #555;
+    margin-bottom: 15px;
+    color: var(--texto-claro);
     font-size: 0.9em;
+<<<<<<< HEAD
 }
 
 .secao-perguntas {
@@ -156,48 +244,67 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 25px;
+=======
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .fazer-pergunta textarea {
     width: 100%;
     height: 80px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 8px;
     resize: none;
     margin-bottom: 10px;
-    box-sizing: border-box;
+    outline: none;
+}
+
+.fazer-pergunta textarea:focus {
+    border-color: var(--roxo-principal);
 }
 
 .fazer-pergunta button {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: var(--roxo-principal);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.fazer-pergunta button:hover {
+    background-color: var(--roxo-secundario);
 }
 
 .card-pergunta {
-    background-color: #e9ecef;
+    background-color: var(--roxo-fundo);
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid #007bff;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 5px solid var(--roxo-principal);
 }
 
 .card-pergunta .pergunta {
     margin: 0 0 8px 0;
+<<<<<<< HEAD
     color: #333;
+=======
+    color: var(--texto-escuro);
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     font-weight: bold;
 }
 
 .card-pergunta .resposta {
     margin: 0;
-    color: #28a745;
+    color: var(--roxo-principal);
 }
 
 /* ==========================================
+<<<<<<< HEAD
    DASHBOARD ACADÊMICO E BUSCA
 ========================================== */
 .search-section, .search-box {
@@ -253,17 +360,106 @@
     background-color: #007bff;
     color: white;
     padding: 20px;
+=======
+   DASHBOARD ACADÊMICO (Perfil e Turmas)
+========================================== */
+.search-section {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-section input {
+    flex: 1;
+    padding: 12px;
+>>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     border-radius: 8px;
+    border: 1px solid var(--cinza-borda);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-section input:focus {
+    border-color: var(--roxo-principal);
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.3);
+}
+
+.search-section button {
+    padding: 12px 24px;
+    background-color: var(--roxo-principal);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.search-section button:hover {
+    background-color: var(--roxo-secundario);
+    transform: scale(1.02);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1.8fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.painel {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.painel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1);
+}
+
+.painel h3 {
+    color: var(--roxo-principal);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--roxo-fundo);
 }
 
-.disciplina-header h2 {
-    margin: 0 0 5px 0;
+.perfil-aluno p {
+    text-align: left;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--texto-claro);
 }
 
-.disciplina-header p {
-    margin: 0;
-    font-size: 1.1em;
-    opacity: 0.9;
+.perfil-aluno strong {
+    color: var(--texto-escuro);
+}
+
+#listaTurmas {
+    list-style: none;
+}
+
+#listaTurmas li {
+    padding: 14px;
+    margin-bottom: 10px;
+    background-color: var(--roxo-fundo);
+    border-radius: 10px;
+    border-left: 4px solid var(--roxo-principal);
+    color: var(--roxo-principal);
+    font-weight: 600;
+}
+
+.aviso-card {
+    background: var(--cinza-fundo);
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--roxo-secundario);
+    border-radius: 10px;
 }
