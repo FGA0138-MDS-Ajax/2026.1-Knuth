@@ -13,7 +13,6 @@ from app.models.usuario_model import Usuario
 from app.models.aluno_model import Aluno
 from app.api.dep import SessionDependency
 
-
 router = APIRouter()
 
 
@@ -25,10 +24,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessi
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
 
     data = {
+    data = {
         "sub": usuario.username,
         "id": usuario.id,
         "is_aluno": usuario.is_aluno,
         "is_monitor": usuario.is_monitor,
+        "is_professor": usuario.is_professor,
+        "is_active": usuario.is_active,
         "is_professor": usuario.is_professor,
         "is_active": usuario.is_active,
     }

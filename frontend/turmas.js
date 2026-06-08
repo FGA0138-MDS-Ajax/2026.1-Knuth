@@ -8,7 +8,6 @@ async function carregarTurmas() {
         const turmas = await response.json();
         const container = document.getElementById("listaTurmas");
         
-        // Ajustado para usar 't.descricao' conforme seu schema
         container.innerHTML = turmas.map(t => `
             <div class="card">
                 <h3>📘 ${t.descricao || "Turma sem nome"}</h3>
@@ -23,15 +22,13 @@ async function carregarTurmas() {
     }
 }
 
-// Botão Nova Turma - APENAS UMA VEZ
-document.getElementById("novaTurma")?.addEventListener("click", async () => {
-    // Para um teste funcional rápido, mantive os dados fixos que o seu schema exige
+document.getElementById("btnCriar")?.addEventListener("click", async () => {
     const novaTurma = {
-        descricao: "Turma de Teste " + new Date().getTime(), // Nome único
-        horario: "14:00-16:00",
+        descricao: document.getElementById("descInput").value,
+        horario: document.getElementById("horarioInput").value,
         periodo: "2026.1",
-        disciplina_id: 1, 
-        professor_id: 1   
+        disciplina_id: parseInt(document.getElementById("discIdInput").value),
+        professor_id: parseInt(document.getElementById("profIdInput").value)
     };
 
     try {
@@ -39,7 +36,7 @@ document.getElementById("novaTurma")?.addEventListener("click", async () => {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("access_token")}` // Adicionado token por segurança
+                "Authorization": `Bearer ${localStorage.getItem("access_token")}`
             },
             body: JSON.stringify(novaTurma)
         });
@@ -87,7 +84,6 @@ document.getElementById("buscarTurma")?.addEventListener("click", async () => {
         const response = await fetch(`${API_BASE_URL}/turmas/`);
         const turmas = await response.json();
         
-        // Ajustado para buscar por descrição (o que você tem no seu banco)
         const encontrada = turmas.find(t => t.descricao.toLowerCase().includes(busca));
         mensagem.textContent = encontrada ? "Turma encontrada!" : "Turma não encontrada.";
     } catch {
