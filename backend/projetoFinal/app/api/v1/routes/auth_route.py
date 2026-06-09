@@ -12,10 +12,14 @@ from app.services.usuario_service import UsuarioService
 from app.services.aluno_service import AlunoService
 from app.services.professor_service import ProfessorService
 from app.api.dep import SessionDependency
+from app.schemas.usuario_schema import UsuarioCreate, UsuarioRead
 
 
 router = APIRouter()
 
+@router.post("/register", response_model=UsuarioRead, summary="Registrar um novo usuário")
+def register_usuario(usuario_create: UsuarioCreate, session: SessionDependency):
+    return UsuarioService.create(session, usuario_create)
 
 @router.post("/token")
 async def login(
