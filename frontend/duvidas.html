@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNUTHS - Sistema de Dúvidas</title>
+
+    <link rel="stylesheet" href="duvidas.css">
+</head>
+
+<body>
+
+    <header>
+
+        <h1>KNUTHS</h1>
+
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="turmas.html">Turmas</a>
+            <a href="duvidas.html">Dúvidas</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <div class="topo">
+
+            <h2>❓ Sistema de Dúvidas</h2>
+
+            <button id="btnNovaDuvida">
+                + Nova Dúvida
+            </button>
+
+        </div>
+
+        <div id="formulario" class="formulario escondido">
+
+            <input type="text" id="titulo" placeholder="Título da dúvida">
+
+            <input type="text" id="disciplina" placeholder="Disciplina">
+
+            <select id="prioridade">
+                <option value="">Selecione a prioridade</option>
+                <option>Baixa</option>
+                <option>Média</option>
+                <option>Alta</option>
+            </select>
+
+            <textarea id="descricao" placeholder="Descreva sua dúvida"></textarea>
+
+            <button id="publicar">
+                Publicar Dúvida
+            </button>
+
+        </div>
+
+        <div id="listaDuvidas" class="container-duvidas">
+
+        </div>
+
+    </main>
+
+    <script src="duvidas.js"></script>
+
+</body>
+
+</html>
