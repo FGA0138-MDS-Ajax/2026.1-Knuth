@@ -338,3 +338,18 @@
     border-left: 4px solid var(--roxo-secundario);
     border-radius: 10px;
 }
+
+.cadastro-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cadastro-link a {
+    color: var(--roxo-principal);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro-link a:hover {
+    text-decoration: underline;
+}
