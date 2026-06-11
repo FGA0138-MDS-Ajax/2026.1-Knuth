@@ -12,9 +12,13 @@ from app.crud.aluno_crud import AlunoCRUD
 from app.models.usuario_model import Usuario
 from app.models.aluno_model import Aluno
 from app.api.dep import SessionDependency
+from app.schemas.usuario_schema import UsuarioCreate, UsuarioRead
 
 router = APIRouter()
 
+@router.post("/register", response_model=UsuarioRead, summary="Registrar um novo usuário")
+def register_usuario(usuario_create: UsuarioCreate, session: SessionDependency):
+    return UsuarioService.create(session, usuario_create)
 
 @router.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = None):
@@ -23,7 +27,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessi
     if not usuario or not verify_password(form_data.password, usuario.hashed_password) or not usuario.is_active:
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
 
-    data = {
     data = {
         "sub": usuario.username,
         "id": usuario.id,
