@@ -19,25 +19,16 @@
 }
 
 /* ==========================================
-<<<<<<< HEAD
-   TELA DE LOGIN
-=======
    TELA DE LOGIN (Janela Flutuante)
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 ========================================== */
 .login-body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-<<<<<<< HEAD
-    background: linear-gradient(135deg, #4f46e5, #7c3aed);
-    margin: 0;
-=======
     background: linear-gradient(135deg, var(--roxo-principal), var(--roxo-secundario));
     margin: 0;
     overflow: hidden;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .login-box {
@@ -52,14 +43,11 @@
     animation: flutuar 3s ease-in-out infinite alternate;
 }
 
-<<<<<<< HEAD
-=======
 @keyframes flutuar {
     0% { transform: translateY(0px); }
     100% { transform: translateY(-10px); }
 }
 
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 .login-box h1 {
     text-align: center;
     color: var(--roxo-principal);
@@ -86,11 +74,6 @@
     transition: border-color 0.3s;
 }
 
-<<<<<<< HEAD
-.login-box button {
-    margin-top: 20px;
-    padding: 12px;
-=======
 .login-box input:focus {
     border-color: var(--roxo-principal);
 }
@@ -98,7 +81,6 @@
 .login-box button {
     margin-top: 25px;
     padding: 14px;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     border: none;
     border-radius: 10px;
     background: var(--roxo-principal);
@@ -109,10 +91,6 @@
     transition: background 0.3s, transform 0.2s;
 }
 
-<<<<<<< HEAD
-/* ==========================================
-   LAYOUT GERAL DASHBOARD
-=======
 .login-box button:hover {
     background: var(--roxo-secundario);
     transform: scale(1.02);
@@ -120,7 +98,6 @@
 
 /* ==========================================
    LAYOUT GERAL (Aplica aos dois Dashboards)
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 ========================================== */
 .dashboard-layout {
     display: flex;
@@ -141,15 +118,9 @@
 
 .sidebar .logo {
     margin-bottom: 30px;
-<<<<<<< HEAD
-    font-weight: bold;
-    font-size: 24px;
-    color: #4f46e5;
-=======
     color: var(--roxo-principal);
     font-weight: bold;
     font-size: 1.5em;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .sidebar ul {
@@ -194,24 +165,6 @@
     overflow-y: auto;
 }
 
-<<<<<<< HEAD
-.top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-/* ==========================================
-   MURAL E PERGUNTAS (dashboard.html)
-========================================== */
-.post-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    margin-bottom: 15px;
-=======
 /* ==========================================
    DASHBOARD NORMAL (Posts e Perguntas)
 ========================================== */
@@ -222,7 +175,6 @@
     border: none;
     box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .post-header {
@@ -231,23 +183,8 @@
     margin-bottom: 15px;
     color: var(--texto-claro);
     font-size: 0.9em;
-<<<<<<< HEAD
-}
-
-.secao-perguntas {
-    margin-bottom: 40px;
-}
-
-.fazer-pergunta {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-=======
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
 }
 
 .fazer-pergunta textarea {
@@ -290,11 +227,7 @@
 
 .card-pergunta .pergunta {
     margin: 0 0 8px 0;
-<<<<<<< HEAD
-    color: #333;
-=======
     color: var(--texto-escuro);
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     font-weight: bold;
 }
 
@@ -304,63 +237,6 @@
 }
 
 /* ==========================================
-<<<<<<< HEAD
-   DASHBOARD ACADÊMICO E BUSCA
-========================================== */
-.search-section, .search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.search-section input, .search-box input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-section button, .search-box button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.painel {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.painel h3 {
-    margin-bottom: 15px;
-    color: #4f46e5;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.painel p { margin-bottom: 10px; }
-.painel ul { list-style: none; padding: 0; }
-.painel ul li { padding: 10px 0; border-bottom: 1px solid #eee; }
-
-/* ==========================================
-   TURMAS / DISCIPLINAS
-========================================== */
-.disciplina-header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-=======
    DASHBOARD ACADÊMICO (Perfil e Turmas)
 ========================================== */
 .search-section {
@@ -372,7 +248,6 @@
 .search-section input {
     flex: 1;
     padding: 12px;
->>>>>>> 3f1e9b9dc904f8c994db02a0be7e3179a7b2d237
     border-radius: 8px;
     border: 1px solid var(--cinza-borda);
     outline: none;
@@ -462,4 +337,19 @@
     margin-bottom: 12px;
     border-left: 4px solid var(--roxo-secundario);
     border-radius: 10px;
+}
+
+.cadastro-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cadastro-link a {
+    color: var(--roxo-principal);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro-link a:hover {
+    text-decoration: underline;
 }
