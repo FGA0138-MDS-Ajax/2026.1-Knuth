@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.turma_schema import (
     TurmaCreate,
     TurmaRead,
@@ -8,11 +8,36 @@ from app.schemas.turma_schema import (
 )
 from app.services.turma_service import TurmaService
 from app.api.dep import SessionDependency
+from app.core.security import get_token_payload, get_current_username
 
 router = APIRouter(
     prefix="/turmas",
-    tags=["Turmas"]
+    tags=["Turmas"],
+    dependencies=[Depends(get_current_username)]
 )
+
+
+@router.get("/minhas", response_model=list[TurmaRead], summary="Obter turmas do usuário logado")
+def get_minhas_turmas(session: SessionDependency, token_payload: dict = Depends(get_token_payload)):
+    email = token_payload.get("sub")
+    is_professor = token_payload.get("is_professor")
+    is_aluno = token_payload.get("is_aluno")
+    return TurmaService.get_minhas_turmas(session, email, is_professor, is_aluno)
+
+
+@router.post("/inscrever-me/{turma_id}", response_model=TurmaCompleta, summary="Inscrever o aluno logado em uma turma")
+def inscrever_me_turma(turma_id: int, session: SessionDependency, token_payload: dict = Depends(get_token_payload)):
+    email = token_payload.get("sub")
+    is_aluno = token_payload.get("is_aluno")
+    if not is_aluno:
+        raise HTTPException(status_code=403, detail="Apenas alunos podem se inscrever em turmas")
+    return TurmaService.inscrever_aluno_por_email(session, email, turma_id)
+
+
+@router.post("/associar-usuario/{usuario_id}/{turma_id}", response_model=TurmaCompleta, summary="Associar um usuário a uma turma")
+def associar_usuario_turma(usuario_id: int, turma_id: int, session: SessionDependency):
+    return TurmaService.associar_usuario_por_id(session, usuario_id, turma_id)
+
 
 @router.post("/", response_model=TurmaRead, summary="Criar uma nova turma")
 def create_turma(turma_create: TurmaCreate, session: SessionDependency):

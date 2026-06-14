@@ -63,6 +63,16 @@ class TurmaCRUD:
         return session.exec(statement).all()
     
     @staticmethod
+    def get_by_professor_email(session: Session, email: str):
+        statement = select(Turma).join(Professor).where(Professor.email == email)
+        return session.exec(statement).all()
+
+    @staticmethod
+    def get_by_aluno_email(session: Session, email: str):
+        statement = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == email)
+        return session.exec(statement).all()
+
+    @staticmethod
     def inclui_aluno(session: Session, aluno: Aluno, turma: Turma):
         turma.alunosMatriculados.append(aluno)
         session.add(turma)
