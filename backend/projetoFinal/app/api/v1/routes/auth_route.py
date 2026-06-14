@@ -1,12 +1,7 @@
 from fastapi import HTTPException, APIRouter, Depends, Header
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.core.security import (
-    create_access_token,
-    decode_access_token,
-    get_current_username,
-    verify_password,
-)
+from app.core.security import create_access_token, decode_access_token, get_current_username, verify_password
 
 from app.services.usuario_service import UsuarioService
 from app.services.aluno_service import AlunoService
@@ -22,52 +17,53 @@ def register_usuario(usuario_create: UsuarioCreate, session: SessionDependency):
     return UsuarioService.create(session, usuario_create)
 
 @router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = Depends()):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = None):
     usuario = UsuarioService.get_by_username(session, form_data.username)
-    if (
-        not usuario
-        or not verify_password(form_data.password, usuario.hashed_password)
-        or usuario.is_active == False
-    ):
+    if not usuario or not verify_password(form_data.password, usuario.hashed_password) or usuario.is_active == False:
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
 
-    data = {
+    data={
         "sub": usuario.username,
         "id": usuario.id,
         "is_aluno": usuario.is_aluno,
         "is_monitor": usuario.is_monitor,
-        "is_professor": usuario.is_professor,
-        "is_active": usuario.is_active,
+        "is_professor": usuario.is_professor,   
+        "is_active": usuario.is_active 
     }
 
     access_token = create_access_token(data=data)
     return {"access_token": access_token, "token_type": "bearer"}
 
-
 @router.get("/me", dependencies=[Depends(get_current_username)])
-def get_me(authorization: str = Header(...), session: SessionDependency = Depends()):
+def get_me(authorization: str = Header(...), session: SessionDependency = None):
     token = authorization.replace("Bearer ", "")
 
     payload = decode_access_token(token)
 
     if not payload:
-        raise HTTPException(status_code=401, detail="Token inválido ou expirado")
+        raise HTTPException(
+            status_code=401,
+            detail="Token inválido ou expirado"
+        )
     else:
         email = payload.get("sub")
-        is_aluno = payload.get("is_aluno")
+        is_aluno = payload.get("is_aluno")  
         is_professor = payload.get("is_professor")
+
         if email is not None and is_aluno:
-            aluno = AlunoService.get_by_email(session, email)
-            payload["aluno_id"] = aluno.id
-            payload["aluno_nome"] = aluno.nome
-            payload["aluno_email"] = aluno.email
-            payload["aluno_matricula"] = aluno.matricula
-            payload["aluno_curso"] = aluno.curso.nome if aluno.curso else None
-
-        elif email is not None and is_professor:
+            aluno =  AlunoService.get_by_email(session, email)
+            if aluno:
+                payload["aluno_id"] = aluno.id
+                payload["aluno_nome"] = aluno.nome
+                payload["aluno_email"] = aluno.email
+                payload["aluno_matricula"] = aluno.matricula
+                payload["aluno_curso"] = aluno.curso.nome if aluno.curso else None    
+        
+        if email is not None and is_professor:
             professor = ProfessorService.get_by_email(session, email)
-            payload["professor_id"] = professor.id
-            payload["professor_nome"] = professor.nome
-            payload["professor_email"] = professor.email
+            if professor:
+                payload["professor_id"] = professor.id
+                payload["professor_nome"] = professor.nome
+                payload["professor_email"] = professor.email
+                
     return payload
-
