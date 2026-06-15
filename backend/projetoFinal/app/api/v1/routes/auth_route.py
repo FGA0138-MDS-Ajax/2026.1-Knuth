@@ -22,7 +22,7 @@ def register_usuario(usuario_create: UsuarioCreate, session: SessionDependency):
     return UsuarioService.create(session, usuario_create)
 
 @router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = Depends()):
+async def login(session: SessionDependency, form_data: OAuth2PasswordRequestForm = Depends()):
     usuario = UsuarioService.get_by_username(session, form_data.username)
     if (
         not usuario
@@ -45,7 +45,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessi
 
 
 @router.get("/me", dependencies=[Depends(get_current_username)])
-def get_me(authorization: str = Header(...), session: SessionDependency = Depends()):
+def get_me(session: SessionDependency, authorization: str = Header(...)):
     token = authorization.replace("Bearer ", "")
 
     payload = decode_access_token(token)
