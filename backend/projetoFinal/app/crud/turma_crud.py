@@ -1,9 +1,12 @@
+from certifi import where
 from sqlmodel import Session, select
 from app.models.aluno_model import Aluno
 from app.models.turma_model import Turma
 from app.schemas.turma_schema import TurmaCreate, TurmaRead, TurmaUpdate
 from app.models.professor_model import Professor
 from app.models.disciplina_model import Disciplina
+from app.crud.usuario_crud import UsuarioCRUD
+from app.models.usuario_model import Usuario
 from typing import Optional
 
 class TurmaCRUD:
@@ -27,6 +30,7 @@ class TurmaCRUD:
         turma.periodo = turma_update.periodo
         turma.disciplina_id = turma_update.disciplina_id
         turma.professor_id = turma_update.professor_id
+        turma.codigo_acesso = turma_update.codigo_acesso
         session.add(turma)
         session.commit()
         session.refresh(turma)
@@ -63,16 +67,6 @@ class TurmaCRUD:
         return session.exec(statement).all()
     
     @staticmethod
-    def get_by_professor_email(session: Session, email: str):
-        statement = select(Turma).join(Professor).where(Professor.email == email)
-        return session.exec(statement).all()
-
-    @staticmethod
-    def get_by_aluno_email(session: Session, email: str):
-        statement = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == email)
-        return session.exec(statement).all()
-
-    @staticmethod
     def inclui_aluno(session: Session, aluno: Aluno, turma: Turma):
         turma.alunosMatriculados.append(aluno)
         session.add(turma)
@@ -103,4 +97,50 @@ class TurmaCRUD:
         session.commit()
         session.refresh(turma)
         return turma
+    
+    @staticmethod
+    def get_by_codigo_acesso(session: Session, codigo_acesso: str):
+        return session.exec(select(Turma).where(Turma.codigo_acesso == codigo_acesso)).first()
+    
+    @staticmethod
+    def get_turmas_usuario(session: Session, username: str):
+        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
+        if not usuario:
+            raise ValueError("Usuário não encontrado")
+        if not usuario.is_aluno and not usuario.is_professor:
+            raise ValueError("Usuário deve ser aluno ou professor")
+        if usuario.is_professor:
+            statement = select(Turma).join(Professor).where(Professor.email == usuario.username)
+            return session.exec(statement).all()
+        if usuario.is_aluno:
+            statement_matriculado = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == usuario.username)
+            statement_monitor = select(Turma).join(Turma.alunosMonitores).where(Aluno.email == usuario.username)
+            turmas_matriculadas = session.exec(statement_matriculado).all()
+            turmas_monitoradas = session.exec(statement_monitor).all()
+            return list(set(turmas_matriculadas + turmas_monitoradas))
         
+    @staticmethod
+    def is_usuario_monitor(session: Session, username: str, turma_id: int):
+        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
+        if not usuario:
+            raise ValueError("Usuário não encontrado")
+        if not usuario.is_aluno:
+            raise ValueError("Usuário deve ser aluno para ser monitor")
+        statement = select(Turma).join(Turma.alunosMonitores).where(Aluno.email == usuario.username, Turma.id == turma_id)
+        if session.exec(statement).first() is not None:
+            return True
+        return False
+    
+    @staticmethod
+    def is_usuario_matriculado(session: Session, username: str, turma_id: int):
+        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
+        if not usuario:
+            raise ValueError("Usuário não encontrado")
+        if not usuario.is_aluno:
+            raise ValueError("Usuário deve ser aluno para ser matriculado")
+        statement = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == usuario.username, Turma.id == turma_id)
+        if session.exec(statement).first() is not None:
+            return True
+        return False
+    
+    
