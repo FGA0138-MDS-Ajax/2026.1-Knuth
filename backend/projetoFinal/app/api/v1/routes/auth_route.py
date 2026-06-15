@@ -1,20 +1,15 @@
 from fastapi import HTTPException, APIRouter, Depends, Header
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.core.security import create_access_token, decode_access_token, get_current_username, verify_password
+from app.core.security import create_access_token, decode_access_token, get_current_username, possui_permissao, verify_password
 
+from app.services.professor_service import ProfessorService
 from app.services.usuario_service import UsuarioService
 from app.services.aluno_service import AlunoService
-from app.services.professor_service import ProfessorService
 from app.api.dep import SessionDependency
-from app.schemas.usuario_schema import UsuarioCreate, UsuarioRead
 
 
 router = APIRouter()
-
-@router.post("/register", response_model=UsuarioRead, summary="Registrar um novo usuário")
-def register_usuario(usuario_create: UsuarioCreate, session: SessionDependency):
-    return UsuarioService.create(session, usuario_create)
 
 @router.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = None):
@@ -26,15 +21,15 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessi
         "sub": usuario.username,
         "id": usuario.id,
         "is_aluno": usuario.is_aluno,
-        "is_monitor": usuario.is_monitor,
         "is_professor": usuario.is_professor,   
-        "is_active": usuario.is_active 
+        "is_active": usuario.is_active,
+        "is_admin": usuario.is_admin
     }
 
     access_token = create_access_token(data=data)
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.get("/me", dependencies=[Depends(get_current_username)])
+@router.get("/me", dependencies=[Depends(possui_permissao(["QUALQUER"]))])
 def get_me(authorization: str = Header(...), session: SessionDependency = None):
     token = authorization.replace("Bearer ", "")
 
@@ -48,22 +43,17 @@ def get_me(authorization: str = Header(...), session: SessionDependency = None):
     else:
         email = payload.get("sub")
         is_aluno = payload.get("is_aluno")  
-        is_professor = payload.get("is_professor")
-
         if email is not None and is_aluno:
             aluno =  AlunoService.get_by_email(session, email)
-            if aluno:
-                payload["aluno_id"] = aluno.id
-                payload["aluno_nome"] = aluno.nome
-                payload["aluno_email"] = aluno.email
-                payload["aluno_matricula"] = aluno.matricula
-                payload["aluno_curso"] = aluno.curso.nome if aluno.curso else None    
-        
+            payload["aluno_id"] = aluno.id
+            payload["aluno_nome"] = aluno.nome
+            payload["aluno_email"] = aluno.email
+            payload["aluno_matricula"] = aluno.matricula
+            payload["aluno_curso"] = aluno.curso.nome if aluno.curso else None    
+        is_professor = payload.get("is_professor")  
         if email is not None and is_professor:
-            professor = ProfessorService.get_by_email(session, email)
-            if professor:
-                payload["professor_id"] = professor.id
-                payload["professor_nome"] = professor.nome
-                payload["professor_email"] = professor.email
-                
+            professor =  ProfessorService.get_by_email(session, email)
+            payload["professor_id"] = professor.id
+            payload["professor_nome"] = professor.nome
+            payload["professor_email"] = professor.email
     return payload
