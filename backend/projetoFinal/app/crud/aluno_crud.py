@@ -1,5 +1,6 @@
 from sqlmodel import Session, select
 from app.models.aluno_model import Aluno
+from app.models.turma_model import Turma
 from app.schemas.aluno_schema import AlunoCreate, AlunoRead, AlunoUpdate
 from typing import Optional
 
@@ -60,3 +61,20 @@ class AlunoCRUD:
         if matricula:
             statement = statement.where(Aluno.matricula.ilike(f"%{matricula}%"))
         return session.exec(statement).all()
+    
+    @staticmethod
+    def inclui_turma(session: Session, aluno: Aluno, turma: Turma):
+        aluno.turmasMatriculadas.append(turma)
+        session.add(aluno)
+        session.commit()
+        session.refresh(aluno)
+        return aluno
+    
+    @staticmethod
+    def remove_turma(session: Session, aluno: Aluno, turma: Turma):
+        aluno.turmasMatriculadas.remove(turma)
+        session.add(aluno)
+        session.commit()
+        session.refresh(aluno)
+        return aluno
+        
