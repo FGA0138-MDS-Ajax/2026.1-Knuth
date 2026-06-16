@@ -10,6 +10,7 @@ class TurmaCreate(SQLModel):
     periodo: str = Field(index=True, min_length=6, max_length=7)
     disciplina_id: int = Field(foreign_key="disciplina.id", nullable=False)
     professor_id: int = Field(foreign_key="professor.id", nullable=False)
+    codigo_acesso: str = Field(min_length=6, max_length=10, unique=True)
 
 
 class TurmaRead(SQLModel):
@@ -19,6 +20,7 @@ class TurmaRead(SQLModel):
     periodo: str
     disciplina: Disciplina
     professor: Professor
+    codigo_acesso: str
 
 class TurmaUpdate(SQLModel):
     descricao: str = Field(index=True, min_length=1, max_length=50, unique=True)
@@ -26,6 +28,7 @@ class TurmaUpdate(SQLModel):
     periodo: str = Field(index=True, min_length=6, max_length=7)
     disciplina_id: int = Field(foreign_key="disciplina.id", nullable=False)
     professor_id: int = Field(foreign_key="professor.id", nullable=False)
+    codigo_acesso: str = Field(min_length=6, max_length=10, unique=True)
 
 class TurmaCompleta(SQLModel):
     id: int

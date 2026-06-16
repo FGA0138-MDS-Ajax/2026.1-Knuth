@@ -11,4 +11,7 @@ class Resposta(SQLModel, table=True):
     data_criacao: datetime = Field(default_factory=datetime.now)
     usuario_id: int = Field(foreign_key="usuario.id", nullable=False, index=True, ondelete="RESTRICT")
     pergunta_id: int = Field(foreign_key="pergunta.id", nullable=False, index=True, ondelete="RESTRICT")
+    pergunta: "Pergunta" = Relationship(back_populates="resposta")
+    pergunta_id: int = Field(foreign_key="pergunta.id", nullable=False,index=True,ondelete="RESTRICT")
     pergunta: "Pergunta" = Relationship(back_populates="respostas")
+    

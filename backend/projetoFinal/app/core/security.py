@@ -23,50 +23,38 @@ def get_current_username(token: str = Depends(oauth2_scheme)):
         return username
     except JWTError:
         raise credentials_exception
+    
+def possui_permissao(permissoes: list[str] | str):
+    if isinstance(permissoes, str):
+        permissoes = [permissoes]
 
-def get_token_payload(token: str = Depends(oauth2_scheme)) -> dict:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        return payload
-    except JWTError:
-        raise credentials_exception
-
-def get_current_professor(payload: dict = Depends(get_token_payload)):
-    if not payload.get("is_professor"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="O usuário não possui permissão de professor"
+    def _dependency(token: str = Depends(oauth2_scheme)):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-    return payload.get("sub")
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
 
-def get_current_monitor(payload: dict = Depends(get_token_payload)):
-    if not payload.get("is_monitor"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="O usuário não possui permissão de monitor"
-        )
-    return payload.get("sub")
+            role_checks = {
+                "PROFESSOR": payload.get("is_professor", False),
+                "ALUNO": payload.get("is_aluno", False),
+                "ADMIN": payload.get("is_admin", False),
+                "QUALQUER": True
+            }
 
-def get_current_admin(payload: dict = Depends(get_token_payload)):
-    if not payload.get("is_admin"):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="O usuário não possui permissão de administrador"
-        )
-    return payload.get("sub")
+            if not any(role_checks.get(perm, False) for perm in permissoes):
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Sem permissão necessária")
 
-def get_current_staff(payload: dict = Depends(get_token_payload)):
-    if not (payload.get("is_professor") or payload.get("is_monitor")):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="O usuário não possui permissão de professor ou monitor"
-        )
-    return payload.get("sub")
+            username: str = payload.get("sub")
+            if username is None:
+                raise credentials_exception
+            return username
+        except JWTError:
+            raise credentials_exception
+
+    return _dependency
     
 def verify_password(plain_password, hashed_password):
     #return True

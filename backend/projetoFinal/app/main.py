@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from app.api.v1.routes.curso_route import router as curso_router
 from app.api.v1.routes.aluno_route import router as aluno_router
+from app.api.v1.routes.professor_route import router as professor_router
 from app.api.v1.routes.usuario_route import router as usuario_router
 from app.api.v1.routes.auth_route import router as auth_router
 from app.api.v1.routes.turma_route import router as turma_router
@@ -20,6 +21,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="API", lifespan=lifespan)
 app.include_router(curso_router)
 app.include_router(aluno_router)
+app.include_router(professor_router)
 app.include_router(usuario_router)
 app.include_router(auth_router)
 app.include_router(turma_router)
