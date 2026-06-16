@@ -14,4 +14,3 @@ class Resposta(SQLModel, table=True):
     pergunta: "Pergunta" = Relationship(back_populates="resposta")
     pergunta_id: int = Field(foreign_key="pergunta.id", nullable=False,index=True,ondelete="RESTRICT")
     pergunta: "Pergunta" = Relationship(back_populates="respostas")
-    
