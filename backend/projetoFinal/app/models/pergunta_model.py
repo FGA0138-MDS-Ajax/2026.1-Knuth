@@ -18,6 +18,7 @@ class Pergunta(SQLModel, table=True):
     respostas: list["Resposta"] = Relationship(back_populates="pergunta")
     is_restrita_professor: bool = Field(default=False)
     is_restrita_monitor: bool = Field(default=False)
+    status: str = Field(default="aberta")
 
 
     
