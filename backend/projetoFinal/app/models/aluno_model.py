@@ -7,6 +7,7 @@ from app.models.alunoTurmaMonitor_model import AlunoTurmaMonitor
 if TYPE_CHECKING:
     from app.models.curso_model import Curso
     from app.models.turma_model import Turma
+    from app.models.pergunta_model import Pergunta
 
 
 class Aluno(SQLModel, table=True):
@@ -30,4 +31,9 @@ class Aluno(SQLModel, table=True):
     turmasMonitoradas: list["Turma"] = Relationship(
         back_populates="alunosMonitores",
         link_model=AlunoTurmaMonitor
+    )
+
+    perguntas: list["Pergunta"] = Relationship(
+        back_populates="aluno",
+        passive_deletes=True
     )
