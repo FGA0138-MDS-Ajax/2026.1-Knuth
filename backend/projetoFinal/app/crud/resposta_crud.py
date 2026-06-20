@@ -65,5 +65,5 @@ class RespostaCRUD:
 
     @staticmethod
     def get_all(session: Session):
-        statement = select(Resposta)
+        statement = select(Resposta).order_by(Resposta.data_criacao.desc)
         return session.exec(statement).all()
