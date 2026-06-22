@@ -1,6 +1,6 @@
 from typing import Annotated, Optional
 from fastapi import APIRouter, Depends
-from app.schemas.aluno_schema import AlunoCreate, AlunoRead, AlunoUpdate
+from app.schemas.aluno_schema import AlunoCreate, AlunoRead, AlunoUpdate,AlunoCompleto
 from app.services.aluno_service import AlunoService
 from app.api.dep import SessionDependency
 from app.core.security import get_current_username, possui_permissao
@@ -23,10 +23,10 @@ def delete_aluno(aluno_id: int, session: SessionDependency):
 def get_alunos_by_parametros(session: SessionDependency, nome: Optional[str] = None, email: Optional[str] = None, matricula: Optional[str] = None):
     return AlunoService.get_by_parametros(session, nome, email, matricula)
 
-@router.get("/", response_model=list[AlunoRead],summary="Obter todos os alunos")
+@router.get("/", response_model=list[AlunoCompleto],summary="Obter todos os alunos")
 def get_all_alunos(session: SessionDependency):
     return AlunoService.get_all(session)
 
-@router.get("/{aluno_id}", response_model=AlunoRead,summary="Obter um aluno por ID")
+@router.get("/{aluno_id}", response_model=AlunoCompleto,summary="Obter um aluno por ID")
 def get_aluno_by_id(aluno_id: int, session: SessionDependency):
     return AlunoService.get_by_id(session, aluno_id)

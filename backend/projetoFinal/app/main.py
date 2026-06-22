@@ -8,6 +8,8 @@ from app.api.v1.routes.auth_route import router as auth_router
 from app.api.v1.routes.turma_route import router as turma_router
 from app.api.v1.routes.pergunta_route import router as pergunta_router
 from app.api.v1.routes.resposta_route import router as resposta_router
+from app.api.v1.routes.disciplina_route import router as disciplina_router
+from app.startup import seed_initial_data
 from app.core.database import create_db_and_tables
 from contextlib import asynccontextmanager
 from app.core.config import settings
@@ -16,6 +18,11 @@ from app.core.config import settings
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_db_and_tables()
+    try:
+        seed_initial_data()
+    except Exception:
+        # don't break app startup if seeding fails
+        pass
     yield
 
 
@@ -28,6 +35,7 @@ app.include_router(auth_router)
 app.include_router(turma_router)
 app.include_router(pergunta_router)
 app.include_router(resposta_router)
+app.include_router(disciplina_router)
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=settings.SERVER_PORT, reload=True)

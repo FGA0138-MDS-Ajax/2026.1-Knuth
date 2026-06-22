@@ -47,7 +47,7 @@ class ProfessorCRUD:
     def get_by_parametros(session: Session, nome: Optional[str] = None):
         statement = select(Professor)
         if nome:
-            statement = statement.where(Professor.nome.ilike(f"%{nome}%"))  
+            statement = statement.where(Professor.nome.ilike(f"%{nome}%"))  # pyright: ignore[reportAttributeAccessIssue]
         return session.exec(statement).all()
     
     @staticmethod

@@ -1,3 +1,4 @@
+from typing import Annotated
 from fastapi import HTTPException, APIRouter, Depends, Header
 from fastapi.security import OAuth2PasswordRequestForm
 
@@ -12,7 +13,10 @@ from app.api.dep import SessionDependency
 router = APIRouter()
 
 @router.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: SessionDependency = None):
+async def login(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: SessionDependency,
+):
     usuario = UsuarioService.get_by_username(session, form_data.username)
     if not usuario or not verify_password(form_data.password, usuario.hashed_password) or usuario.is_active == False:
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
@@ -30,7 +34,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Sessi
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/me", dependencies=[Depends(possui_permissao(["QUALQUER"]))])
-def get_me(authorization: str = Header(...), session: SessionDependency = None):
+def get_me(
+    authorization: Annotated[str, Header(...)],
+    session: SessionDependency,
+):
     token = authorization.replace("Bearer ", "")
 
     payload = decode_access_token(token)

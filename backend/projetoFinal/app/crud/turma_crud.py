@@ -1,6 +1,7 @@
-from certifi import where
 from sqlmodel import Session, select
 from app.models.aluno_model import Aluno
+from app.models.alunoTurmaMatriculado_model import AlunoTurmaMatriculado
+from app.models.alunoTurmaMonitor_model import AlunoTurmaMonitor
 from app.models.turma_model import Turma
 from app.schemas.turma_schema import TurmaCreate, TurmaRead, TurmaUpdate
 from app.models.professor_model import Professor
@@ -8,6 +9,7 @@ from app.models.disciplina_model import Disciplina
 from app.crud.usuario_crud import UsuarioCRUD
 from app.models.usuario_model import Usuario
 from typing import Optional
+
 
 class TurmaCRUD:
     
@@ -54,16 +56,24 @@ class TurmaCRUD:
         return session.exec(statement).all()
     
     @staticmethod
-    def get_by_parametros(session: Session, descricao: Optional[str] = None, periodo: Optional[str] = None,nome_professor: Optional[str] = None, nome_disciplina: Optional[str] = None):
+    def get_by_parametros(
+        session: Session,
+        descricao: Optional[str] = None,
+        periodo: Optional[str] = None,
+        nome_professor: Optional[str] = None,
+        nome_disciplina: Optional[str] = None,
+    ):
         statement = select(Turma)
         if descricao:
-            statement = statement.where(Turma.descricao.ilike(f"%{descricao}%"))  
+            statement = statement.where(Turma.descricao.ilike(f"%{descricao}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if periodo:
-            statement = statement.where(Turma.periodo.ilike(f"%{periodo}%"))
+            statement = statement.where(Turma.periodo.ilike(f"%{periodo}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if nome_professor:
-            statement = statement.join(Professor).where(Professor.nome.ilike(f"%{nome_professor}%"))
+            statement = statement.join(Professor)
+            statement = statement.where(Professor.nome.ilike(f"%{nome_professor}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if nome_disciplina:
-            statement = statement.join(Disciplina).where(Disciplina.nome.ilike(f"%{nome_disciplina}%"))
+            statement = statement.join(Disciplina)
+            statement = statement.where(Disciplina.nome.ilike(f"%{nome_disciplina}%"))  # pyright: ignore[reportAttributeAccessIssue]
         return session.exec(statement).all()
     
     @staticmethod
@@ -104,41 +114,65 @@ class TurmaCRUD:
     
     @staticmethod
     def get_turmas_usuario(session: Session, username: str):
-        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
-        if not usuario:
+        usuario = UsuarioCRUD.get_by_username(session, username)
+        if usuario is None:
             raise ValueError("Usuário não encontrado")
         if not usuario.is_aluno and not usuario.is_professor:
             raise ValueError("Usuário deve ser aluno ou professor")
         if usuario.is_professor:
-            statement = select(Turma).join(Professor).where(Professor.email == usuario.username)
+            statement = (
+                select(Turma)
+                .join(Professor)
+                .where(Professor.email == usuario.username)
+            )
             return session.exec(statement).all()
         if usuario.is_aluno:
-            statement_matriculado = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == usuario.username)
-            statement_monitor = select(Turma).join(Turma.alunosMonitores).where(Aluno.email == usuario.username)
+            statement_matriculado = (
+                select(Turma)
+                .join(AlunoTurmaMatriculado)
+                .join(Aluno)
+                .where(Aluno.email == usuario.username)
+            )
+            statement_monitor = (
+                select(Turma)
+                .join(AlunoTurmaMonitor)
+                .join(Aluno)
+                .where(Aluno.email == usuario.username)
+            )
             turmas_matriculadas = session.exec(statement_matriculado).all()
             turmas_monitoradas = session.exec(statement_monitor).all()
-            return list(set(turmas_matriculadas + turmas_monitoradas))
+            return list(dict.fromkeys([*turmas_matriculadas, *turmas_monitoradas]))
         
     @staticmethod
     def is_usuario_monitor(session: Session, username: str, turma_id: int):
-        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
-        if not usuario:
+        usuario = UsuarioCRUD.get_by_username(session, username)
+        if usuario is None:
             raise ValueError("Usuário não encontrado")
         if not usuario.is_aluno:
             raise ValueError("Usuário deve ser aluno para ser monitor")
-        statement = select(Turma).join(Turma.alunosMonitores).where(Aluno.email == usuario.username, Turma.id == turma_id)
+        statement = (
+            select(Turma)
+            .join(AlunoTurmaMonitor)
+            .join(Aluno)
+            .where(Aluno.email == usuario.username, Turma.id == turma_id)
+        )
         if session.exec(statement).first() is not None:
             return True
         return False
     
     @staticmethod
     def is_usuario_matriculado(session: Session, username: str, turma_id: int):
-        usuario: Usuario = UsuarioCRUD.get_by_username(session, username)
-        if not usuario:
+        usuario = UsuarioCRUD.get_by_username(session, username)
+        if usuario is None:
             raise ValueError("Usuário não encontrado")
         if not usuario.is_aluno:
             raise ValueError("Usuário deve ser aluno para ser matriculado")
-        statement = select(Turma).join(Turma.alunosMatriculados).where(Aluno.email == usuario.username, Turma.id == turma_id)
+        statement = (
+            select(Turma)
+            .join(AlunoTurmaMatriculado)
+            .join(Aluno)
+            .where(Aluno.email == usuario.username, Turma.id == turma_id)
+        )
         if session.exec(statement).first() is not None:
             return True
         return False

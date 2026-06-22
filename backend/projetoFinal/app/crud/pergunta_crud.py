@@ -58,9 +58,9 @@ class PerguntaCRUD:
     @staticmethod
     def get_by_turma(session: Session, turma_id: int) -> list[Pergunta]:
         statement = select(Pergunta).where(Pergunta.turma_id == turma_id)
-        return session.exec(statement).all()
+        return list(session.exec(statement).all())
 
     @staticmethod
     def get_all(session: Session) -> list[Pergunta]:
         statement = select(Pergunta)
-        return session.exec(statement).all()
+        return list(session.exec(statement).all())

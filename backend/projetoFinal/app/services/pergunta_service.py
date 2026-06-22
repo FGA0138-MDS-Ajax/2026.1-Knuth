@@ -13,6 +13,10 @@ class PerguntaService:
         aluno = AlunoCRUD.get_by_email(session, username)
         if not aluno:
             raise HTTPException(status_code=403, detail="Apenas alunos podem criar perguntas")
+
+        aluno_id = aluno.id
+        if aluno_id is None:
+            raise HTTPException(status_code=500, detail="Erro ao identificar o aluno")
         
         # Check if aluno is matriculated in the turma
         is_matriculado = TurmaCRUD.is_usuario_matriculado(session, username, pergunta_create.turma_id)
@@ -20,7 +24,7 @@ class PerguntaService:
             raise HTTPException(status_code=403, detail="O aluno não está matriculado nesta turma")
         
         try:
-            return PerguntaCRUD.create(session, pergunta_create, aluno.id)
+            return PerguntaCRUD.create(session, pergunta_create, aluno_id)
         except IntegrityError as exc:
             session.rollback()
             if "foreign key constraint" in str(exc).lower():
