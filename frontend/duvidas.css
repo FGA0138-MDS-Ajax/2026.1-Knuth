@@ -98,7 +98,12 @@ textarea {
     color: #555;
 }
 
-.erro {
-    color: red;
-    font-weight: bold;
+#filtroPrioridade {
+    margin-bottom: 20px;
+    width: 250px;
+}
+
+.alterarStatus {
+    margin-top: 15px;
+    width: 100%;
 }
