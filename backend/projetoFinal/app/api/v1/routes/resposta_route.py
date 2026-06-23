@@ -27,4 +27,3 @@ def get_all_respostas(session: SessionDependency):
 @router.get("/{resposta_id}", response_model=RespostaRead, summary="Obter uma resposta por ID")
 def get_resposta_by_id(resposta_id: int, session: SessionDependency):
     return RespostaService.get_by_id(session, resposta_id)
-

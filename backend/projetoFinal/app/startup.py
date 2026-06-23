@@ -53,8 +53,17 @@ def seed_initial_data():
                 name = fake.name()
                 email = fake.unique.email()
                 matricula = str(fake.random_number(digits=8, fix_len=True))
-                curso_id = cursos[i % len(cursos)].id
-                alunos.append(Aluno(nome=name, email=email, matricula=matricula, curso_id=curso_id))
+                curso = cursos[i % len(cursos)]
+                if curso.id is None:
+                    continue
+                alunos.append(
+                    Aluno(
+                        nome=name,
+                        email=email,
+                        matricula=matricula,
+                        curso_id=curso.id,
+                    )
+                )
             session.add_all(alunos)
             session.commit()
 
@@ -80,6 +89,11 @@ def seed_initial_data():
             turmas = []
             periods = ["2024.1", "2024.2", "2025.1"]
             for i, d in enumerate(disciplinas):
+                if d.id is None:
+                    continue
+                professor = professores[i % len(professores)]
+                if professor.id is None:
+                    continue
                 turma = Turma(
                     descricao=f"{d.nome} - Turma A",
                     horario="Seg 14:00-16:00",

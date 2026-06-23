@@ -12,7 +12,6 @@ class Usuario(SQLModel, table=True):
     hashed_password: str
     is_active: bool = Field(default=True)
     is_aluno: bool = Field(default=True)
-    is_monitor: bool = Field(default=False)
     is_professor: bool = Field(default=False)
     is_admin: bool = Field(default=False)
     respostas: list["Resposta"] = Relationship(back_populates="usuario")

@@ -120,6 +120,22 @@ fastapi dev
 - A aplicação cria as tabelas automaticamente na inicialização via `app/core/database.py`.
 - Mantenha a separação entre `routes`, `services`, `crud`, `models` e `schemas` para facilitar futuras manutenções.
 - Utilize o programa Postman para testes das chamadas da API
+- A aplicação está criando dados de teste (seed) ao iniciar
+- Exemplos de dados criados como usuarios para teste:
+
+    admin:  (senha: admin123)
+    admin@example.com (senha: admin123)
+
+    alunos: (senha: password)
+    todd66@example.com
+    richard26@example.com
+    christine56@example.net
+
+    professores: (senha: password)
+    james24@example.net
+    matthew06@example.net
+    jeffreybailey@example.com
+
 - Caso queira rodar o Postgres através do Docker utilize o comando abaixo:
 
   ```bash

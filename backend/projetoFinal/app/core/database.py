@@ -1,9 +1,8 @@
 from sqlmodel import SQLModel, create_engine, Session
 from app.core.config import settings
 
-DATABASE_URL = settings.get_database_url()
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(settings.get_database_url(), echo=True)
 
 def get_session():
     with Session(engine) as session:

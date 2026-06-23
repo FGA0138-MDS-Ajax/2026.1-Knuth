@@ -34,3 +34,4 @@ def get_professor_by_id(professor_id: int, session: SessionDependency):
 @router.get("/email/{email}", response_model=ProfessorRead, summary="Obter um professor por email")
 def get_professor_by_email(email: str, session: SessionDependency):
     return ProfessorService.get_by_email(session, email)
+

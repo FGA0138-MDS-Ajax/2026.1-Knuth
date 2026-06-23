@@ -1,8 +1,20 @@
-# template-repository - Branch Developer
+# template-repository - Branch Main
 
 Template de Repositório para a matéria de Métodos de Desenvolvimento de Software lecionado pelo professor Ricardo Ajax.
 
-Essa Branch deve ser usada exclusivamente para a versão de desenvolvimento do software antes de ir para produção.
+Essa Branch deve ser usada exclusivamente para a versão de produção dos softwares da equipe.
+
+O repositório conta com mais 3 branchs:
+
+- docs: Usada para armazenar a documentação do projeto.
+- developer: usada como um intermediário antes do código chegar realmente para produção. É o ambiente ideal para realizar os últimos testes antes das apresentações.
+- gh-pages: Local dos arquivos estáticos de deploy da documentação. (Para deploy da documentação, consultar seu monitor)
+
+## Documentação
+
+- [Visão do Produto e Projeto](https://github.com/FGA0138-MDS-Ajax/2026.1-Knuth/blob/c1547174dd134c4939fd58717ac157e8fe08b548/KNUTH%20-%20MDS-2026.1%20-Vis%C3%A3o%20do%20Produto%20e%20do%20Projeto-C%C3%B3pia.docx)
+- [Documento de Arquitetura](https://github.com/FGA0138-MDS-Ajax/2026.1-Knuth/blob/c1547174dd134c4939fd58717ac157e8fe08b548/KNUTH%20-%20MDS-2026.1%20-%20Documento%20de%20Arquitetura-C%C3%B3pia.docx)
+- [Guia de Padronização Github](guia_padronizacao_git.pdf)
 
 ## Especificações Técnicas do Repositório
 
@@ -14,10 +26,10 @@ Também é usado uma "sub-ferramenta" do MkDocs para sua estilização, o Materi
 
 Este repositório também conta com uma pipeline de automatização de deploy do seu conteúdo MkDocs, para que a cada commit feito na main, a pipeline gere uma versão atualizada da sua documentação em minutos. Vale ressaltar que é importante realizar uma configuração para que tudo funcione da forma correta, as instruções são as seguintes:
 
-* Acesse as configurações do repositório;
-* Procure a aba de "Pages"
-* Em "Source" escolha a opção "Deploy from a branch";
-* Em "Branch" escolha "gh-pages";
-* Clique em salvar e pronto;
+- Acesse as configurações do repositório;
+- Procure a aba de "Pages"
+- Em "Source" escolha a opção "Deploy from a branch";
+- Em "Branch" escolha "gh-pages";
+- Clique em salvar e pronto;
 
 Após essas etapas de configuração, o seu GitPages deve funcionar normalmente.

@@ -17,8 +17,8 @@ def get_current_username(token: str = Depends(oauth2_scheme)):
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        username = payload.get("sub")
+        if not isinstance(username, str) or username == "":
             raise credentials_exception
         return username
     except JWTError:
@@ -36,6 +36,9 @@ def possui_permissao(permissoes: list[str] | str):
         )
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+            username = payload.get("sub")
+            if not isinstance(username, str) or username == "":
+                raise credentials_exception
 
             role_checks = {
                 "PROFESSOR": payload.get("is_professor", False),
@@ -80,19 +83,3 @@ def decode_access_token(token: str):
     except JWTError:
         return None 
 
-#from fastapi.security import HTTPBasic, HTTPBasicCredentials
-#from app.core.config import settings
-#import secrets
-
-#security = HTTPBasic()
-
-#def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
-#    correct_username = secrets.compare_digest(credentials.username, settings.BASIC_AUTH_USERNAME)
-#    correct_password = secrets.compare_digest(credentials.password, settings.BASIC_AUTH_PASSWORD)
-#    if not (correct_username and correct_password):
-#        raise HTTPException(
-#            status_code=status.HTTP_401_UNAUTHORIZED,
-#            detail="Incorrect username or password",
-#            headers={"WWW-Authenticate": "Basic"},
-#        )
-#    return credentials.username
