@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas - Knuths</title>
+
+    <link rel="stylesheet" href="disciplinas.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>📚 Disciplinas</h1>
+            <p>Encontre disciplinas e suas turmas</p>
+        </header>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar disciplina..."
+                onkeyup="filtrarDisciplinas()">
+        </div>
+
+        <p id="mensagem-sem-resultados">
+            Nenhuma disciplina encontrada.
+        </p>
+
+        <div class="cards">
+
+            <div class="card disciplina">
+                <h2>MDS</h2>
+                <p>Desenvolvimento de Software</p>
+                <span>Turmas disponíveis</span>
+                <button>Ver Turmas</button>
+            </div>
+
+            <div class="card disciplina">
+                <h2>Estrutura de Dados</h2>
+                <p>Listas, Pilhas e Filas</p>
+                <span>Turmas disponíveis</span>
+                <button>Ver Turmas</button>
+            </div>
+
+            <div class="card disciplina">
+                <h2>Banco de Dados</h2>
+                <p>SQL e Modelagem</p>
+                <span>Turmas disponíveis</span>
+                <button>Ver Turmas</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="disciplinas.js"></script>
+
+</body>
+
+</html>

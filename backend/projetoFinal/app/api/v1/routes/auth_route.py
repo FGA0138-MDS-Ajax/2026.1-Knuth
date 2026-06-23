@@ -1,6 +1,8 @@
 from typing import Annotated
 from fastapi import HTTPException, APIRouter, Depends, Header
 from fastapi.security import OAuth2PasswordRequestForm
+from pydantic import BaseModel
+from sqlalchemy.exc import IntegrityError
 
 from app.core.security import create_access_token, decode_access_token, get_current_username, possui_permissao, verify_password
 
@@ -12,6 +14,7 @@ from app.api.dep import SessionDependency
 
 router = APIRouter()
 
+
 @router.post("/token")
 async def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -21,7 +24,7 @@ async def login(
     if not usuario or not verify_password(form_data.password, usuario.hashed_password) or usuario.is_active == False:
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
 
-    data={
+    data = {
         "sub": usuario.username,
         "id": usuario.id,
         "is_aluno": usuario.is_aluno,
@@ -29,7 +32,6 @@ async def login(
         "is_active": usuario.is_active,
         "is_admin": usuario.is_admin
     }
-
     access_token = create_access_token(data=data)
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -39,19 +41,17 @@ def get_me(
     session: SessionDependency,
 ):
     token = authorization.replace("Bearer ", "")
-
     payload = decode_access_token(token)
 
     if not payload:
-        raise HTTPException(
-            status_code=401,
-            detail="Token inválido ou expirado"
-        )
-    else:
-        email = payload.get("sub")
-        is_aluno = payload.get("is_aluno")  
-        if email is not None and is_aluno:
-            aluno =  AlunoService.get_by_email(session, email)
+        raise HTTPException(status_code=401, detail="Token inválido ou expirado")
+
+    email = payload.get("sub")
+    is_aluno = payload.get("is_aluno")
+    if email and is_aluno:
+        # AlunoCRUD retorna None em vez de lançar 404
+        aluno = AlunoCRUD.get_by_email(session, email)
+        if aluno:
             payload["aluno_id"] = aluno.id
             payload["aluno_nome"] = aluno.nome
             payload["aluno_email"] = aluno.email

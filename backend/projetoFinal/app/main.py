@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from app.api.v1.routes.curso_route import router as curso_router
 from app.api.v1.routes.aluno_route import router as aluno_router
@@ -27,6 +28,14 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="API", lifespan=lifespan)
+
+# Libera requisições do frontend rodando em qualquer porta local
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(curso_router)
 app.include_router(aluno_router)
 app.include_router(professor_router)
