@@ -1,98 +1,152 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("access_token");
+const token = localStorage.getItem("access_token");
+if (!token) {
+    window.location.href = "login.html";
+}
 
-    // Função de Logout do Menu Lateral
-    const btnSair = document.getElementById("btnSair");
-    if (btnSair) {
-        btnSair.addEventListener("click", () => {
-            localStorage.removeItem("access_token");
-            window.location.href = "login.html";
-        });
-    }
-
-    // 1. Carrega os dados do Perfil
-    async function carregarPerfil() {
-        try {
-            // Se não tiver token, já pula direto para o erro para preencher os dados de teste
-            if (!token) throw new Error("Modo protótipo sem backend");
-
-            const response = await fetch("http://localhost:8000/me", {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-
-            if (!response.ok) throw new Error("Sessão expirada");
-
-            const payload = await response.json();
-            
-            document.getElementById("perfilNome").innerText = payload.aluno_nome || payload.sub.split('@')[0];
-            document.getElementById("perfilMatricula").innerText = payload.aluno_matricula || "Não informada";
-            document.getElementById("perfilCurso").innerText = payload.aluno_curso || "Não informado";
-            document.getElementById("perfilEmail").innerText = payload.aluno_email || payload.sub;
-
-        } catch (error) {
-            console.error("Backend offline. Carregando dados de teste para o layout:", error);
-            // Preenche com dados provisórios em vez de redirecionar para o login
-            document.getElementById("perfilNome").innerText = "Ester Almeida";
-            document.getElementById("perfilMatricula").innerText = "202600123";
-            document.getElementById("perfilCurso").innerText = "Engenharia (UnB)";
-            document.getElementById("perfilEmail").innerText = "ester@knuths.com";
-        }
-    }
-
-    // 2. Carrega Turmas e Avisos
-    async function carregarDadosAcademicos() {
-        try {
-            if (!token) throw new Error("Sem token");
-            const responseTurmas = await fetch("http://localhost:8000/me/disciplinas", {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            
-            const listaTurmas = document.getElementById("listaTurmas");
-            if (responseTurmas.ok) {
-                const turmas = await responseTurmas.json();
-                listaTurmas.innerHTML = turmas.map(t => `<li>${t.nome}</li>`).join("");
-            } else {
-                listaTurmas.innerHTML = "<li>Nenhuma disciplina encontrada.</li>";
-            }
-        } catch (error) {
-            document.getElementById("listaTurmas").innerHTML = "<li>Aguardando conexão com o servidor...</li>";
-        }
-
-        try {
-            if (!token) throw new Error("Sem token");
-            const responseAvisos = await fetch("http://localhost:8000/avisos", {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-
-            const listaAvisos = document.getElementById("listaAvisos");
-            if (responseAvisos.ok) {
-                const avisos = await responseAvisos.json();
-                listaAvisos.innerHTML = avisos.map(a => `
-                    <div class="aviso-card">
-                        <strong>${a.disciplina}</strong>: ${a.mensagem}
-                    </div>
-                `).join("");
-            } else {
-                listaAvisos.innerHTML = "<p>Nenhuma atualização recente.</p>";
-            }
-        } catch (error) {
-            document.getElementById("listaAvisos").innerHTML = "<p>Aguardando conexão com o servidor...</p>";
-        }
-    }
-
-    // 3. Buscador
-    const btnBuscar = document.getElementById("btnBuscar");
-    if (btnBuscar) {
-        btnBuscar.addEventListener("click", () => {
-            const termoBusca = document.getElementById("inputBusca").value;
-            if (!termoBusca) return;
-            
-            console.log(`Enviando busca para: /disciplinas/buscar?q=${termoBusca}`);
-            alert(`A busca por "${termoBusca}" foi solicitada. O backend precisa criar esta rota!`);
-        });
-    }
-
-    // Inicializa as funções ao abrir a página
-    carregarPerfil();
-    carregarDadosAcademicos();
+document.getElementById("btnSair").addEventListener("click", () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user_name");
+    window.location.href = "login.html";
 });
+
+function authHeader() {
+    return { "Authorization": `Bearer ${token}` };
+}
+
+function tratarNaoAutorizado(status) {
+    if (status === 401) {
+        localStorage.removeItem("access_token");
+        window.location.href = "login.html";
+        return true;
+    }
+    return false;
+}
+
+function escaparHTML(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function formatarData(isoString) {
+    return new Date(isoString).toLocaleString("pt-BR", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit",
+    });
+}
+
+// ─── Perfil ───────────────────────────────────────────────────────────────────
+
+async function carregarPerfil() {
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/me`, {
+            headers: authHeader(),
+        });
+        if (tratarNaoAutorizado(resposta.status)) return;
+        if (!resposta.ok) throw new Error();
+
+        const dados = await resposta.json();
+        const nome  = dados.aluno_nome || dados.sub.split("@")[0];
+        const cargo = dados.is_professor ? "Professor" : (dados.is_admin ? "Administrador" : "Aluno");
+
+        document.getElementById("perfilNome").textContent      = dados.aluno_nome     || dados.sub.split("@")[0];
+        document.getElementById("perfilMatricula").textContent = dados.aluno_matricula || "Não informada";
+        document.getElementById("perfilCurso").textContent     = dados.aluno_curso     || "Não informado";
+        document.getElementById("perfilEmail").textContent     = dados.aluno_email     || dados.sub;
+        document.getElementById("sidebarNome").textContent     = nome;
+        document.getElementById("sidebarCargo").textContent    = cargo;
+
+        localStorage.setItem("user_name", nome);
+    } catch {
+        const nomeSalvo = localStorage.getItem("user_name") || "Usuário";
+        document.getElementById("perfilNome").textContent  = nomeSalvo;
+        document.getElementById("sidebarNome").textContent = nomeSalvo;
+    }
+}
+
+// ─── Turmas e Dúvidas Recentes ────────────────────────────────────────────────
+
+async function carregarDadosAcademicos() {
+    const listaTurmasEl = document.getElementById("listaTurmas");
+    const listaAvisosEl = document.getElementById("listaAvisos");
+
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/turmas/minhas_turmas`, {
+            headers: authHeader(),
+        });
+        if (tratarNaoAutorizado(resposta.status)) return;
+
+        if (!resposta.ok) {
+            listaTurmasEl.innerHTML = "<li>Nenhuma turma encontrada.</li>";
+            listaAvisosEl.innerHTML = "<p>Sem dúvidas recentes.</p>";
+            return;
+        }
+
+        const turmas = await resposta.json();
+
+        if (turmas.length === 0) {
+            listaTurmasEl.innerHTML = "<li>Você não está matriculado em nenhuma turma.</li>";
+            listaAvisosEl.innerHTML = "<p>Sem dúvidas recentes.</p>";
+            return;
+        }
+
+        listaTurmasEl.innerHTML = turmas.map(t => `
+            <li>
+                <strong>${escaparHTML(t.descricao)}</strong>
+                — ${escaparHTML(t.disciplina?.nome || "Geral")}
+                <small>(${escaparHTML(t.periodo)})</small>
+            </li>
+        `).join("");
+
+        await carregarDuvidasRecentes(turmas, listaAvisosEl);
+    } catch (erro) {
+        console.error("Falha ao carregar dados acadêmicos:", erro);
+        listaTurmasEl.innerHTML = "<li>Aguardando conexão com o servidor...</li>";
+        listaAvisosEl.innerHTML = "<p>Aguardando conexão com o servidor...</p>";
+    }
+}
+
+async function carregarDuvidasRecentes(turmas, container) {
+    try {
+        const requisicoes = turmas.map((turma) =>
+            fetch(`${API_BASE_URL}/perguntas/turma/${turma.id}`, {
+                headers: authHeader(),
+            }).then(r => r.ok ? r.json() : [])
+        );
+
+        const resultados = await Promise.all(requisicoes);
+        const todas      = resultados.flat();
+
+        todas.sort((a, b) => new Date(b.data_criacao) - new Date(a.data_criacao));
+
+        const recentes = todas.slice(0, 5);
+
+        if (recentes.length === 0) {
+            container.innerHTML = "<p>Nenhuma dúvida recente.</p>";
+            return;
+        }
+
+        container.innerHTML = recentes.map(p => `
+            <div class="aviso-card">
+                <strong>${escaparHTML(p.texto.substring(0, 60))}${p.texto.length > 60 ? "..." : ""}</strong>
+                <small> · ${formatarData(p.data_criacao)}</small>
+            </div>
+        `).join("");
+    } catch (erro) {
+        console.error("Falha ao carregar dúvidas recentes:", erro);
+        container.innerHTML = "<p>Não foi possível carregar as dúvidas.</p>";
+    }
+}
+
+// ─── Buscador ─────────────────────────────────────────────────────────────────
+
+document.getElementById("btnBuscar").addEventListener("click", () => {
+    const termoBusca = document.getElementById("inputBusca").value.trim();
+    if (!termoBusca) return;
+    alert(`Busca por "${termoBusca}" ainda não está disponível no servidor.`);
+});
+
+carregarPerfil();
+carregarDadosAcademicos();
