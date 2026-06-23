@@ -17,12 +17,43 @@ def get_current_username(token: str = Depends(oauth2_scheme)):
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        username = payload.get("sub")
+        if not isinstance(username, str) or username == "":
             raise credentials_exception
         return username
     except JWTError:
         raise credentials_exception
+    
+def possui_permissao(permissoes: list[str] | str):
+    if isinstance(permissoes, str):
+        permissoes = [permissoes]
+
+    def _dependency(token: str = Depends(oauth2_scheme)):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+            username = payload.get("sub")
+            if not isinstance(username, str) or username == "":
+                raise credentials_exception
+
+            role_checks = {
+                "PROFESSOR": payload.get("is_professor", False),
+                "ALUNO": payload.get("is_aluno", False),
+                "ADMIN": payload.get("is_admin", False),
+                "QUALQUER": True
+            }
+
+            if not any(role_checks.get(perm, False) for perm in permissoes):
+                raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Sem permissão necessária")
+            return username
+        except JWTError:
+            raise credentials_exception
+
+    return _dependency
     
 def verify_password(plain_password, hashed_password):
     #return True
@@ -48,19 +79,3 @@ def decode_access_token(token: str):
     except JWTError:
         return None 
 
-#from fastapi.security import HTTPBasic, HTTPBasicCredentials
-#from app.core.config import settings
-#import secrets
-
-#security = HTTPBasic()
-
-#def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
-#    correct_username = secrets.compare_digest(credentials.username, settings.BASIC_AUTH_USERNAME)
-#    correct_password = secrets.compare_digest(credentials.password, settings.BASIC_AUTH_PASSWORD)
-#    if not (correct_username and correct_password):
-#        raise HTTPException(
-#            status_code=status.HTTP_401_UNAUTHORIZED,
-#            detail="Incorrect username or password",
-#            headers={"WWW-Authenticate": "Basic"},
-#        )
-#    return credentials.username

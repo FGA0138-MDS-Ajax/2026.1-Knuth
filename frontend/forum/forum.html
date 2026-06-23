@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNUTHS - Fórum Acadêmico</title>
+
+    <link rel="stylesheet" href="forum.css">
+</head>
+
+<body>
+
+    <header>
+
+        <h1>KNUTHS</h1>
+
+        <nav>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="../turmas.html">Turmas</a>
+            <a href="../duvidas.html">Dúvidas</a>
+            <a href="forum.html">Fórum</a>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <div class="topo">
+
+            <h2>📚 Fórum Acadêmico</h2>
+
+            <button id="btnNovoTopico">
+                + Novo Tópico
+            </button>
+
+        </div>
+
+        <div class="filtros">
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar tópicos..."
+            >
+
+            <select id="disciplinaFiltro">
+                <option>Todas as disciplinas</option>
+                <option>MDS</option>
+                <option>Engenharia de Software</option>
+                <option>Estrutura de Dados</option>
+                <option>IHC</option>
+            </select>
+
+        </div>
+
+        <div id="formulario" class="formulario escondido">
+
+            <input
+                type="text"
+                id="titulo"
+                placeholder="Título do tópico"
+            >
+
+            <input
+                type="text"
+                id="autor"
+                placeholder="Autor"
+            >
+
+            <input
+                type="text"
+                id="disciplina"
+                placeholder="Disciplina"
+            >
+
+            <textarea
+                id="descricao"
+                placeholder="Descreva sua dúvida ou discussão"
+            ></textarea>
+
+            <button id="publicar">
+                Publicar Tópico
+            </button>
+
+        </div>
+
+        <div id="listaTopicos" class="container-topicos">
+
+            <div class="card-topico">
+
+                <h3>Dúvida sobre Scrum</h3>
+
+                <p class="info">
+                    👤 Pedro
+                </p>
+
+                <p class="info">
+                    📚 MDS
+                </p>
+
+                <p>
+                    Qual a diferença entre épico e história de usuário?
+                </p>
+
+                <span class="respostas">
+                    💬 3 respostas
+                </span>
+
+            </div>
+
+            <div class="card-topico">
+
+                <h3>Árvore AVL</h3>
+
+                <p class="info">
+                    👤 Maria
+                </p>
+
+                <p class="info">
+                    📚 Estrutura de Dados
+                </p>
+
+                <p>
+                    Não entendi como funciona o balanceamento.
+                </p>
+
+                <span class="respostas">
+                    💬 5 respostas
+                </span>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="forum.js"></script>
+
+</body>
+
+</html>

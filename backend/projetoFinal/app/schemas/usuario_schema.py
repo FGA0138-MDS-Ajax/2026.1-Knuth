@@ -9,7 +9,6 @@ class UsuarioRead(SQLModel):
     username: str
     is_active: bool
     is_aluno: bool
-    is_monitor: bool
     is_professor: bool
     is_admin: bool
 
@@ -21,6 +20,5 @@ class UsuarioTrocaSenha(SQLModel):
 class UsuarioUpdate(SQLModel):
     is_active: bool
     is_aluno: bool
-    is_monitor: bool
     is_professor: bool
     is_admin: bool

@@ -1,3 +1,16 @@
+/* ==========================================
+   VARIÁVEIS GLOBAIS
+========================================== */
+:root {
+    --roxo-principal: #4f46e5;
+    --roxo-secundario: #7c3aed;
+    --roxo-fundo: #f0eeff;
+    --cinza-fundo: #f4f7f6;
+    --cinza-borda: #ccc;
+    --texto-escuro: #1f2937;
+    --texto-claro: #4b5563;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -18,21 +31,32 @@
 }
 
 .login-box {
-    width: 350px;
-    background: white;
+    width: 380px;
+    background: rgba(255, 255, 255, 0.95); /* Levemente transparente para um visual moderno */
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /* Sombra grande que cria o efeito flutuante */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    /* Animação de flutuação */
+    animation: flutuar 3s ease-in-out infinite alternate;
+}
+
+@keyframes flutuar {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
 }
 
 .login-box h1 {
     text-align: center;
-    color: #4f46e5;
+    color: var(--roxo-principal);
+    margin-bottom: 5px;
 }
 
 .login-box p {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: var(--texto-claro);
 }
 
 .login-box form {
@@ -42,9 +66,11 @@
 
 .login-box input {
     margin-top: 15px;
-    padding: 12px;
+    padding: 14px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza-borda);
+    outline: none;
+    transition: border-color 0.3s;
 }
 
 .login-box button {
@@ -52,19 +78,27 @@
     padding: 12px;
     border: none;
     border-radius: 10px;
-    background: #4f46e5;
+    background: var(--roxo-principal);
     color: white;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.login-box button:hover {
+    background: var(--roxo-secundario);
+    transform: scale(1.02);
 }
 
 /* ==========================================
-   LAYOUT GERAL DASHBOARD
+   LAYOUT GERAL (Aplica aos dois Dashboards)
 ========================================== */
 .dashboard-layout {
     display: flex;
     height: 100vh;
     margin: 0;
-    background-color: #f4f7f6;
+    background-color: var(--cinza-fundo);
 }
 
 /* Menu Lateral */
@@ -86,21 +120,22 @@
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
 }
 
 .sidebar ul li a {
     display: block;
-    padding: 10px;
-    color: #333;
+    padding: 12px;
+    color: var(--texto-escuro);
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 10px;
+    transition: all 0.2s ease;
 }
 
 .sidebar ul li a.active, .sidebar ul li a:hover {
-    background-color: #007bff;
+    background-color: var(--roxo-principal);
     color: white;
+    transform: translateX(5px);
 }
 
 .btn-sair {
@@ -108,9 +143,14 @@
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-sair:hover {
+    background-color: #c82333;
 }
 
 /* Área Principal */
@@ -129,20 +169,13 @@
 
 /* ==========================================
    MURAL E PERGUNTAS (dashboard.html)
-========================================== */
-.post-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    margin-bottom: 15px;
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    color: #555;
+    margin-bottom: 15px;
+    color: var(--texto-claro);
     font-size: 0.9em;
 }
 
@@ -156,50 +189,83 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
 .fazer-pergunta textarea {
     width: 100%;
     height: 80px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 8px;
     resize: none;
     margin-bottom: 10px;
-    box-sizing: border-box;
+    outline: none;
+}
+
+.fazer-pergunta textarea:focus {
+    border-color: var(--roxo-principal);
 }
 
 .fazer-pergunta button {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: var(--roxo-principal);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.fazer-pergunta button:hover {
+    background-color: var(--roxo-secundario);
 }
 
 .card-pergunta {
-    background-color: #e9ecef;
+    background-color: var(--roxo-fundo);
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid #007bff;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 5px solid var(--roxo-principal);
 }
 
 .card-pergunta .pergunta {
     margin: 0 0 8px 0;
     color: #333;
+    color: var(--texto-escuro);
     font-weight: bold;
 }
 
 .card-pergunta .resposta {
     margin: 0;
-    color: #28a745;
+    color: var(--roxo-principal);
 }
 
 /* ==========================================
-   DASHBOARD ACADÊMICO E BUSCA
+   DASHBOARD ACADÊMICO (Perfil e Turmas)
 ========================================== */
+.search-section {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-section input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--cinza-borda);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-section input:focus {
+    border-color: var(--roxo-principal);
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.3);
+}
+
 .search-section, .search-box {
     display: flex;
     gap: 10px;
@@ -248,22 +314,99 @@
 
 /* ==========================================
    TURMAS / DISCIPLINAS
-========================================== */
 .disciplina-header {
     background-color: #007bff;
+.search-section button {
+    padding: 12px 24px;
+    background-color: var(--roxo-principal);
     color: white;
-    padding: 20px;
+    font-weight: bold;
+    border: none;
     border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.search-section button:hover {
+    background-color: var(--roxo-secundario);
+    transform: scale(1.02);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1.8fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.painel {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.painel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1);
+}
+
+.painel h3 {
+    color: var(--roxo-principal);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 0;
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--roxo-fundo);
 }
 
-.disciplina-header h2 {
-    margin: 0 0 5px 0;
+.perfil-aluno p {
+    text-align: left;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--texto-claro);
 }
 
-.disciplina-header p {
-    margin: 0;
-    font-size: 1.1em;
-    opacity: 0.9;
+.perfil-aluno strong {
+    color: var(--texto-escuro);
+}
+
+#listaTurmas {
+    list-style: none;
+}
+
+#listaTurmas li {
+    padding: 14px;
+    margin-bottom: 10px;
+    background-color: var(--roxo-fundo);
+    border-radius: 10px;
+    border-left: 4px solid var(--roxo-principal);
+    color: var(--roxo-principal);
+    font-weight: 600;
+}
+
+.aviso-card {
+    background: var(--cinza-fundo);
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid var(--roxo-secundario);
+    border-radius: 10px;
+}
+
+.cadastro-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cadastro-link a {
+    color: var(--roxo-principal);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro-link a:hover {
+    text-decoration: underline;
 }
