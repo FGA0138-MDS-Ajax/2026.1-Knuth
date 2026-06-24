@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Turma - KNUTHS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="turma-detalhe.css">
+</head>
+
+<body class="dashboard-layout">
+
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <ul>
+            <li><a href="dashboard.html">Mural Geral</a></li>
+            <li><a href="dashboard-academico.html">Acadêmico</a></li>
+            <li><a href="turmas.html" class="active">Turmas</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
+
+    <main class="main-content">
+        <div class="top-header turma-header">
+            <div>
+                <h2>💻 Métodos de Desenvolvimento de Software</h2>
+                <p>Turma A | Professor: Marcos</p>
+                <p class="codigo-turma">Código de Acesso: <strong>MDS-2026A</strong></p>
+            </div>
+            <div class="acoes-turma">
+                <button id="btnPublicarDuvida" class="btn-primario">Publicar Dúvida</button>
+                <button id="btnPromoverMonitor" class="btn-secundario">Promover Monitor</button>
+                <button id="btnEncerrarTurma" class="btn-perigo">Encerrar Turma</button>
+            </div>
+        </div>
+
+        <h3>Fórum de Dúvidas</h3>
+        
+        <div id="feedDuvidas" class="feed-container">
+            <div class="duvida-card">
+                <div class="duvida-header">
+                    <span class="autor">João Pedro (Aluno)</span>
+                    <span class="tempo">Agora mesmo</span>
+                </div>
+                <p>Alguém consegue me explicar a diferença entre MVC e Microsserviços na prática?</p>
+                <button class="btn-responder">Responder</button>
+            </div>
+
+            <div class="duvida-card">
+                <div class="duvida-header">
+                    <span class="autor">Maria Silva (Monitora)</span>
+                    <span class="tempo">Há 2 horas</span>
+                </div>
+                <p>Pessoal, o link para a entrega do trabalho no repositório já está disponível no mural geral.</p>
+                <button class="btn-responder">Responder</button>
+            </div>
+        </div>
+
+        <div id="modalDuvida" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3>Publicar Dúvida</h3>
+                <textarea id="textoDuvida" rows="4" placeholder="Escreva sua dúvida aqui..." required></textarea>
+                <div class="modal-botoes">
+                    <button id="btnCancelarDuvida" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarDuvida" class="btn-confirmar">Publicar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalPromover" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3>Promover a Monitor</h3>
+                <p>Digite a matrícula do aluno que será promovido.</p>
+                <input type="text" id="inputMatricula" placeholder="Ex: 202600123" required>
+                <div class="modal-botoes">
+                    <button id="btnCancelarPromover" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarPromover" class="btn-confirmar">Promover</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalEncerrar" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3 style="color: #dc2626;">Encerrar Turma</h3>
+                <p>Tem certeza? Esta ação arquivará a turma e ela não aparecerá mais para os alunos. Isso é feito ao fim do semestre.</p>
+                <div class="modal-botoes">
+                    <button id="btnCancelarEncerrar" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarEncerrar" class="btn-perigo">Sim, Encerrar</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="turma-detalhe.js"></script>
+</body>
+
+</html>
