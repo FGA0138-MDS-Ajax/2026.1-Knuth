@@ -1,70 +1,59 @@
-const btnNovaDuvida =
-    document.getElementById("btnNovaDuvida");
-
-const formulario =
-    document.getElementById("formulario");
-
-const lista =
-    document.getElementById("listaDuvidas");
+const btnNovaDuvida = document.getElementById("btnNovaDuvida");
+const formulario = document.getElementById("formulario");
+const lista = document.getElementById("listaDuvidas");
 
 btnNovaDuvida.addEventListener("click", () => {
-
     formulario.classList.toggle("escondido");
-
 });
 
-document
-    .getElementById("publicar")
-    .addEventListener("click", () => {
+document.getElementById("publicar").addEventListener("click", async () => {
+    // 1. Captura os valores
+    const descricao = document.getElementById("descricao").value;
 
-        const titulo =
-            document.getElementById("titulo").value;
+    if (descricao === "") {
+        alert("Preencha o campo de descrição (texto da pergunta).");
+        return;
+    }
 
-        const disciplina =
-            document.getElementById("disciplina").value;
+    // 2. Monta o objeto exatamente como o Swagger exige
+    const novaPergunta = {
+        texto: descricao, 
+        turma_id: 1, // Ajuste para o ID da turma desejada
+        is_restrita_professor: false,
+        is_restrita_monitor: false
+    };
 
-        const prioridade =
-            document.getElementById("prioridade").value;
+    // 3. Envia para o Backend
+    try {
+        const response = await fetch("http://127.0.0.1:8000/perguntas/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(novaPergunta)
+        });
 
-        const descricao =
-            document.getElementById("descricao").value;
+        if (response.ok) {
+            const data = await response.json();
 
-        if (
-            titulo === "" ||
-            disciplina === "" ||
-            prioridade === "" ||
-            descricao === ""
-        ) {
-            alert("Preencha todos os campos.");
-            return;
+            // 4. Cria o card na tela com o retorno do banco
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `
+                <h3>Pergunta #${data.id}</h3>
+                <p>${data.texto}</p>
+            `;
+            lista.prepend(card);
+
+            // Limpa campos
+            document.getElementById("descricao").value = "";
+            formulario.classList.add("escondido");
+            alert("Pergunta publicada com sucesso!");
+        } else {
+            alert("Erro ao publicar no banco de dados.");
         }
-
-        const card =
-            document.createElement("div");
-
-        card.classList.add("card");
-
-        card.innerHTML = `
-        <h3>${titulo}</h3>
-
-        <p class="info">
-        📚 ${disciplina}
-        </p>
-
-        <p class="info">
-        ⚠️ Prioridade: ${prioridade}
-        </p>
-
-        <p>${descricao}</p>
-    `;
-
-        lista.prepend(card);
-
-        document.getElementById("titulo").value = "";
-        document.getElementById("disciplina").value = "";
-        document.getElementById("prioridade").value = "";
-        document.getElementById("descricao").value = "";
-
-        formulario.classList.add("escondido");
-
-    });
+    } catch (error) {
+        console.error("Erro na comunicação:", error);
+    }
+});

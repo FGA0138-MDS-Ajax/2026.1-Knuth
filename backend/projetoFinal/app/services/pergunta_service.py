@@ -18,7 +18,6 @@ class PerguntaService:
         if aluno_id is None:
             raise HTTPException(status_code=500, detail="Erro ao identificar o aluno")
         
-        # Check if aluno is matriculated in the turma
         is_matriculado = TurmaCRUD.is_usuario_matriculado(session, username, pergunta_create.turma_id)
         if not is_matriculado:
             raise HTTPException(status_code=403, detail="O aluno não está matriculado nesta turma")
@@ -32,16 +31,19 @@ class PerguntaService:
             raise
 
     @staticmethod
+    def get_all(session):
+        # Busca todas as perguntas registradas no sistema
+        return PerguntaCRUD.get_all(session)
+
+    @staticmethod
     def get_by_id(session, pergunta_id: int, username: str):
         pergunta = PerguntaCRUD.get_by_id(session, pergunta_id)
         if not pergunta:
             raise HTTPException(status_code=404, detail="Pergunta não encontrada")
         
-       
         usuario = UsuarioCRUD.get_by_username(session, username)
         if not usuario:
             raise HTTPException(status_code=404, detail="Usuário não encontrado")
-        
         
         if usuario.is_professor:
             turma = TurmaCRUD.get_by_id(session, pergunta.turma_id)

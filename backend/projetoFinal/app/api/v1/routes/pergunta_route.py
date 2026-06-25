@@ -26,3 +26,7 @@ def update_pergunta(pergunta_id: int, pergunta_update: PerguntaUpdate, session: 
 @router.delete("/{pergunta_id}", summary="Deletar uma pergunta")
 def delete_pergunta(pergunta_id: int, session: SessionDependency, username: str = Depends(get_current_username)):
     return PerguntaService.delete(session, pergunta_id, username)
+
+@router.get("/", response_model=list[PerguntaRead], summary="Listar todas as perguntas")
+def get_all_perguntas(session: SessionDependency, username: str = Depends(get_current_username)):
+    return PerguntaService.get_all(session) 

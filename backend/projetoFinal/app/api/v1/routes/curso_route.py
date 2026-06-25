@@ -19,7 +19,8 @@ def update_curso(curso_id: int, curso_update: CursoUpdate, session: SessionDepen
 def delete_curso(curso_id: int, session: SessionDependency):
     return CursoService.delete(session, curso_id)
 
-@router.get("/busca", response_model=list[CursoRead], summary="Obter cursos por parâmetros de busca", dependencies=_auth)
+@router.get("/busca", response_model=list[CursoRead], summary="Obter cursos por parâmetros de busca", dependencies=[Depends(get_current_username)])
+            
 def get_cursos_by_parametros(session: SessionDependency, nome: Optional[str] = None):
     return CursoService.get_by_parametros(session, nome)
 
@@ -27,6 +28,6 @@ def get_cursos_by_parametros(session: SessionDependency, nome: Optional[str] = N
 def get_all_cursos(session: SessionDependency):
     return CursoService.get_all(session)
 
-@router.get("/{curso_id}", response_model=CursoRead, summary="Obter um curso por ID", dependencies=_auth)
+@router.get("/{curso_id}", response_model=CursoRead, summary="Obter um curso por ID", dependencies=[Depends(get_current_username)])
 def get_curso_by_id(curso_id: int, session: SessionDependency):
     return CursoService.get_by_id(session, curso_id)
