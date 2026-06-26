@@ -12,7 +12,7 @@ body {
 header {
     background: #4f46e5;
     color: white;
-    padding: 20px;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,64 +25,62 @@ nav a {
 }
 
 main {
-    width: 90%;
-    max-width: 900px;
-    margin: 30px auto;
+    padding: 40px;
 }
 
 .topo {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+button {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+#btnNovaDuvida,
+#publicar {
+    background: #4f46e5;
 }
 
 .formulario {
     background: white;
     padding: 25px;
     border-radius: 15px;
-    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 30px;
+}
+
+.escondido {
+    display: none;
 }
 
 input,
 select,
 textarea {
     padding: 12px;
-    border-radius: 10px;
     border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
 textarea {
-    resize: none;
     min-height: 120px;
-}
-
-button {
-    border: none;
-    background: #4f46e5;
-    color: white;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #3730a3;
-}
-
-#listaDuvidas {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .card {
     background: white;
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+    margin-bottom: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .1);
 }
 
 .card h3 {
@@ -90,49 +88,39 @@ button:hover {
     margin-bottom: 10px;
 }
 
-.card p {
+.info {
     margin-bottom: 10px;
 }
 
-<<<<<<< HEAD
-#filtroPrioridade {
-    margin-bottom: 20px;
-    width: 250px;
-}
-
-.alterarStatus {
-    margin-top: 15px;
-    width: 100%;
-=======
-.campoResposta {
-    width: 100%;
-    margin-top: 15px;
-}
-
-.btnResponder,
-.btnResolver {
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
-.respostas {
-    margin-top: 20px;
-}
-
-.resposta {
-    background: #f8f8f8;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 10px;
-    border-left: 4px solid #4f46e5;
-}
-
-.status {
+.status-aberta {
     color: green;
     font-weight: bold;
 }
 
-hr {
-    margin: 20px 0;
->>>>>>> developer
+.status-resolvida {
+    color: red;
+    font-weight: bold;
+}
+
+.campo-resposta {
+    width: 100%;
+    min-height: 100px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.btnResponder {
+    background: #16a34a;
+}
+
+.btnResolver {
+    background: #dc2626;
+    margin-left: 10px;
+}
+
+.resposta {
+    background: #f0f0f0;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 10px;
 }
