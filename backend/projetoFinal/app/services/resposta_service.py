@@ -1,4 +1,7 @@
 from app.crud.resposta_crud import RespostaCRUD
+from app.crud.usuario_crud import UsuarioCRUD
+from app.crud.pergunta_crud import PerguntaCRUD
+from app.crud.aluno_crud import AlunoCRUD
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 
@@ -12,7 +15,7 @@ class RespostaService:
             session.rollback()
             if "foreign key constraint" in str(exc).lower():
                 raise HTTPException(status_code=409, detail="Pergunta ou usuário associado não encontrado")
-            raise
+            raise 
     
     @staticmethod
     def update(session, resposta_id, resposta_update):

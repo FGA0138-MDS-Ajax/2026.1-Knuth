@@ -54,9 +54,9 @@ class AlunoCRUD:
     def get_by_parametros(session: Session, nome: Optional[str] = None, email: Optional[str] = None, matricula: Optional[str] = None):
         statement = select(Aluno)
         if nome:
-            statement = statement.where(Aluno.nome.ilike(f"%{nome}%"))  
+            statement = statement.where(Aluno.nome.ilike(f"%{nome}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if email:
-            statement = statement.where(Aluno.email.ilike(f"%{email}%"))
+            statement = statement.where(Aluno.email.ilike(f"%{email}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if matricula:
-            statement = statement.where(Aluno.matricula.ilike(f"%{matricula}%"))
+            statement = statement.where(Aluno.matricula.ilike(f"%{matricula}%"))  # pyright: ignore[reportAttributeAccessIssue]
         return session.exec(statement).all()

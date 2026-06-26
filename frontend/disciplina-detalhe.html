@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum da Disciplina - KNUTHS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="disciplina-detalhe.css">
+</head>
+
+<body class="dashboard-layout">
+
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <ul>
+            <li><a href="dashboard.html">Mural Geral</a></li>
+            <li><a href="dashboard-academico.html">Acadêmico</a></li>
+            <li><a href="turmas.html">Turmas</a></li>
+            <li><a href="disciplinas.html" class="active">Disciplinas</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
+
+    <main class="main-content">
+        <div class="top-header disciplina-header">
+            <div>
+                <h2 id="nomeDisciplina">Carregando...</h2>
+                <p id="descDisciplina">Fórum Geral da Disciplina</p>
+            </div>
+            <div class="acoes-disciplina" style="display: flex; gap: 10px;">
+                <button id="btnInscrever" class="btn-secundario" style="background: #e5e7eb; color: #333; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Inscrever-se</button>
+                <button id="btnPublicarDuvida" class="btn-primario">Publicar Dúvida</button>
+            </div>
+        </div>
+
+        <h3>Dúvidas Recentes da Disciplina</h3>
+        
+        <div id="feedDuvidas" class="feed-container">
+            <div class="duvida-card">
+                <div class="duvida-header">
+                    <span class="autor">Ana Clara (Aluna - Turma B)</span>
+                    <span class="tempo">Há 10 minutos</span>
+                </div>
+                <p>Qual a recomendação de bibliografia principal para a primeira prova? O material do mural já é o suficiente?</p>
+                <button class="btn-responder">Responder</button>
+            </div>
+
+            <div class="duvida-card">
+                <div class="duvida-header">
+                    <span class="autor">Professor Marcos</span>
+                    <span class="tempo">Há 1 dia</span>
+                </div>
+                <p>Atenção a todos: o prazo para o primeiro trabalho prático engloba todas as turmas (A, B e C). Entreguem via repositório.</p>
+                <button class="btn-responder">Responder</button>
+            </div>
+        </div>
+
+        <div id="modalDuvida" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3>Publicar no Fórum Geral</h3>
+                <textarea id="textoDuvida" rows="4" placeholder="Escreva sua dúvida aqui..." required></textarea>
+                <div class="modal-botoes">
+                    <button id="btnCancelarDuvida" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarDuvida" class="btn-confirmar">Publicar</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="disciplina-detalhe.js"></script>
+</body>
+
+</html>

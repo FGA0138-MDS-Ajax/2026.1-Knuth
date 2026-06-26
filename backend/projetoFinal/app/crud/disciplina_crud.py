@@ -46,7 +46,7 @@ class DisciplinaCRUD:
     def get_by_parametros(session: Session, nome: Optional[str] = None, codigo: Optional[str] = None):
         statement = select(Disciplina)
         if nome:
-            statement = statement.where(Disciplina.nome.ilike(f"%{nome}%"))
+            statement = statement.where(Disciplina.nome.ilike(f"%{nome}%"))  # pyright: ignore[reportAttributeAccessIssue]
         if codigo:
-            statement = statement.where(Disciplina.codigo.ilike(f"%{codigo}%"))
+            statement = statement.where(Disciplina.codigo.ilike(f"%{codigo}%"))  # pyright: ignore[reportAttributeAccessIssue]
         return session.exec(statement).all()

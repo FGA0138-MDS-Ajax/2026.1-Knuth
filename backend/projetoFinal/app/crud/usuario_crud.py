@@ -57,7 +57,6 @@ class UsuarioCRUD:
             return None
         usuario.is_active = usuario_update.is_active
         usuario.is_aluno = usuario_update.is_aluno
-        usuario.is_monitor = usuario_update.is_monitor
         usuario.is_professor = usuario_update.is_professor
         usuario.is_admin = usuario_update.is_admin
         session.add(usuario)

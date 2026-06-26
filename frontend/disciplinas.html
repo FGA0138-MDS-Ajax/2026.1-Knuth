@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas - Knuths</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="disciplinas.css"> 
+</head>
+<body class="dashboard-layout">
+
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <ul>
+            <li><a href="dashboard.html">Mural Geral</a></li>
+            <li><a href="dashboard-academico.html">Acadêmico</a></li>
+            <li><a href="turmas.html">Turmas</a></li>
+            <li><a href="disciplinas.html" class="active">Disciplinas</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <header>
+                <h1>📚 Disciplinas</h1>
+                <p>Encontre disciplinas e acesse os fóruns</p>
+            </header>
+
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="pesquisa" 
+                    placeholder="Pesquisar disciplina..." 
+                    onkeyup="filtrarDisciplinas()">
+            </div>
+
+            <p id="mensagem-sem-resultados">
+                Nenhuma disciplina encontrada.
+            </p>
+
+            <div class="cards">
+                <div class="card disciplina">
+                    <h2>MDS</h2>
+                    <p>Desenvolvimento de Software</p>
+                    <span>Fórum geral da disciplina</span>
+                    <button onclick="window.location.href='disciplina-detalhe.html?id=mds'">Acessar Fórum</button>
+                </div>
+
+                <div class="card disciplina">
+                    <h2>Estrutura de Dados</h2>
+                    <p>Listas, Pilhas e Filas</p>
+                    <span>Fórum geral da disciplina</span>
+                    <button onclick="window.location.href='disciplina-detalhe.html?id=estrutura-de-dados'">Acessar Fórum</button>
+                </div>
+
+                <div class="card disciplina">
+                    <h2>Banco de Dados</h2>
+                    <p>SQL e Modelagem</p>
+                    <span>Fórum geral da disciplina</span>
+                    <button onclick="window.location.href='disciplina-detalhe.html?id=banco-de-dados'">Acessar Fórum</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="disciplinas.js"></script>
+</body>
+</html>

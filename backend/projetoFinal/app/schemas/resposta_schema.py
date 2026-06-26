@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlmodel import SQLModel, Field
 from app.models.resposta_model import Resposta
 from app.models.usuario_model import Usuario
@@ -10,7 +11,7 @@ class RespostaCreate(SQLModel):
 class RespostaRead(SQLModel):
     id: int
     texto: str
-    data_criacao: str
+    data_criacao: datetime
     pergunta: Pergunta
     usuario: Usuario
 

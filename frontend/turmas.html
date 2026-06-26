@@ -5,92 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNUTHS - Turmas</title>
-
     <link rel="stylesheet" href="turmas.css">
 </head>
 
 <body>
 
     <header>
-
         <h1>KNUTHS</h1>
-
         <nav>
             <a href="dashboard.html">Dashboard</a>
             <a href="turmas.html">Turmas</a>
-            <a href="#">Disciplinas</a>
+            <a href="disciplinas.html">Disciplinas</a>
         </nav>
-
     </header>
 
     <main>
-
         <div class="topo">
-
             <h2>📚 Minhas Turmas (3)</h2>
-
-            <button id="novaTurma">
-                + Nova Turma
-            </button>
-
+            <div class="botoes-acao">
+                <button id="btnEntrarCodigo">Entrar com Código</button>
+                <button id="novaTurma">+ Nova Turma</button>
+            </div>
         </div>
 
+        <div class="busca">
+            <input type="text" id="buscaTurma" placeholder="Pesquisar turma...">
+            <button id="buscarTurma">Buscar</button>
+        </div>
+
+        <p id="mensagemErro"></p>
+
         <div class="container-turmas">
-
             <div class="card">
-
                 <h3>💻 MDS</h3>
-
                 <p>Turma A</p>
-
                 <p>👨‍🏫 Professor: Marcos</p>
-
-                <p>
-                    Espaço para dúvidas e materiais.
-                </p>
-
-                <button class="entrar">
-                    Entrar
+                <p>Espaço para dúvidas e materiais.</p>
+                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
+                    Acessar
                 </button>
-
             </div>
 
             <div class="card">
-
                 <h3>📘 Estrutura de Dados</h3>
-
                 <p>Turma B</p>
-
                 <p>👩‍🏫 Professora: Carla</p>
-
-                <p>
-                    Fórum acadêmico da disciplina.
-                </p>
-
-                <button class="entrar">
-                    Entrar
+                <p>Fórum acadêmico da disciplina.</p>
+                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
+                    Acessar
                 </button>
-
             </div>
 
             <div class="card">
-
                 <h3>🗄️ Banco de Dados</h3>
-
                 <p>Turma C</p>
-
                 <p>👨‍🏫 Professor: João</p>
-
-                <p>
-                    Tire dúvidas e acompanhe conteúdos.
-                </p>
-
-                <button class="entrar">
-                    Entrar
+                <p>Tire dúvidas e acompanhe conteúdos.</p>
+                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
+                    Acessar
                 </button>
-
             </div>
+        </div>
 
+        <div id="modalCriar" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3>Criar Nova Turma</h3>
+                <input type="text" id="inputNomeTurma" placeholder="Nome da Turma" required>
+                <input type="text" id="inputDisciplina" placeholder="Disciplina vinculada (Ex: MDS)" required>
+                <div class="modal-botoes">
+                    <button id="btnCancelarCriar" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarCriar" class="btn-confirmar">Criar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalEntrar" class="modal oculta">
+            <div class="modal-conteudo">
+                <h3>Entrar em uma Turma</h3>
+                <input type="text" id="inputCodigoAcesso" placeholder="Código de acesso" required>
+                <div class="modal-botoes">
+                    <button id="btnCancelarEntrar" class="btn-cancelar">Cancelar</button>
+                    <button id="btnConfirmarEntrar" class="btn-confirmar">Entrar</button>
+                </div>
+            </div>
         </div>
 
     </main>
