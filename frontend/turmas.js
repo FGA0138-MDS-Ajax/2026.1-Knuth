@@ -4,68 +4,118 @@ const turmas = [
     "banco de dados"
 ];
 
-const entrarButtons =
-    document.querySelectorAll(".entrar");
+// Elementos dos Modais
+const modalCriar = document.getElementById("modalCriar");
+const modalEntrar = document.getElementById("modalEntrar");
 
-const novaTurma =
-    document.getElementById("novaTurma");
+// Botões para Abrir Modais
+const btnNovaTurma = document.getElementById("novaTurma");
+const btnEntrarCodigo = document.getElementById("btnEntrarCodigo");
 
-entrarButtons.forEach((button) => {
+// Botões para Fechar Modais
+const btnCancelarCriar = document.getElementById("btnCancelarCriar");
+const btnCancelarEntrar = document.getElementById("btnCancelarEntrar");
 
-    button.addEventListener("click", () => {
+// Botões de Confirmação
+const btnConfirmarCriar = document.getElementById("btnConfirmarCriar");
+const btnConfirmarEntrar = document.getElementById("btnConfirmarEntrar");
 
-        alert("Abrindo turma...");
-
-    });
-
+// Ações: Abrir Modais
+btnNovaTurma.addEventListener("click", () => {
+    modalCriar.classList.remove("oculta");
 });
 
-novaTurma.addEventListener("click", () => {
+btnEntrarCodigo.addEventListener("click", () => {
+    modalEntrar.classList.remove("oculta");
+});
 
-    const nome =
-        prompt("Digite o nome da nova turma:");
+// Ações: Fechar Modais
+btnCancelarCriar.addEventListener("click", () => {
+    modalCriar.classList.add("oculta");
+});
 
-    if (!nome) {
+btnCancelarEntrar.addEventListener("click", () => {
+    modalEntrar.classList.add("oculta");
+});
 
-        alert("Digite um nome para a turma.");
+// Ação: Confirmar Criação de Turma
+btnConfirmarCriar.addEventListener("click", () => {
+    const nome = document.getElementById("inputNomeTurma").value.trim();
+    const disciplina = document.getElementById("inputDisciplina").value.trim();
+
+    if (!nome || !disciplina) {
+        alert("Preencha todos os campos para criar a turma.");
         return;
-
     }
 
-    alert(`Turma "${nome}" criada com sucesso!`);
-
+    alert(`Turma "${nome}" vinculada à disciplina "${disciplina}" criada com sucesso!`);
+    modalCriar.classList.add("oculta");
+    
+    // Limpa os campos depois de criar
+    document.getElementById("inputNomeTurma").value = "";
+    document.getElementById("inputDisciplina").value = "";
 });
 
-document
-    .getElementById("buscarTurma")
-    .addEventListener("click", () => {
+// Ação: Confirmar Entrada com Código
+btnConfirmarEntrar.addEventListener("click", () => {
+    const codigo = document.getElementById("inputCodigoAcesso").value.trim();
 
-        const busca =
-            document
-            .getElementById("buscaTurma")
-            .value
-            .toLowerCase()
-            .trim();
+    if (!codigo) {
+        alert("Digite o código de acesso.");
+        return;
+    }
 
-        const mensagem =
-            document.getElementById("mensagemErro");
+    alert(`Entrando na turma com o código: ${codigo}`);
+    modalEntrar.classList.add("oculta");
+    
+    // Limpa o campo
+    document.getElementById("inputCodigoAcesso").value = "";
+});
 
-        if (busca === "") {
+// Ação: Busca
+document.getElementById("buscarTurma").addEventListener("click", () => {
+    const busca = document.getElementById("buscaTurma").value.toLowerCase().trim();
+    const mensagem = document.getElementById("mensagemErro");
 
-            mensagem.textContent =
-                "Digite o nome de uma turma.";
+    if (busca === "") {
+        mensagem.textContent = "Digite o nome de uma turma.";
+        mensagem.style.color = "red";
+        return;
+    }
 
-            return;
+    if (!turmas.includes(busca)) {
+        mensagem.textContent = "Turma não encontrada.";
+        mensagem.style.color = "red";
+        return;
+    }
+
+    mensagem.textContent = "Turma encontrada!";
+    mensagem.style.color = "green";
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const containerTurmas = document.querySelector(".cards");
+    
+    if (containerTurmas) {
+        // Varre o localStorage procurando inscrições
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            
+            if (key.startsWith("inscrito_")) {
+                let infoMateria = JSON.parse(localStorage.getItem(key));
+                let idMateria = key.replace("inscrito_", "");
+                
+                // Cria o card da nova turma na tela
+                let novaTurmaHTML = `
+                    <div class="card turma">
+                        <h2>${infoMateria.nome.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, '').trim()}</h2>
+                        <p>Turma Nova | Professor(a) a definir</p>
+                        <span>Código: ${idMateria.toUpperCase()}-2026</span>
+                        <button onclick="window.location.href='turma-detalhe.html'">Entrar na Turma</button>
+                    </div>
+                `;
+                
+                containerTurmas.insertAdjacentHTML("beforeend", novaTurmaHTML);
+            }
         }
-
-        if (!turmas.includes(busca)) {
-
-            mensagem.textContent =
-                "Turma não encontrada.";
-
-            return;
-        }
-
-        mensagem.textContent =
-            "Turma encontrada!";
-    });
+    }
+});

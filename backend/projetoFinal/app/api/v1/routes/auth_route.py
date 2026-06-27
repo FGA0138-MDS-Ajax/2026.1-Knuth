@@ -24,7 +24,7 @@ async def login(
     if not usuario or not verify_password(form_data.password, usuario.hashed_password) or usuario.is_active == False:
         raise HTTPException(status_code=400, detail="E-mail ou senha inválidos")
 
-    data = {
+    data={
         "sub": usuario.username,
         "id": usuario.id,
         "is_aluno": usuario.is_aluno,
@@ -44,6 +44,15 @@ def get_me(
     payload = decode_access_token(token)
 
     if not payload:
+        raise HTTPException(
+            status_code=401,
+            detail="Token inválido ou expirado"
+        )
+    else:
+        email = payload.get("sub")
+        is_aluno = payload.get("is_aluno")  
+        if email is not None and is_aluno:
+            aluno =  AlunoService.get_by_email(session, email)
         raise HTTPException(status_code=401, detail="Token inválido ou expirado")
 
     email = payload.get("sub")

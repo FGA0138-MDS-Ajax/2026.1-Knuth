@@ -100,7 +100,7 @@ def seed_initial_data():
                     periodo=periods[i % len(periods)],
                     codigo_acesso=f"ACESSO{i+1:03}",
                     disciplina_id=d.id,
-                    professor_id=professor.id,
+                    professor_id=professores[i % len(professores)].id,
                 )
                 turmas.append(turma)
             session.add_all(turmas)

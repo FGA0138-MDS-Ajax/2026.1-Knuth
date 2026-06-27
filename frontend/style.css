@@ -499,3 +499,25 @@
 .aviso-card small {
     color: #999;
 }
+
+.cadastro-link a:hover {
+    text-decoration: underline;
+}
+
+.esqueci-senha {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.esqueci-senha a {
+    font-size: 0.9rem;
+    color: var(--texto-claro);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.esqueci-senha a:hover {
+    color: var(--roxo-principal);
+    text-decoration: underline;
+    transform: translateX(2px);
+}

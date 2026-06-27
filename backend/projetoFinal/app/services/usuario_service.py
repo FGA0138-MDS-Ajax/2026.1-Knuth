@@ -1,8 +1,5 @@
 from fastapi import HTTPException
 from app.crud.usuario_crud import UsuarioCRUD
-from app.core.security import verify_password, create_access_token
-from datetime import timedelta
-from app.core.config import settings
 
 class UsuarioService:
     @staticmethod
@@ -45,41 +42,10 @@ class UsuarioService:
     
     @staticmethod
     def update_usuario(session, usuario_id, usuario_update):
+        if usuario_update.is_aluno and usuario_update.is_professor:
+            raise HTTPException(status_code=400, detail="Um usuário não pode ser aluno e professor ao mesmo tempo.")
         usuario = UsuarioCRUD.update_usuario(session, usuario_id, usuario_update)
         if not usuario:
             raise HTTPException(status_code=404, detail="Usuário não encontrado")
         return usuario
-    
-    @staticmethod 
-    def login(session, usuario_login):
-        usuario = UsuarioCRUD.get_by_username(
-            session,
-            usuario_login.username
-        )
-
-        if not usuario:
-            raise HTTPException(
-                status_code=401,
-                detail="Usuário ou senha inválidos"
-            )
-        
-        senha_correta = verify_password(
-            usuario_login.password,
-            usuario.hashed_password
-        )
-
-        if not senha_correta:
-            raise HTTPException(
-                status_code=401,
-                detail="Usuário ou senha inválidos"
-            )
-        
-        access_token = create_access_token(
-            data={"sub": usuario.username}
-        )
-
-        return {
-            "access_token": access_token,
-            "token_type": "bearer"
-        }
     
