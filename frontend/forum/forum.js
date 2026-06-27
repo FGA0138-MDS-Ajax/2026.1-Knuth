@@ -1,107 +1,117 @@
-const btnNovoTopico =
-    document.getElementById("btnNovoTopico");
+const btnNovoTopico = document.getElementById("btnNovoTopico");
+const formulario = document.getElementById("formulario");
+const listaTopicos = document.getElementById("listaTopicos");
 
-const formulario =
-    document.getElementById("formulario");
-
-const listaTopicos =
-    document.getElementById("listaTopicos");
-
-/* Abrir e fechar formulário */
-
+/* abrir formulário */
 btnNovoTopico.addEventListener("click", () => {
-
     formulario.classList.toggle("escondido");
-
 });
 
-/* Publicar tópico */
+/* publicar tópico */
+document.getElementById("publicar").addEventListener("click", () => {
 
-document
-    .getElementById("publicar")
-    .addEventListener("click", () => {
+    const titulo = document.getElementById("titulo").value;
+    const autor = document.getElementById("autor").value;
+    const disciplina = document.getElementById("disciplina").value;
+    const descricao = document.getElementById("descricao").value;
 
-        const titulo =
-            document.getElementById("titulo").value;
+    if (!titulo || !autor || !disciplina || !descricao) {
+        alert("Preencha todos os campos.");
+        return;
+    }
 
-        const autor =
-            document.getElementById("autor").value;
+    const card = document.createElement("div");
+    card.classList.add("card-topico");
 
-        const disciplina =
-            document.getElementById("disciplina").value;
+    card.innerHTML = `
+        <h3>${titulo}</h3>
+        <p class="info">👤 ${autor}</p>
+        <p class="info">📚 ${disciplina}</p>
+        <p>${descricao}</p>
 
-        const descricao =
-            document.getElementById("descricao").value;
+        <button class="btn-responder">Responder</button>
 
-        if (
-            titulo === "" ||
-            autor === "" ||
-            disciplina === "" ||
-            descricao === ""
-        ) {
-            alert("Preencha todos os campos.");
+        <span class="respostas">💬 0 respostas</span>
+    `;
+
+    listaTopicos.prepend(card);
+
+    formulario.classList.add("escondido");
+
+    document.getElementById("titulo").value = "";
+    document.getElementById("autor").value = "";
+    document.getElementById("disciplina").value = "";
+    document.getElementById("descricao").value = "";
+
+    /* =========================
+       RESPOSTAS
+    ========================= */
+
+    const btnResponder = card.querySelector(".btn-responder");
+    const contador = card.querySelector(".respostas");
+
+    let aberto = false;
+    let qtd = 0;
+
+    const area = document.createElement("div");
+    const lista = document.createElement("div");
+    const textarea = document.createElement("textarea");
+    const btnEnviar = document.createElement("button");
+
+    lista.classList.add("lista-respostas");
+    textarea.placeholder = "Escreva sua resposta...";
+    btnEnviar.textContent = "Enviar";
+
+    area.appendChild(lista);
+    area.appendChild(textarea);
+    area.appendChild(btnEnviar);
+
+    area.style.display = "none";
+    area.style.flexDirection = "column";
+
+    card.appendChild(area);
+
+    /* abrir/fechar */
+    btnResponder.addEventListener("click", () => {
+        aberto = !aberto;
+        area.style.display = aberto ? "flex" : "none";
+    });
+
+    /* enviar resposta */
+    btnEnviar.addEventListener("click", () => {
+
+        const texto = textarea.value.trim();
+
+        if (!texto) {
+            alert("Escreva uma resposta.");
             return;
         }
 
-        const card =
-            document.createElement("div");
+        const p = document.createElement("p");
+        p.textContent = "💬 " + texto;
 
-        card.classList.add("card-topico");
+        lista.appendChild(p);
 
-        card.innerHTML = `
-            <h3>${titulo}</h3>
+        textarea.value = "";
 
-            <p class="info">
-                👤 ${autor}
-            </p>
+        qtd++;
+        contador.textContent = `💬 ${qtd} respostas`;
+    });
 
-            <p class="info">
-                📚 ${disciplina}
-            </p>
+});
 
-            <p>
-                ${descricao}
-            </p>
+/* pesquisa */
+document.getElementById("pesquisa").addEventListener("input", (e) => {
 
-            <span class="respostas">
-                💬 0 respostas
-            </span>
-        `;
+    const texto = e.target.value.toLowerCase();
 
-        listaTopicos.prepend(card);
+    document.querySelectorAll(".card-topico").forEach(card => {
 
-        document.getElementById("titulo").value = "";
-        document.getElementById("autor").value = "";
-        document.getElementById("disciplina").value = "";
-        document.getElementById("descricao").value = "";
-
-        formulario.classList.add("escondido");
+        card.style.display =
+            card.textContent.toLowerCase().includes(texto)
+                ? "block"
+                : "none";
 
     });
 
-/* Pesquisa de tópicos */
-
-document
-    .getElementById("pesquisa")
-    .addEventListener("input", (e) => {
-
-        const texto =
-            e.target.value.toLowerCase();
-
-        const topicos =
-            document.querySelectorAll(".card-topico");
-
-        topicos.forEach((topico) => {
-
-            const conteudo =
-                topico.textContent.toLowerCase();
-
-            if (conteudo.includes(texto)) {
-                topico.style.display = "block";
-            } else {
-                topico.style.display = "none";
-            }
-
-        });
-
-    });
+});
