@@ -1,6 +1,7 @@
 from sqlmodel import Session, select
 from app.models.curso_model import Curso
 from app.schemas.curso_schema import CursoCreate, CursoRead, CursoUpdate
+
 from typing import Optional
 
 class CursoCRUD:

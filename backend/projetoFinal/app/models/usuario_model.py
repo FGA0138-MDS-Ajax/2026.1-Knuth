@@ -1,4 +1,9 @@
 from sqlmodel import SQLModel, Field
+from typing import TYPE_CHECKING
+from sqlmodel import Relationship
+
+if TYPE_CHECKING:
+    from app.models.resposta_model import Resposta
 
 
 class Usuario(SQLModel, table=True):
@@ -9,3 +14,4 @@ class Usuario(SQLModel, table=True):
     is_aluno: bool = Field(default=True)
     is_professor: bool = Field(default=False)
     is_admin: bool = Field(default=False)
+    respostas: list["Resposta"] = Relationship(back_populates="usuario")

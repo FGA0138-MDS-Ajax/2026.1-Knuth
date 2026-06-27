@@ -49,6 +49,10 @@ def possui_permissao(permissoes: list[str] | str):
 
             if not any(role_checks.get(perm, False) for perm in permissoes):
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Sem permissão necessária")
+
+            username: str = payload.get("sub")
+            if username is None:
+                raise credentials_exception
             return username
         except JWTError:
             raise credentials_exception
