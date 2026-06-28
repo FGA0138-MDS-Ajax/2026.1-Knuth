@@ -29,17 +29,52 @@
 
                 <input type="email" id="email" placeholder="E-mail" required>
 
-                <input type="text" id="matricula" placeholder="Matrícula (8–10 caracteres)" minlength="8" maxlength="10" required>
+                <select id="tipoUsuario" required>
+                    <option value="">Selecione o tipo de usuário</option>
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                </select>
+
+                <input
+                    type="text"
+                    id="matricula"
+                    placeholder="Matrícula (8–10 caracteres)"
+                    minlength="8"
+                    maxlength="10"
+                    required
+                >
 
                 <select id="curso_id" required>
                     <option value="">Carregando cursos...</option>
                 </select>
 
-                <input type="password" id="senha" placeholder="Senha" required>
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Senha"
+                    required
+                >
 
-                <input type="password" id="confirmarSenha" placeholder="Confirmar senha" required>
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    placeholder="Confirmar senha"
+                    required
+                >
 
-                <button type="submit">Cadastrar</button>
+                <button type="submit">
+                    Cadastrar
+                </button>
+
+                <div class="login-link">
+
+                    <p>Já possui uma conta?</p>
+
+                    <a href="../login.html">
+                        Já tenho conta
+                    </a>
+
+                </div>
 
             </form>
 
@@ -48,6 +83,7 @@
     </div>
 
     <script src="../config.js"></script>
+
     <script src="script.js"></script>
 
 </body>

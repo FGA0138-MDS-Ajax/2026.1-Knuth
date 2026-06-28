@@ -2,6 +2,8 @@ from app.crud.aluno_crud import AlunoCRUD
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 
+from app.models.turma_model import Turma
+
 class AlunoService:
     
     @staticmethod
@@ -12,6 +14,8 @@ class AlunoService:
             session.rollback()
             if "unique" in str(exc).lower():
                 raise HTTPException(status_code=409, detail="Aluno com esse email ou matrícula já existe")
+            if "foreign key constraint" in str(exc).lower():
+                raise HTTPException(status_code=409, detail="Curso associado não encontrado")
             raise
     
     @staticmethod
@@ -22,6 +26,8 @@ class AlunoService:
             session.rollback()
             if "unique" in str(exc).lower():
                 raise HTTPException(status_code=409, detail="Aluno com esse email ou matrícula já existe")
+            if "foreign key constraint" in str(exc).lower():
+                raise HTTPException(status_code=409, detail="Curso associado não encontrado")
             raise
         if not aluno:
             raise HTTPException(status_code=404, detail="Aluno não encontrado")
@@ -31,7 +37,11 @@ class AlunoService:
     def delete(session, aluno_id):
         if not AlunoCRUD.get_by_id(session, aluno_id):
             raise HTTPException(status_code=404, detail="Aluno não encontrado")
-        AlunoCRUD.delete(session, aluno_id)
+        try:
+            AlunoCRUD.delete(session, aluno_id)
+        except IntegrityError:
+            session.rollback()
+            raise HTTPException(status_code=409, detail="Aluno está matriculado em uma ou mais turmas" )
         return {"detail": "Aluno deletado com sucesso"}
 
     @staticmethod
@@ -55,3 +65,27 @@ class AlunoService:
         if not aluno:
             raise HTTPException(status_code=404, detail="Aluno não encontrado")
         return aluno
+    
+    @staticmethod
+    def inclui_aluno_na_turma(session, aluno_id, turma_id):
+        aluno = AlunoCRUD.get_by_id(session, aluno_id)
+        if not aluno:
+            raise HTTPException(status_code=404, detail="Aluno não encontrado")
+        turma = session.get(Turma, turma_id)
+        if not turma:
+            raise HTTPException(status_code=404, detail="Turma não encontrada")
+        if turma in aluno.turmasMatriculadas:
+            raise HTTPException(status_code=400, detail="Aluno já matriculado nessa turma")
+        return AlunoCRUD.inclui_turma(session, aluno, turma)
+    
+    @staticmethod
+    def remove_aluno_da_turma(session, aluno_id, turma_id):
+        aluno = AlunoCRUD.get_by_id(session, aluno_id)
+        if not aluno:
+            raise HTTPException(status_code=404, detail="Aluno não encontrado")
+        turma = session.get(Turma, turma_id)
+        if not turma:
+            raise HTTPException(status_code=404, detail="Turma não encontrada")
+        if turma not in aluno.turmasMatriculadas:
+            raise HTTPException(status_code=400, detail="Aluno não matriculado nessa turma")
+        return AlunoCRUD.remove_turma(session, aluno, turma)

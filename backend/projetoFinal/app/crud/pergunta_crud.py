@@ -1,6 +1,10 @@
 from sqlmodel import Session, select
+from app.models.aluno_model import Aluno
+from app.models.turma_model import Turma
+from app.schemas.pergunta_schema import PerguntaCreate, PerguntaRead, PerguntaUpdate
 from app.models.pergunta_model import Pergunta
-from app.schemas.pergunta_schema import PerguntaCreate, PerguntaUpdate
+from app.models.disciplina_model import Disciplina
+from app.crud.aluno_crud import AlunoCRUD
 from typing import Optional
 
 class PerguntaCRUD:
