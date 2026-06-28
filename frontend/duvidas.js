@@ -2,58 +2,123 @@ const btnNovaDuvida = document.getElementById("btnNovaDuvida");
 const formulario = document.getElementById("formulario");
 const lista = document.getElementById("listaDuvidas");
 
+const filtro =
+    document.getElementById("filtroPrioridade");
+
+let duvidas = [];
+
 btnNovaDuvida.addEventListener("click", () => {
     formulario.classList.toggle("escondido");
 });
 
-document.getElementById("publicar").addEventListener("click", async () => {
-    // 1. Captura os valores
-    const descricao = document.getElementById("descricao").value;
+function renderizarDuvidas() {
 
-    if (descricao === "") {
-        alert("Preencha o campo de descrição (texto da pergunta).");
-        return;
+    lista.innerHTML = "";
+
+    let resultado = duvidas;
+
+    if (filtro.value !== "Todas") {
+        resultado = duvidas.filter(
+            duvida => duvida.prioridade === filtro.value
+        );
     }
 
-    // 2. Monta o objeto exatamente como o Swagger exige
-    const novaPergunta = {
-        texto: descricao, 
-        turma_id: 1, // Ajuste para o ID da turma desejada
-        is_restrita_professor: false,
-        is_restrita_monitor: false
-    };
+    resultado.forEach((duvida) => {
 
-    // 3. Envia para o Backend
-    try {
-        const response = await fetch("http://127.0.0.1:8000/perguntas/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
-            },
-            body: JSON.stringify(novaPergunta)
+        const card = document.createElement("div");
+
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <h3>${duvida.titulo}</h3>
+
+            <p class="info">
+                📚 ${duvida.disciplina}
+            </p>
+
+            <p class="info">
+                ⚠️ Prioridade: ${duvida.prioridade}
+            </p>
+
+            <p class="info">
+                📌 Status: ${duvida.status}
+            </p>
+
+            <p>
+                ${duvida.descricao}
+            </p>
+
+            <select class="alterarStatus">
+                <option value="Aberta" ${duvida.status === "Aberta" ? "selected" : ""}>
+                    Aberta
+                </option>
+
+                <option value="Em andamento" ${duvida.status === "Em andamento" ? "selected" : ""}>
+                    Em andamento
+                </option>
+
+                <option value="Resolvida" ${duvida.status === "Resolvida" ? "selected" : ""}>
+                    Resolvida
+                </option>
+            </select>
+        `;
+
+        const selectStatus =
+            card.querySelector(".alterarStatus");
+
+        selectStatus.addEventListener("change", (e) => {
+            duvida.status = e.target.value;
         });
 
-        if (response.ok) {
-            const data = await response.json();
+        lista.prepend(card);
+    });
+}
 
-            // 4. Cria o card na tela com o retorno do banco
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.innerHTML = `
-                <h3>Pergunta #${data.id}</h3>
-                <p>${data.texto}</p>
-            `;
-            lista.prepend(card);
+document
+    .getElementById("publicar")
+    .addEventListener("click", () => {
 
-            // Limpa campos
-            document.getElementById("descricao").value = "";
-            formulario.classList.add("escondido");
-            alert("Pergunta publicada com sucesso!");
-        } else {
-            alert("Erro ao publicar no banco de dados.");
+        const titulo =
+            document.getElementById("titulo").value;
+
+        const disciplina =
+            document.getElementById("disciplina").value;
+
+        const prioridade =
+            document.getElementById("prioridade").value;
+
+        const descricao =
+            document.getElementById("descricao").value;
+
+        const status =
+            document.getElementById("status").value;
+
+        if (
+            titulo === "" ||
+            disciplina === "" ||
+            prioridade === "" ||
+            descricao === ""
+        ) {
+            alert("Preencha todos os campos.");
+            return;
         }
-    } catch (error) {
-        console.error("Erro na comunicação:", error);
-    }
-});
+
+        duvidas.unshift({
+            titulo,
+            disciplina,
+            prioridade,
+            descricao,
+            status
+        });
+
+        renderizarDuvidas();
+
+        document.getElementById("titulo").value = "";
+        document.getElementById("disciplina").value = "";
+        document.getElementById("prioridade").value = "";
+        document.getElementById("descricao").value = "";
+
+        formulario.classList.add("escondido");
+    });
+
+filtro.addEventListener("change", renderizarDuvidas);
