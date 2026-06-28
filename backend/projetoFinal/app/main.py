@@ -36,13 +36,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 app.include_router(curso_router)
 app.include_router(aluno_router)
 app.include_router(professor_router)
 app.include_router(usuario_router)
 app.include_router(auth_router)
 app.include_router(disciplina_router)
-app.include_router(professor_router)
 app.include_router(turma_router)
 app.include_router(pergunta_router)
 app.include_router(resposta_router)

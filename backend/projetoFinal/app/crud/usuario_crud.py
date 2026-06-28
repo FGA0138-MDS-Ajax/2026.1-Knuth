@@ -2,14 +2,21 @@ from sqlmodel import Session, select
 from app.core.security import get_password_hash, verify_password
 from app.models.usuario_model import Usuario
 from app.schemas.usuario_schema import UsuarioCreate, UsuarioRead, UsuarioTrocaSenha, UsuarioUpdate
-from app.core.security import get_password_hash
 
 class UsuarioCRUD:
     @staticmethod
     def create(session: Session, usuario_create: UsuarioCreate):
-        usuarioCreate = UsuarioCreate.model_validate(usuario_create)
-        usuario = Usuario(username=usuarioCreate.username, hashed_password=usuarioCreate.password)
-        usuario.hashed_password = get_password_hash(usuario.hashed_password)   
+        # O objeto usuario_create só tem os campos definidos no schema.
+        # Não tente acessar .is_aluno se ele não estiver lá.
+        usuario = Usuario(
+            username=usuario_create.username,
+            hashed_password=get_password_hash(usuario_create.password),
+            is_active=True,
+            is_aluno=True,         # Defina como fixo ou pegue de outra lógica
+            is_professor=False,    # Defina como fixo ou pegue de outra lógica
+            is_admin=False,
+            is_monitor=False
+        )
         session.add(usuario)
         session.commit()
         session.refresh(usuario)
@@ -43,7 +50,7 @@ class UsuarioCRUD:
         if not usuario:
             return None
         if not verify_password(troca_senha.old_password, usuario.hashed_password):
-            return not usuario
+            return None # Corrigido: 'return not usuario' estava estranho, retorne None se falhar
         usuario.hashed_password = get_password_hash(troca_senha.new_password)
         session.add(usuario)
         session.commit()

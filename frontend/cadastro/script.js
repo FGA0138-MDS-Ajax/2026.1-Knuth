@@ -41,17 +41,23 @@ form.addEventListener("submit", async (e) => {
     }
 
     try {
-        const resposta = await fetch(`${API_BASE_URL}/registro`, {
+        const resposta = await fetch(`${API_BASE_URL}/usuarios/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nome, email, matricula, senha, curso_id }),
-        });
-
-        if (!resposta.ok) {
+            body: JSON.stringify({ 
+            username: email,  
+            password: senha,  
+            nome: nome,
+            matricula: matricula,
+            curso_id: curso_id
+        }),
+    });
+       if (!resposta.ok) {
             const erro = await resposta.json();
-            alert(erro.detail || "Erro ao criar conta. Verifique os dados.");
+            console.error("Erro do servidor:", erro); 
+            alert(JSON.stringify(erro));
             return;
-        }
+}
 
         alert("Conta criada com sucesso! Faça login para continuar.");
         window.location.href = "../login.html";
