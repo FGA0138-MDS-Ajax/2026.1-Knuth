@@ -176,14 +176,13 @@ async function carregarRespostas(perguntaId) {
     container.innerHTML = `<p style="color:#aaa;font-size:13px">Carregando...</p>`;
 
     try {
-        const resposta = await fetch(`${API_BASE_URL}/respostas/`, {
+        const resposta = await fetch(`${API_BASE_URL}/respostas/pergunta/${perguntaId}`, {
             headers: authHeader(),
         });
         if (tratarNaoAutorizado(resposta.status)) return;
         if (!resposta.ok) { container.innerHTML = ""; return; }
 
-        const todas = await resposta.json();
-        const desta = todas.filter(r => r.pergunta.id === perguntaId);
+        const desta = await resposta.json();
 
         container.innerHTML = "";
 
