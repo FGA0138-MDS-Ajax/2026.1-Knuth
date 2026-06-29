@@ -1,8 +1,6 @@
-from typing import Annotated, Optional
 from fastapi import APIRouter, Depends
-from app.schemas.pergunta_schema import PerguntaCreate, PerguntaRead, PerguntaUpdate, PerguntaCompleta
+from app.schemas.pergunta_schema import PerguntaCreate, PerguntaRead, PerguntaUpdate
 from app.services.pergunta_service import PerguntaService
-from app.models.pergunta_model import Pergunta
 from app.api.dep import SessionDependency
 from app.core.security import get_current_username, possui_permissao
 
