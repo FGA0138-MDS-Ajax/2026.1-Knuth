@@ -3,12 +3,13 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-const btnNovaDuvida = document.getElementById("btnNovaDuvida");
-const formulario    = document.getElementById("formulario");
-const lista         = document.getElementById("listaDuvidas");
-const seletorTurma  = document.getElementById("seletorTurma");
-const filtroStatus  = document.getElementById("filtroStatus");
-const mensagemVazio = document.getElementById("mensagemVazio");
+const btnNovaDuvida    = document.getElementById("btnNovaDuvida");
+const formulario       = document.getElementById("formulario");
+const lista            = document.getElementById("listaDuvidas");
+const seletorTurma     = document.getElementById("seletorTurma");
+const filtroStatus     = document.getElementById("filtroStatus");
+const filtroPrioridade = document.getElementById("filtroPrioridade");
+const mensagemVazio    = document.getElementById("mensagemVazio");
 
 let turmaAtual          = null;
 let perguntasCarregadas = [];
@@ -43,6 +44,14 @@ function escaparHTML(str) {
 
 function classeBadgeStatus(status) {
     return { "aberta": "aberta", "em andamento": "em-andamento", "resolvida": "resolvida" }[status] || "aberta";
+}
+
+function classeBadgePrioridade(prioridade) {
+    return { "baixa": "baixa", "media": "media", "alta": "alta" }[prioridade] || "media";
+}
+
+function labelPrioridade(prioridade) {
+    return { "baixa": "Baixa", "media": "Média", "alta": "Alta" }[prioridade] || "Média";
 }
 
 function formatarData(isoString) {
@@ -98,6 +107,7 @@ async function criarPergunta() {
     const texto             = document.getElementById("textoPergunta").value.trim();
     const restritaProfessor = document.getElementById("restritaProfessor").checked;
     const restritaMonitor   = document.getElementById("restritaMonitor").checked;
+    const prioridade        = document.getElementById("prioridade").value;
 
     if (texto.length < 5 || texto.length > 500) {
         alert("A dúvida deve ter entre 5 e 500 caracteres.");
@@ -117,6 +127,7 @@ async function criarPergunta() {
                 turma_id: turmaAtual,
                 is_restrita_professor: restritaProfessor,
                 is_restrita_monitor: restritaMonitor,
+                prioridade,
             }),
         });
         if (tratarNaoAutorizado(resposta.status)) return;
@@ -132,6 +143,7 @@ async function criarPergunta() {
         document.getElementById("textoPergunta").value       = "";
         document.getElementById("restritaProfessor").checked = false;
         document.getElementById("restritaMonitor").checked   = false;
+        document.getElementById("prioridade").value          = "media";
         formulario.classList.add("escondido");
         filtrarPerguntas();
     } catch (erro) {
@@ -258,10 +270,14 @@ function renderizarResposta(container, resposta) {
 function filtrarPerguntas() {
     lista.innerHTML = "";
 
-    const statusFiltro = filtroStatus.value;
-    const resultado = statusFiltro === "todas"
-        ? perguntasCarregadas
-        : perguntasCarregadas.filter(p => p.status === statusFiltro);
+    const statusFiltro     = filtroStatus.value;
+    const prioridadeFiltro = filtroPrioridade.value;
+
+    const resultado = perguntasCarregadas.filter(p => {
+        const passaStatus     = statusFiltro === "todas"     || p.status === statusFiltro;
+        const passaPrioridade = prioridadeFiltro === "todas" || p.prioridade === prioridadeFiltro;
+        return passaStatus && passaPrioridade;
+    });
 
     if (resultado.length === 0) {
         mensagemVazio.classList.remove("escondido");
@@ -285,6 +301,7 @@ function renderizarPergunta(pergunta) {
             <p>${escaparHTML(pergunta.texto)}</p>
             <div class="badges">
                 <span class="badge-status ${classeBadgeStatus(pergunta.status)}">${pergunta.status}</span>
+                <span class="badge-prioridade ${classeBadgePrioridade(pergunta.prioridade)}">${labelPrioridade(pergunta.prioridade)}</span>
                 ${badgesRestricao}
             </div>
         </div>
@@ -331,6 +348,7 @@ seletorTurma.addEventListener("change", async () => {
 });
 
 filtroStatus.addEventListener("change", filtrarPerguntas);
+filtroPrioridade.addEventListener("change", filtrarPerguntas);
 
 btnNovaDuvida.addEventListener("click", () => {
     formulario.classList.toggle("escondido");

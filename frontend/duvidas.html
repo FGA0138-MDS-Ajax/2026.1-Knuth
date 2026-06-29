@@ -47,6 +47,13 @@
                 <option value="resolvida">Resolvida</option>
             </select>
 
+            <select id="filtroPrioridade">
+                <option value="todas">Todas as prioridades</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
         </div>
 
         <div id="formulario" class="formulario escondido">
@@ -68,6 +75,15 @@
                     Restrita ao monitor
                 </label>
 
+            </div>
+
+            <div class="opcao-prioridade">
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media" selected>Média</option>
+                    <option value="alta">Alta</option>
+                </select>
             </div>
 
             <button id="publicar">
