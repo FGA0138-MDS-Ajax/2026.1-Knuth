@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
 }
 
 body {
@@ -12,7 +12,7 @@ body {
 header {
     background: #4f46e5;
     color: white;
-    padding: 20px;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,7 +22,6 @@ nav a {
     color: white;
     text-decoration: none;
     margin-left: 20px;
-    font-weight: bold;
 }
 
 main {
@@ -33,21 +32,27 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 button {
     border: none;
-    background: #4f46e5;
-    color: white;
     padding: 12px 18px;
     border-radius: 10px;
     cursor: pointer;
+    color: white;
+    font-weight: bold;
 }
 
 button:hover:not(:disabled) {
     background: #3730a3;
 }
+
+#btnNovaDuvida,
+#publicar {
+    background: #4f46e5;
+}
+
 
 button:disabled {
     background: #a5b4fc;
@@ -72,10 +77,10 @@ button:disabled {
     background: white;
     padding: 25px;
     border-radius: 15px;
-    margin-bottom: 25px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 30px;
 }
 
 .escondido {
@@ -86,7 +91,8 @@ textarea {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    height: 120px;
+  
+min-height: 120px;
     resize: none;
     width: 100%;
 }
@@ -110,11 +116,13 @@ textarea {
     gap: 20px;
 }
 
+
 .card {
     background: white;
-    padding: 20px;
+    padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .1);
 }
 
 .card-cabecalho {
