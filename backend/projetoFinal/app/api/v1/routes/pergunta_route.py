@@ -1,5 +1,4 @@
-from typing import Annotated
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends
 from app.schemas.pergunta_schema import PerguntaCreate, PerguntaRead, PerguntaUpdate
 from app.services.pergunta_service import PerguntaService
 from app.api.dep import SessionDependency

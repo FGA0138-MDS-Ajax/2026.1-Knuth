@@ -3,61 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Acadêmico</title>
+    <title>Perfil & Turmas - KNUTHS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-layout">
 
     <nav class="sidebar">
+
         <div class="logo">KNUTHS</div>
+
+        <div class="sidebar-perfil">
+            <span class="sidebar-nome" id="sidebarNome">...</span>
+            <small class="sidebar-cargo" id="sidebarCargo"></small>
+        </div>
+
         <ul>
-            <li><a href="dashboard.html">Mural Geral</a></li>
-            <li><a href="dashboard-academico.html" class="active">Acadêmico</a></li>
+            <li><a href="dashboard.html">🏠 Geral</a></li>
+            <li><a href="dashboard-academico.html" class="active">👤 Perfil &amp; Turmas</a></li>
+            <li><a href="duvidas.html">❓ Dúvidas</a></li>
         </ul>
+
         <button id="btnSair" class="btn-sair">Sair</button>
+
     </nav>
 
     <main class="main-content">
+
         <div class="top-header">
-            <h2>Dashboard Acadêmico</h2>
+            <h2>Perfil &amp; Turmas</h2>
         </div>
 
-        <div class="dashboard-academico">
-            <div class="search-section">
-                <input type="text" id="inputBusca" placeholder="Buscar disciplinas (ex: Engenharia de Software, Cálculo)...">
-                <button id="btnBuscar">Pesquisar</button>
-            </div>
-
-            <div class="dashboard-grid">
-                
-                <section class="painel perfil-aluno">
-                    <h3>👤 Meu Perfil</h3>
-                    <div id="dadosPerfil">
-                        <p><strong>Nome:</strong> <span id="perfilNome">Carregando...</span></p>
-                        <p><strong>Matrícula:</strong> <span id="perfilMatricula">Carregando...</span></p>
-                        <p><strong>Curso:</strong> <span id="perfilCurso">Carregando...</span></p>
-                        <p><strong>E-mail:</strong> <span id="perfilEmail">Carregando...</span></p>
-                    </div>
-                </section>
-
-                <section class="painel minhas-turmas">
-                    <h3>📚 Minhas Disciplinas</h3>
-                    <ul id="listaTurmas">
-                        <li>Carregando turmas...</li>
-                    </ul>
-                </section>
-
-                <section class="painel mural-avisos">
-                    <h3>🔔 Atualizações Recentes</h3>
-                    <div id="listaAvisos">
-                        <p>Buscando novidades...</p>
-                    </div>
-                </section>
-
-            </div>
+        <div class="search-section">
+            <input type="text" id="inputBusca" placeholder="Buscar disciplinas (ex: Engenharia de Software, Cálculo)...">
+            <button id="btnBuscar">Pesquisar</button>
         </div>
+
+        <div class="dashboard-grid">
+
+            <section class="painel perfil-aluno">
+                <h3>👤 Meu Perfil</h3>
+                <div id="dadosPerfil">
+                    <p><strong>Nome:</strong> <span id="perfilNome">Carregando...</span></p>
+                    <p><strong>Matrícula:</strong> <span id="perfilMatricula">Carregando...</span></p>
+                    <p><strong>Curso:</strong> <span id="perfilCurso">Carregando...</span></p>
+                    <p><strong>E-mail:</strong> <span id="perfilEmail">Carregando...</span></p>
+                </div>
+            </section>
+
+            <section class="painel minhas-turmas">
+                <h3>📚 Minhas Turmas</h3>
+                <ul id="listaTurmas">
+                    <li>Carregando turmas...</li>
+                </ul>
+            </section>
+
+            <section class="painel mural-avisos">
+                <h3>🔔 Dúvidas Recentes</h3>
+                <div id="listaAvisos">
+                    <p>Buscando novidades...</p>
+                </div>
+            </section>
+
+        </div>
+
     </main>
 
+    <script src="config.js"></script>
     <script src="dashboard-academico.js"></script>
+
 </body>
 </html>

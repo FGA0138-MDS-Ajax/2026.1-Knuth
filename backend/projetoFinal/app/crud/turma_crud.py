@@ -1,3 +1,4 @@
+from certifi import where
 from sqlmodel import Session, select
 from app.models.aluno_model import Aluno
 from app.models.alunoTurmaMatriculado_model import AlunoTurmaMatriculado

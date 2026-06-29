@@ -1,14 +1,14 @@
 /* ==========================================
    VARIÁVEIS GLOBAIS
-========================================== */
+   ========================================== */
 :root {
-    --roxo-principal: #4f46e5;
+    --roxo-principal:  #4f46e5;
     --roxo-secundario: #7c3aed;
-    --roxo-fundo: #f0eeff;
-    --cinza-fundo: #f4f7f6;
-    --cinza-borda: #ccc;
-    --texto-escuro: #1f2937;
-    --texto-claro: #4b5563;
+    --roxo-fundo:      #f0eeff;
+    --cinza-fundo:     #f4f7f6;
+    --cinza-borda:     #ccc;
+    --texto-escuro:    #1f2937;
+    --texto-claro:     #4b5563;
 }
 
 * {
@@ -20,7 +20,7 @@
 
 /* ==========================================
    TELA DE LOGIN
-========================================== */
+   ========================================== */
 .login-body {
     height: 100vh;
     display: flex;
@@ -32,18 +32,16 @@
 
 .login-box {
     width: 380px;
-    background: rgba(255, 255, 255, 0.95); /* Levemente transparente para um visual moderno */
+    background: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 20px;
-    /* Sombra grande que cria o efeito flutuante */
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
-    /* Animação de flutuação */
     animation: flutuar 3s ease-in-out infinite alternate;
 }
 
 @keyframes flutuar {
-    0% { transform: translateY(0px); }
+    0%   { transform: translateY(0px); }
     100% { transform: translateY(-10px); }
 }
 
@@ -91,9 +89,24 @@
     transform: scale(1.02);
 }
 
+.cadastro-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.cadastro-link a {
+    color: var(--roxo-principal);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastro-link a:hover {
+    text-decoration: underline;
+}
+
 /* ==========================================
-   LAYOUT GERAL (Aplica aos dois Dashboards)
-========================================== */
+   LAYOUT GERAL (Dashboard)
+   ========================================== */
 .dashboard-layout {
     display: flex;
     height: 100vh;
@@ -101,21 +114,44 @@
     background-color: var(--cinza-fundo);
 }
 
-/* Menu Lateral */
+/* Sidebar */
 .sidebar {
     width: 250px;
     background-color: #fff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 .sidebar .logo {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-weight: bold;
     font-size: 24px;
-    color: #4f46e5;
+    color: var(--roxo-principal);
+}
+
+/* Perfil na Sidebar */
+.sidebar-perfil {
+    display: flex;
+    flex-direction: column;
+    background: var(--roxo-fundo);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.sidebar-nome {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--texto-escuro);
+}
+
+.sidebar-cargo {
+    font-size: 12px;
+    color: var(--roxo-principal);
+    margin-top: 3px;
 }
 
 .sidebar ul {
@@ -128,11 +164,13 @@
     color: var(--texto-escuro);
     text-decoration: none;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    font-size: 14px;
     transition: all 0.2s ease;
 }
 
-.sidebar ul li a.active, .sidebar ul li a:hover {
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
     background-color: var(--roxo-principal);
     color: white;
     transform: translateX(5px);
@@ -147,6 +185,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    transition: background 0.2s;
 }
 
 .btn-sair:hover {
@@ -167,48 +206,72 @@
     margin-bottom: 30px;
 }
 
+.boas-vindas {
+    font-size: 14px;
+    color: var(--texto-claro);
+}
+
 /* ==========================================
-   MURAL E PERGUNTAS (dashboard.html)
+   MURAL — AVISO DO SISTEMA
+   ========================================== */
+.post-card {
+    background: white;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border-left: 5px solid var(--roxo-secundario);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.aviso-sistema {
+    background: var(--roxo-fundo);
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: var(--texto-claro);
     font-size: 0.9em;
 }
 
-.secao-perguntas {
-    margin-bottom: 40px;
-}
-
+/* ==========================================
+   FORMULÁRIO DE POSTAGEM RÁPIDA
+   ========================================== */
 .fazer-pergunta {
     background-color: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 25px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
+.fazer-pergunta select,
 .fazer-pergunta textarea {
     width: 100%;
-    height: 80px;
     padding: 12px;
     border: 1px solid var(--cinza-borda);
     border-radius: 8px;
-    resize: none;
-    margin-bottom: 10px;
     outline: none;
+    font-size: 14px;
+    transition: border-color 0.2s;
 }
 
+.fazer-pergunta select:focus,
 .fazer-pergunta textarea:focus {
     border-color: var(--roxo-principal);
 }
 
+.fazer-pergunta textarea {
+    height: 80px;
+    resize: none;
+}
+
 .fazer-pergunta button {
+    align-self: flex-start;
     padding: 10px 20px;
     background-color: var(--roxo-principal);
     color: white;
@@ -216,40 +279,120 @@
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
-    transition: background 0.3s;
+    transition: background 0.2s;
 }
 
 .fazer-pergunta button:hover {
     background-color: var(--roxo-secundario);
 }
 
-.card-pergunta {
-    background-color: var(--roxo-fundo);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    border-left: 5px solid var(--roxo-principal);
+/* ==========================================
+   FEED DE DÚVIDAS — PÁGINA GERAL
+   ========================================== */
+.secao-perguntas {
+    margin-bottom: 40px;
 }
 
-.card-pergunta .pergunta {
-    margin: 0 0 8px 0;
-    color: #333;
+.secao-titulo {
+    font-size: 16px;
+    font-weight: bold;
     color: var(--texto-escuro);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--roxo-fundo);
+}
+
+.feed-card-duvida {
+    background: white;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--roxo-principal);
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease;
+}
+
+.feed-card-duvida:hover {
+    transform: translateX(3px);
+}
+
+.feed-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 10px;
+}
+
+.feed-disciplina {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--roxo-principal);
+}
+
+.feed-card-texto {
+    color: var(--texto-escuro);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.feed-card-data {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.feed-link-ver {
+    font-size: 13px;
+    color: var(--roxo-principal);
+    text-decoration: none;
     font-weight: bold;
 }
 
-.card-pergunta .resposta {
-    margin: 0;
-    color: var(--roxo-principal);
+.feed-link-ver:hover {
+    text-decoration: underline;
+}
+
+.feed-estado {
+    text-align: center;
+    color: #999;
+    padding: 30px 0;
+    font-size: 14px;
+}
+
+.badge-feed-status {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.badge-feed-status.aberta {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-feed-status.em-andamento {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.badge-feed-status.resolvida {
+    background: #dcfce7;
+    color: #16a34a;
 }
 
 /* ==========================================
    DASHBOARD ACADÊMICO (Perfil e Turmas)
-========================================== */
+   ========================================== */
 .search-section {
-    margin-bottom: 25px;
     display: flex;
     gap: 10px;
+    margin-bottom: 25px;
 }
 
 .search-section input {
@@ -266,56 +409,6 @@
     box-shadow: 0 0 5px rgba(79, 70, 229, 0.3);
 }
 
-.search-section, .search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.search-section input, .search-box input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-section button, .search-box button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.painel {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.painel h3 {
-    margin-bottom: 15px;
-    color: #4f46e5;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.painel p { margin-bottom: 10px; }
-.painel ul { list-style: none; padding: 0; }
-.painel ul li { padding: 10px 0; border-bottom: 1px solid #eee; }
-
-/* ==========================================
-   TURMAS / DISCIPLINAS
-.disciplina-header {
-    background-color: #007bff;
 .search-section button {
     padding: 12px 24px;
     background-color: var(--roxo-principal);
@@ -343,8 +436,8 @@
     background: #ffffff;
     padding: 24px;
     border-radius: 16px;
-    border: none;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -355,17 +448,15 @@
 
 .painel h3 {
     color: var(--roxo-principal);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--roxo-fundo);
 }
 
 .perfil-aluno p {
-    text-align: left;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     font-size: 0.95rem;
     color: var(--texto-claro);
 }
@@ -376,37 +467,57 @@
 
 #listaTurmas {
     list-style: none;
+    padding: 0;
 }
 
 #listaTurmas li {
-    padding: 14px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
     background-color: var(--roxo-fundo);
-    border-radius: 10px;
+    border-radius: 8px;
     border-left: 4px solid var(--roxo-principal);
-    color: var(--roxo-principal);
-    font-weight: 600;
+    color: var(--texto-escuro);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#listaTurmas li small {
+    color: var(--texto-claro);
 }
 
 .aviso-card {
     background: var(--cinza-fundo);
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
     border-left: 4px solid var(--roxo-secundario);
-    border-radius: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--texto-escuro);
+    line-height: 1.4;
 }
 
-.cadastro-link {
-    text-align: center;
-    margin-top: 15px;
-}
-
-.cadastro-link a {
-    color: var(--roxo-principal);
-    text-decoration: none;
-    font-weight: bold;
+.aviso-card small {
+    color: #999;
 }
 
 .cadastro-link a:hover {
     text-decoration: underline;
+}
+
+.esqueci-senha {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.esqueci-senha a {
+    font-size: 0.9rem;
+    color: var(--texto-claro);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.esqueci-senha a:hover {
+    color: var(--roxo-principal);
+    text-decoration: underline;
+    transform: translateX(2px);
 }

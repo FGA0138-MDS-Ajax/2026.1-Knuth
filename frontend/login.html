@@ -5,34 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knuths</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="login-body">
 
     <div class="login-box">
+
         <h1>Knuths</h1>
+
         <p>Plataforma acadêmica</p>
-        
+
         <form id="loginForm">
 
-            <input type="email" id="email" placeholder="E-mail" required>
+            <input
+                type="email"
+                id="email"
+                placeholder="E-mail"
+                required
+            >
 
-            <input type="password" id="senha" placeholder="Senha" required>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Senha"
+                required
+            >
+
+            <p class="esqueci-senha">
+                <a href="#" id="esqueciSenha">
+                    Esqueci a senha?
+                </a>
+            </p>
 
             <button type="submit">
                 Entrar
             </button>
 
             <p class="cadastro-link">
-                <a href="cadastro/index.html">Criar conta</a>
+                <a href="cadastro/index.html">
+                    Criar conta
+                </a>
             </p>
 
         </form>
+
     </div>
 
     <script src="config.js"></script>
     <script src="login.js"></script>
+
 </body>
 
 </html>

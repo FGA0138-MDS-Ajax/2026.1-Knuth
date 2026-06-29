@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNUTHS - Sistema de Dúvidas</title>
-
     <link rel="stylesheet" href="duvidas.css">
 </head>
 
@@ -29,39 +28,63 @@
 
             <h2>❓ Sistema de Dúvidas</h2>
 
-            <button id="btnNovaDuvida">
+            <button id="btnNovaDuvida" disabled>
                 + Nova Dúvida
             </button>
 
         </div>
 
-        <select id="filtroPrioridade">
-            <option value="Todas">Todas as prioridades</option>
-            <option value="Alta">Alta</option>
-            <option value="Média">Média</option>
-            <option value="Baixa">Baixa</option>
-        </select>
+        <div class="controles">
+
+            <select id="seletorTurma">
+                <option value="">Selecione uma turma...</option>
+            </select>
+
+            <select id="filtroStatus">
+                <option value="todas">Todos os status</option>
+                <option value="aberta">Aberta</option>
+                <option value="em andamento">Em andamento</option>
+                <option value="resolvida">Resolvida</option>
+            </select>
+
+            <select id="filtroPrioridade">
+                <option value="todas">Todas as prioridades</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
+        </div>
 
         <div id="formulario" class="formulario escondido">
 
-            <input type="text" id="titulo" placeholder="Título da dúvida">
+            <textarea
+                id="textoPergunta"
+                placeholder="Descreva sua dúvida (mín. 5, máx. 500 caracteres)"
+            ></textarea>
 
-            <input type="text" id="disciplina" placeholder="Disciplina">
+            <div class="opcoes-restricao">
 
-            <select id="prioridade">
-                <option value="">Selecione a prioridade</option>
-                <option>Baixa</option>
-                <option>Média</option>
-                <option>Alta</option>
-            </select>
+                <label>
+                    <input type="checkbox" id="restritaProfessor">
+                    Restrita ao professor
+                </label>
 
-            <select id="status">
-                <option>Aberta</option>
-                <option>Em andamento</option>
-                <option>Resolvida</option>
-            </select>
+                <label>
+                    <input type="checkbox" id="restritaMonitor">
+                    Restrita ao monitor
+                </label>
 
-            <textarea id="descricao" placeholder="Descreva sua dúvida"></textarea>
+            </div>
+
+            <div class="opcao-prioridade">
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media" selected>Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
 
             <button id="publicar">
                 Publicar Dúvida
@@ -69,12 +92,15 @@
 
         </div>
 
-        <div id="listaDuvidas" class="container-duvidas">
+        <p id="mensagemVazio" class="mensagem-vazio escondido">
+            Nenhuma dúvida encontrada para esta turma.
+        </p>
 
-        </div>
+        <div id="listaDuvidas" class="container-duvidas"></div>
 
     </main>
 
+    <script src="config.js"></script>
     <script src="duvidas.js"></script>
 
 </body>

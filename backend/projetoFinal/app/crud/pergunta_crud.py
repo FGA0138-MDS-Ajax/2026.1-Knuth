@@ -1,6 +1,10 @@
 from sqlmodel import Session, select
+from app.models.aluno_model import Aluno
+from app.models.turma_model import Turma
+from app.schemas.pergunta_schema import PerguntaCreate, PerguntaRead, PerguntaUpdate
 from app.models.pergunta_model import Pergunta
-from app.schemas.pergunta_schema import PerguntaCreate, PerguntaUpdate
+from app.models.disciplina_model import Disciplina
+from app.crud.aluno_crud import AlunoCRUD
 from typing import Optional
 
 class PerguntaCRUD:
@@ -14,7 +18,8 @@ class PerguntaCRUD:
             aluno_id=aluno_id,
             is_restrita_professor=pergunta_create.is_restrita_professor,
             is_restrita_monitor=pergunta_create.is_restrita_monitor,
-            status="aberta"
+            prioridade=pergunta_create.prioridade,
+            status="aberta",
         )
         session.add(pergunta)
         session.commit()
@@ -36,7 +41,9 @@ class PerguntaCRUD:
             pergunta.is_restrita_monitor = pergunta_update.is_restrita_monitor
         if pergunta_update.status is not None:
             pergunta.status = pergunta_update.status
-            
+        if pergunta_update.prioridade is not None:
+            pergunta.prioridade = pergunta_update.prioridade
+
         session.add(pergunta)
         session.commit()
         session.refresh(pergunta)

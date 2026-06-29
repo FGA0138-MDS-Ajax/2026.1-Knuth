@@ -45,8 +45,27 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background: #3730a3;
+}
+
+button:disabled {
+    background: #a5b4fc;
+    cursor: not-allowed;
+}
+
+.controles {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.controles select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    flex: 1;
+    max-width: 320px;
 }
 
 .formulario {
@@ -63,17 +82,27 @@ button:hover {
     display: none;
 }
 
-input,
-select,
 textarea {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 10px;
-}
-
-textarea {
     height: 120px;
     resize: none;
+    width: 100%;
+}
+
+.opcoes-restricao {
+    display: flex;
+    gap: 25px;
+}
+
+.opcoes-restricao label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #555;
+    font-size: 14px;
 }
 
 .container-duvidas {
@@ -88,22 +117,191 @@ textarea {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card h3 {
-    color: #4f46e5;
+.card-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
     margin-bottom: 10px;
 }
 
-.info {
-    margin-bottom: 8px;
+.card-cabecalho p {
+    flex: 1;
+    color: #333;
+    line-height: 1.6;
+}
+
+.badges {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.badge-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.badge-status.aberta {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-status.em-andamento {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.badge-status.resolvida {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.badge-restricao {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    background: #fee2e2;
+    color: #dc2626;
+    white-space: nowrap;
+}
+
+.badge-prioridade {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.badge-prioridade.baixa {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.badge-prioridade.media {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.badge-prioridade.alta {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.opcao-prioridade {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
     color: #555;
 }
 
-#filtroPrioridade {
-    margin-bottom: 20px;
-    width: 250px;
+.opcao-prioridade select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.alterarStatus {
-    margin-top: 15px;
-    width: 100%;
+.info-card {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 12px;
+}
+
+.select-status {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.respostas-section {
+    margin-top: 16px;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+}
+
+.btn-toggle-respostas {
+    background: none;
+    color: #4f46e5;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-toggle-respostas:hover {
+    background: none;
+    color: #3730a3;
+    text-decoration: underline;
+}
+
+.lista-respostas {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resposta-card {
+    background: #f8f8ff;
+    border-left: 3px solid #4f46e5;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.resposta-autor {
+    font-weight: bold;
+    color: #4f46e5;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.resposta-data {
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
+
+.resposta-texto {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.form-resposta {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.form-resposta textarea {
+    flex: 1;
+    height: 60px;
+    font-size: 13px;
+}
+
+.btn-responder {
+    padding: 10px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.mensagem-vazio {
+    text-align: center;
+    color: #999;
+    margin-top: 50px;
+    font-size: 15px;
 }

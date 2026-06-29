@@ -8,7 +8,8 @@ body{
 
     font-family: Arial, Helvetica, sans-serif;
 
-    background: linear-gradient(to right, #240046, #5a189a);
+    /* Fundo azul padronizado */
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
 
     height: 100vh;
 
@@ -66,7 +67,8 @@ form{
     flex-direction: column;
 }
 
-input, select{
+input,
+select{
 
     margin-bottom: 20px;
 
@@ -79,6 +81,16 @@ input, select{
     padding-left: 15px;
 
     font-size: 16px;
+
+    outline: none;
+
+    transition: .3s;
+}
+
+input:focus,
+select:focus{
+
+    border-color: #3c1eff;
 }
 
 button{
@@ -97,7 +109,7 @@ button{
 
     cursor: pointer;
 
-    transition: 0.3s;
+    transition: .3s;
 }
 
 button:hover{
@@ -105,4 +117,38 @@ button:hover{
     transform: scale(1.02);
 
     background-color: #2d13cc;
+}
+
+/* Link para login */
+
+.login-link{
+
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+.login-link p{
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+
+    color: #666;
+}
+
+.login-link a{
+
+    color: #3c1eff;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.login-link a:hover{
+
+    text-decoration: underline;
 }

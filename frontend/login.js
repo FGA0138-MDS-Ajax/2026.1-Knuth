@@ -36,3 +36,41 @@ form.addEventListener("submit", async (e) => {
         alert("Não foi possível conectar ao servidor. Tente novamente.");
     }
 });
+const linkEsqueci = document.getElementById("esqueciSenha");
+
+linkEsqueci.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const email = prompt("Digite seu e-mail para recuperação de senha:");
+
+    if (!email) return;
+
+    try {
+        const resposta = await fetch(`${API_BASE_URL}/forgot-password`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email })
+        });
+
+        let dados;
+
+        // tenta ler JSON mesmo se vier vazio
+        try {
+            dados = await resposta.json();
+        } catch {
+            dados = {};
+        }
+
+        if (resposta.ok) {
+            alert("Se o e-mail existir, enviamos instruções de recuperação.");
+        } else {
+            alert(dados.detail || "Erro ao solicitar recuperação de senha.");
+        }
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro de conexão com o servidor.");
+    }
+});
