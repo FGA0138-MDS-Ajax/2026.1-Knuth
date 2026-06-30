@@ -25,25 +25,62 @@
         <div class="topo">
             <h2>❓ Sistema de Dúvidas</h2>
 
-            <button id="btnNovaDuvida">
+            <button id="btnNovaDuvida" disabled>
                 + Nova Dúvida
             </button>
         </div>
 
-        <div id="formulario" class="formulario escondido">
+        <div class="controles">
 
-            <input type="text" id="titulo" placeholder="Título da dúvida">
-
-            <select id="atribuida">
-                <option value="Todos">Todos</option>
-
-                <option value="Apenas professores e monitores">
-                    Apenas professores e monitores
-                </option>
+            <select id="seletorTurma">
+                <option value="">Selecione uma turma...</option>
             </select>
 
-            <textarea id="descricao" placeholder="Descreva sua dúvida">
-            </textarea>
+            <select id="filtroStatus">
+                <option value="todas">Todos os status</option>
+                <option value="aberta">Aberta</option>
+                <option value="em andamento">Em andamento</option>
+                <option value="resolvida">Resolvida</option>
+            </select>
+
+            <select id="filtroPrioridade">
+                <option value="todas">Todas as prioridades</option>
+                <option value="alta">Alta</option>
+                <option value="media">Média</option>
+                <option value="baixa">Baixa</option>
+            </select>
+
+        </div>
+
+        <div id="formulario" class="formulario escondido">
+
+            <textarea
+                id="textoPergunta"
+                placeholder="Descreva sua dúvida (mín. 5, máx. 500 caracteres)"
+            ></textarea>
+
+            <div class="opcoes-restricao">
+
+                <label>
+                    <input type="checkbox" id="restritaProfessor">
+                    Restrita ao professor
+                </label>
+
+                <label>
+                    <input type="checkbox" id="restritaMonitor">
+                    Restrita ao monitor
+                </label>
+
+            </div>
+
+            <div class="opcao-prioridade">
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade">
+                    <option value="baixa">Baixa</option>
+                    <option value="media" selected>Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
 
             <button id="publicar">
                 Publicar Dúvida
@@ -51,10 +88,15 @@
 
         </div>
 
-        <div id="listaDuvidas"></div>
+        <p id="mensagemVazio" class="mensagem-vazio escondido">
+            Nenhuma dúvida encontrada para esta turma.
+        </p>
+
+        <div id="listaDuvidas" class="container-duvidas"></div>
 
     </main>
 
+    <script src="config.js"></script>
     <script src="duvidas.js"></script>
 
 </body>

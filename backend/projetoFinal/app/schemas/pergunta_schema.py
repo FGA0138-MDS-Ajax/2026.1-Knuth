@@ -1,37 +1,31 @@
 from datetime import datetime
+from typing import Literal
 from sqlmodel import SQLModel, Field
-from app.models.aluno_model import Aluno
-from app.models.pergunta_model import Pergunta
-from app.models.disciplina_model import Disciplina
-from app.models.resposta_model import Resposta
-from app.models.turma_model import Turma
+
 
 class PerguntaCreate(SQLModel):
     texto: str = Field(min_length=5, max_length=500)
-    turma_id: int = Field(foreign_key="turma.id", nullable=False,index=True,ondelete="RESTRICT")
-    is_restrita_professor: bool = Field(default=False)
-    is_restrita_monitor: bool = Field(default=False)
+    turma_id: int
+    is_restrita_professor: bool = False
+    is_restrita_monitor: bool = False
+    prioridade: Literal["baixa", "media", "alta"] = "media"
+
 
 class PerguntaRead(SQLModel):
     id: int
     texto: str
     data_criacao: datetime
-    turma: Turma
-    aluno: Aluno
+    turma_id: int
+    aluno_id: int
     is_restrita_professor: bool
     is_restrita_monitor: bool
+    status: Literal["aberta", "em andamento", "resolvida"]
+    prioridade: Literal["baixa", "media", "alta"]
+
 
 class PerguntaUpdate(SQLModel):
-    texto: str = Field(min_length=5, max_length=500)
-    is_restrita_professor: bool = Field(default=False)
-    is_restrita_monitor: bool = Field(default=False)
-
-class PerguntaCompleta(SQLModel):
-    id: int
-    texto: str
-    data_criacao: datetime
-    turma: Turma
-    aluno: Aluno
-    respostas: list["Resposta"] = []
-    is_restrita_professor: bool
-    is_restrita_monitor: bool
+    texto: str | None = None
+    is_restrita_professor: bool | None = None
+    is_restrita_monitor: bool | None = None
+    status: Literal["aberta", "em andamento", "resolvida"] | None = None
+    prioridade: Literal["baixa", "media", "alta"] | None = None

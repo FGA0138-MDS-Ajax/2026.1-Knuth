@@ -185,9 +185,9 @@ class PerguntaService:
         if changing_metadata and not is_creator:
             raise HTTPException(status_code=403, detail="Apenas o autor da pergunta pode alterar seu conteúdo ou restrições")
         
-        if pergunta_update.status is not None:
+        if pergunta_update.status is not None or pergunta_update.prioridade is not None:
             if not (is_creator or is_monitor_turma or is_professor_turma):
-                raise HTTPException(status_code=403, detail="Você não tem permissão para alterar o status desta pergunta")
+                raise HTTPException(status_code=403, detail="Você não tem permissão para alterar o status ou prioridade desta pergunta")
         
         try:
             updated = PerguntaCRUD.update(session, pergunta_id, pergunta_update)

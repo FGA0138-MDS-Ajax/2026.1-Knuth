@@ -72,6 +72,11 @@ class RespostaCRUD:
         return session.get(Resposta, resposta_id)
 
     @staticmethod
+    def get_by_pergunta(session: Session, pergunta_id: int) -> list[Resposta]:
+        statement = select(Resposta).where(Resposta.pergunta_id == pergunta_id).order_by(text("data_criacao ASC"))
+        return list(session.exec(statement).all())
+
+    @staticmethod
     def get_all(session: Session):
         statement = select(Resposta).order_by(text("data_criacao DESC"))
         return session.exec(statement).all()

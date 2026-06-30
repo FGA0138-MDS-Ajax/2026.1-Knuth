@@ -19,6 +19,7 @@ class Pergunta(SQLModel, table=True):
     is_restrita_professor: bool = Field(default=False)
     is_restrita_monitor: bool = Field(default=False)
     status: str = Field(default="aberta")
+    prioridade: str = Field(default="media")
 
 
     

@@ -18,7 +18,8 @@ class PerguntaCRUD:
             aluno_id=aluno_id,
             is_restrita_professor=pergunta_create.is_restrita_professor,
             is_restrita_monitor=pergunta_create.is_restrita_monitor,
-            status="aberta"
+            prioridade=pergunta_create.prioridade,
+            status="aberta",
         )
         session.add(pergunta)
         session.commit()
@@ -40,7 +41,9 @@ class PerguntaCRUD:
             pergunta.is_restrita_monitor = pergunta_update.is_restrita_monitor
         if pergunta_update.status is not None:
             pergunta.status = pergunta_update.status
-            
+        if pergunta_update.prioridade is not None:
+            pergunta.prioridade = pergunta_update.prioridade
+
         session.add(pergunta)
         session.commit()
         session.refresh(pergunta)
