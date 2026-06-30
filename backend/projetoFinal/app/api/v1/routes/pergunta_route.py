@@ -6,7 +6,7 @@ from app.core.security import get_current_username, possui_permissao
 
 router = APIRouter(prefix="/perguntas", tags=["Perguntas"], dependencies=[Depends(possui_permissao(["QUALQUER"]))])
 
-@router.post("/", response_model=PerguntaRead, summary="Criar uma nova pergunta", dependencies=[Depends(possui_permissao(["ALUNO"]))])
+@router.post("/", response_model=PerguntaRead, summary="Criar uma nova pergunta")
 def create_pergunta(pergunta_create: PerguntaCreate, session: SessionDependency, username: str = Depends(get_current_username)):
     return PerguntaService.create(session, pergunta_create, username)
 

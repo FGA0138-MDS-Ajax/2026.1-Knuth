@@ -7,15 +7,15 @@ from app.core.security import get_current_username, possui_permissao
 
 router = APIRouter(prefix="/turmas", tags=["Turmas"], dependencies=[Depends(possui_permissao(["QUALQUER"]))])
 
-@router.post("/", response_model=TurmaRead, summary="Criar uma nova turma", dependencies=[Depends(possui_permissao(["ADMIN", "PROFESSOR"]))])
+@router.post("/", response_model=TurmaRead, summary="Criar uma nova turma")
 def create_turma(turma_create: TurmaCreate, session: SessionDependency):
     return TurmaService.create(session, turma_create)
 
-@router.put("/{turma_id}", response_model=TurmaRead, summary="Atualizar uma turma existente", dependencies=[Depends(possui_permissao(["ADMIN", "PROFESSOR"]))])
+@router.put("/{turma_id}", response_model=TurmaRead, summary="Atualizar uma turma existente")
 def update_turma(turma_id: int, turma_update: TurmaUpdate, session: SessionDependency):
     return TurmaService.update(session, turma_id, turma_update)
 
-@router.delete("/{turma_id}", summary="Deletar uma turma", dependencies=[Depends(possui_permissao(["ADMIN", "PROFESSOR"]))])
+@router.delete("/{turma_id}", summary="Deletar uma turma")
 def delete_turma(turma_id: int, session: SessionDependency):
     return TurmaService.delete(session, turma_id)   
 

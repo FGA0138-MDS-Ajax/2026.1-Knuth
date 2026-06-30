@@ -7,15 +7,15 @@ from app.core.security import get_current_username, possui_permissao
 
 router = APIRouter(prefix="/cursos", tags=["Cursos"])
 
-@router.post("/", response_model=CursoRead,summary="Criar um novo curso", dependencies=[Depends(possui_permissao(["PROFESSOR"]))])
+@router.post("/", response_model=CursoRead,summary="Criar um novo curso")
 def create_curso(curso_create: CursoCreate, session: SessionDependency):
     return CursoService.create(session, curso_create)
 
-@router.put("/{curso_id}", response_model=CursoRead,summary="Atualizar um curso existente", dependencies=[Depends(possui_permissao(["PROFESSOR"]))])
+@router.put("/{curso_id}", response_model=CursoRead,summary="Atualizar um curso existente")
 def update_curso(curso_id: int, curso_update: CursoUpdate, session: SessionDependency):
     return CursoService.update(session, curso_id, curso_update)
 
-@router.delete("/{curso_id}", summary="Deletar um curso", dependencies=[Depends(possui_permissao(["PROFESSOR"]))])
+@router.delete("/{curso_id}", summary="Deletar um curso")
 def delete_curso(curso_id: int, session: SessionDependency):
     return CursoService.delete(session, curso_id)
 

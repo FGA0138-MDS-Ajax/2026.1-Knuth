@@ -7,15 +7,15 @@ from app.core.security import get_current_username, possui_permissao
 
 router = APIRouter(prefix="/disciplinas", tags=["Disciplinas"], dependencies=[Depends(possui_permissao(["QUALQUER"]))])
 
-@router.post("/", response_model=DisciplinaRead,summary="Criar uma nova disciplina", dependencies=[Depends(possui_permissao(["ADMIN"]))])
+@router.post("/", response_model=DisciplinaRead,summary="Criar uma nova disciplina")
 def create_disciplina(disciplina_create: DisciplinaCreate, session: SessionDependency):
     return DisciplinaService.create(session, disciplina_create)
 
-@router.put("/{disciplina_id}", response_model=DisciplinaRead,summary="Atualizar uma disciplina existente", dependencies=[Depends(possui_permissao(["ADMIN"]))])
+@router.put("/{disciplina_id}", response_model=DisciplinaRead,summary="Atualizar uma disciplina existente")
 def update_disciplina(disciplina_id: int, disciplina_update: DisciplinaUpdate, session: SessionDependency):
     return DisciplinaService.update(session, disciplina_id, disciplina_update)
 
-@router.delete("/{disciplina_id}", summary="Deletar uma disciplina", dependencies=[Depends(possui_permissao(["ADMIN"]))])
+@router.delete("/{disciplina_id}", summary="Deletar uma disciplina")
 def delete_disciplina(disciplina_id: int, session: SessionDependency):
     return DisciplinaService.delete(session, disciplina_id)
 
