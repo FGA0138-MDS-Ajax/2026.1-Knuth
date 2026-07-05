@@ -8,7 +8,12 @@ class UsuarioCRUD:
     @staticmethod
     def create(session: Session, usuario_create: UsuarioCreate):
         usuarioCreate = UsuarioCreate.model_validate(usuario_create)
-        usuario = Usuario(username=usuarioCreate.username, hashed_password=usuarioCreate.password)
+        usuario = Usuario(
+            username=usuarioCreate.username,
+            hashed_password=usuarioCreate.password,
+            is_aluno=usuarioCreate.is_aluno,
+            is_professor=usuarioCreate.is_professor
+        )
         usuario.hashed_password = get_password_hash(usuario.hashed_password)   
         session.add(usuario)
         session.commit()

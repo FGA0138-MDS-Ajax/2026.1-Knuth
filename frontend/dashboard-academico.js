@@ -3,11 +3,7 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-document.getElementById("btnSair").addEventListener("click", () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user_name");
-    window.location.href = "login.html";
-});
+// A sidebar e o botão sair são gerenciados automaticamente pelo config.js
 
 function authHeader() {
     return { "Authorization": `Bearer ${token}` };
@@ -16,6 +12,7 @@ function authHeader() {
 function tratarNaoAutorizado(status) {
     if (status === 401) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("user_profile_cache");
         window.location.href = "login.html";
         return true;
     }
@@ -41,28 +38,31 @@ function formatarData(isoString) {
 
 async function carregarPerfil() {
     try {
-        const resposta = await fetch(`${API_BASE_URL}/me`, {
-            headers: authHeader(),
-        });
-        if (tratarNaoAutorizado(resposta.status)) return;
-        if (!resposta.ok) throw new Error();
+        const cached = localStorage.getItem("user_profile_cache");
+        let dados;
+        if (cached) {
+            dados = JSON.parse(cached);
+        } else {
+            const resposta = await fetch(`${API_BASE_URL}/me`, {
+                headers: authHeader(),
+            });
+            if (tratarNaoAutorizado(resposta.status)) return;
+            if (!resposta.ok) throw new Error();
+            dados = await resposta.json();
+            localStorage.setItem("user_profile_cache", JSON.stringify(dados));
+        }
 
-        const dados = await resposta.json();
-        const nome  = dados.aluno_nome || dados.sub.split("@")[0];
-        const cargo = dados.is_professor ? "Professor" : (dados.is_admin ? "Administrador" : "Aluno");
+        const nome = dados.aluno_nome || dados.professor_nome || dados.sub.split("@")[0];
+        const email = dados.aluno_email || dados.professor_email || dados.sub;
 
-        document.getElementById("perfilNome").textContent      = dados.aluno_nome     || dados.sub.split("@")[0];
-        document.getElementById("perfilMatricula").textContent = dados.aluno_matricula || "Não informada";
-        document.getElementById("perfilCurso").textContent     = dados.aluno_curso     || "Não informado";
-        document.getElementById("perfilEmail").textContent     = dados.aluno_email     || dados.sub;
-        document.getElementById("sidebarNome").textContent     = nome;
-        document.getElementById("sidebarCargo").textContent    = cargo;
+        document.getElementById("perfilNome").textContent      = nome;
+        document.getElementById("perfilMatricula").textContent = dados.aluno_matricula || "Não aplicável";
+        document.getElementById("perfilCurso").textContent     = dados.aluno_curso     || "Não aplicável";
+        document.getElementById("perfilEmail").textContent     = email;
 
-        localStorage.setItem("user_name", nome);
     } catch {
         const nomeSalvo = localStorage.getItem("user_name") || "Usuário";
         document.getElementById("perfilNome").textContent  = nomeSalvo;
-        document.getElementById("sidebarNome").textContent = nomeSalvo;
     }
 }
 

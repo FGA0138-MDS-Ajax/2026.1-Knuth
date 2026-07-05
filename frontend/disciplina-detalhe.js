@@ -1,90 +1,88 @@
-document.addEventListener("DOMContentLoaded", () => {
+const token = localStorage.getItem("access_token");
+if (!token) {
+    window.location.href = "login.html";
+}
+
+const params = new URLSearchParams(window.location.search);
+const idDisciplina = params.get("id");
+
+function authHeader() {
+    return { "Authorization": `Bearer ${token}` };
+}
+
+async function carregarDetalheDisciplina() {
+    if (!idDisciplina) {
+        window.location.href = "disciplinas.html";
+        return;
+    }
     
-    // --- Lógica Sair ---
-    const btnSair = document.getElementById("btnSair");
-    if (btnSair) {
-        btnSair.addEventListener("click", () => window.location.href = "login.html");
-    }
-
-    // --- BANCO DE DADOS SIMULADO DAS DISCIPLINAS ---
-    const dadosDisciplinas = {
-        "mds": { nome: "💻 Engenharia de Software (MDS)", desc: "Fórum Geral • Turmas: A, B e C" },
-        "estrutura-de-dados": { nome: "📘 Estrutura de Dados", desc: "Fórum Geral • Turmas: A e B" },
-        "banco-de-dados": { nome: "🗄️ Banco de Dados", desc: "Fórum Geral • Turmas: A" },
-        "calculo-1": { nome: "📐 Cálculo 1", desc: "Fórum Geral • Turmas: A, B, C e D" },
-        "sistemas-digitais": { nome: "🔌 Sistemas Digitais", desc: "Fórum Geral • Turmas: A e B" },
-        "fisica-1": { nome: "🍎 Física 1", desc: "Fórum Geral • Turmas: A e C" }
-    };
-
-    // --- Captura o ID vindo da URL (ex: ?id=mds) ---
-    const params = new URLSearchParams(window.location.search);
-    const idDisciplina = params.get("id") || "mds"; // Padrão mds caso não venha ID
-
-    // Atualiza os textos da tela com base na disciplina clicada
-    const infoMateria = dadosDisciplinas[idDisciplina];
-    if (infoMateria) {
-        document.getElementById("nomeDisciplina").textContent = infoMateria.nome;
-        document.getElementById("descDisciplina").textContent = infoMateria.desc;
-    }
-
-    // --- Lógica do Botão se Inscrever ---
-    const btnInscrever = document.getElementById("btnInscrever");
-    if (btnInscrever) {
-        // Verifica se já estava inscrito antes
-        if (localStorage.getItem("inscrito_" + idDisciplina)) {
-            btnInscrever.textContent = "Inscrito ✓";
-            btnInscrever.style.background = "#22c55e"; // Muda para verde
-            btnInscrever.style.color = "white";
-            btnInscrever.disabled = true; // Desativa para não clicar de novo
+    try {
+        const res = await fetch(`${API_BASE_URL}/disciplinas/${idDisciplina}`, {
+            headers: authHeader()
+        });
+        if (res.status === 401) {
+            localStorage.removeItem("access_token");
+            window.location.href = "login.html";
+            return;
         }
-
-        btnInscrever.addEventListener("click", () => {
-            btnInscrever.textContent = "Inscrito ✓";
-            btnInscrever.style.background = "#22c55e";
-            btnInscrever.style.color = "white";
-            btnInscrever.disabled = true; 
-            
-            // Salva a inscrição no navegador
-            localStorage.setItem("inscrito_" + idDisciplina, JSON.stringify(infoMateria));
-            
-            alert(`Você foi matriculado em uma turma de ${infoMateria ? infoMateria.nome : "disciplina"}! Ela agora aparecerá no seu painel de Turmas.`);
-        });
-    }
-
-    // --- Controle do Modal de Dúvidas ---
-    const modalDuvida = document.getElementById("modalDuvida");
-    const btnPublicar = document.getElementById("btnPublicarDuvida");
-    const btnCancelar = document.getElementById("btnCancelarDuvida");
-    const btnConfirmar = document.getElementById("btnConfirmarDuvida");
-
-    if (btnPublicar) btnPublicar.addEventListener("click", () => modalDuvida.classList.remove("oculta"));
-    if (btnCancelar) btnCancelar.addEventListener("click", () => modalDuvida.classList.add("oculta"));
-
-    if (btnConfirmar) {
-        btnConfirmar.addEventListener("click", () => {
-            const textarea = document.getElementById("textoDuvida");
-            const texto = textarea.value.trim();
-
-            if (!texto) {
-                alert("Escreva sua dúvida antes de publicar.");
-                return;
-            }
-
-            const feed = document.getElementById("feedDuvidas");
-            const novaDuvidaHTML = `
-                <div class="duvida-card">
-                    <div class="duvida-header">
-                        <span class="autor">Você</span>
-                        <span class="tempo">Agora</span>
-                    </div>
-                    <p>${texto}</p>
-                    <button class="btn-responder">Responder</button>
+        if (!res.ok) {
+            alert("Disciplina não encontrada.");
+            window.location.href = "disciplinas.html";
+            return;
+        }
+        const d = await res.json();
+        
+        document.getElementById("nomeDisciplina").textContent = `💻 ${d.nome}`;
+        document.getElementById("descDisciplina").textContent = `Código: ${d.codigo} • Fórum Geral`;
+        
+        const feed = document.getElementById("feedDuvidas");
+        feed.innerHTML = `
+            <div class="duvida-card">
+                <div class="duvida-header">
+                    <span class="autor">Aviso</span>
+                    <span class="tempo">Agora</span>
                 </div>
-            `;
-
-            feed.insertAdjacentHTML("afterbegin", novaDuvidaHTML);
-            textarea.value = "";
-            modalDuvida.classList.add("oculta");
-        });
+                <p>Este é o fórum geral da disciplina <strong>${d.nome}</strong>. Para tirar dúvidas interativas sobre a matéria, por favor acesse a página de <strong>Dúvidas</strong> ou selecione uma de suas <strong>Turmas</strong>.</p>
+            </div>
+        `;
+    } catch (e) {
+        console.error("Falha ao carregar disciplina:", e);
     }
-});
+}
+
+// Inscrição simulada
+const btnInscrever = document.getElementById("btnInscrever");
+if (btnInscrever) {
+    if (localStorage.getItem("inscrito_" + idDisciplina)) {
+        btnInscrever.textContent = "Inscrito ✓";
+        btnInscrever.style.background = "#22c55e";
+        btnInscrever.style.color = "white";
+        btnInscrever.disabled = true;
+    }
+    btnInscrever.addEventListener("click", () => {
+        btnInscrever.textContent = "Inscrito ✓";
+        btnInscrever.style.background = "#22c55e";
+        btnInscrever.style.color = "white";
+        btnInscrever.disabled = true;
+        localStorage.setItem("inscrito_" + idDisciplina, "true");
+        alert("Inscrição efetuada com sucesso!");
+    });
+}
+
+// Modal de dúvida
+const modalDuvida = document.getElementById("modalDuvida");
+const btnPublicar = document.getElementById("btnPublicarDuvida");
+const btnCancelar = document.getElementById("btnCancelarDuvida");
+const btnConfirmar = document.getElementById("btnConfirmarDuvida");
+
+if (btnPublicar) btnPublicar.addEventListener("click", () => modalDuvida.classList.remove("oculta"));
+if (btnCancelar) btnCancelar.addEventListener("click", () => modalDuvida.classList.add("oculta"));
+
+if (btnConfirmar) {
+    btnConfirmar.addEventListener("click", () => {
+        alert("Para publicar dúvidas interativas, por favor use a seção de Dúvidas ou selecione uma Turma específica.");
+        modalDuvida.classList.add("oculta");
+    });
+}
+
+carregarDetalheDisciplina();

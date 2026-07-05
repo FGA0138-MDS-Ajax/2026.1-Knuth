@@ -5,23 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNUTHS - Turmas</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="turmas.css">
 </head>
 
-<body>
+<body class="dashboard-layout">
 
-    <header>
-        <h1>KNUTHS</h1>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="turmas.html">Turmas</a>
-            <a href="disciplinas.html">Disciplinas</a>
-        </nav>
-    </header>
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <div class="sidebar-perfil">
+            <span class="sidebar-nome" id="sidebarNome">...</span>
+            <small class="sidebar-cargo" id="sidebarCargo"></small>
+        </div>
+        <ul>
+            <li><a href="dashboard.html" id="menuGeral">🏠 Mural Geral</a></li>
+            <li><a href="dashboard-academico.html" id="menuAcademico">👤 Perfil &amp; Acadêmico</a></li>
+            <li><a href="turmas.html" id="menuTurmas">📚 Turmas</a></li>
+            <li><a href="disciplinas.html" id="menuDisciplinas">📖 Disciplinas</a></li>
+            <li><a href="duvidas.html" id="menuDuvidas">❓ Dúvidas</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
 
-    <main>
+    <main class="main-content">
         <div class="topo">
-            <h2>📚 Minhas Turmas (3)</h2>
+            <h2 id="tituloTurmas">📚 Minhas Turmas</h2>
             <div class="botoes-acao">
                 <button id="btnEntrarCodigo">Entrar com Código</button>
                 <button id="novaTurma">+ Nova Turma</button>
@@ -35,43 +43,20 @@
 
         <p id="mensagemErro"></p>
 
-        <div class="container-turmas">
-            <div class="card">
-                <h3>💻 MDS</h3>
-                <p>Turma A</p>
-                <p>👨‍🏫 Professor: Marcos</p>
-                <p>Espaço para dúvidas e materiais.</p>
-                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
-                    Acessar
-                </button>
-            </div>
-
-            <div class="card">
-                <h3>📘 Estrutura de Dados</h3>
-                <p>Turma B</p>
-                <p>👩‍🏫 Professora: Carla</p>
-                <p>Fórum acadêmico da disciplina.</p>
-                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
-                    Acessar
-                </button>
-            </div>
-
-            <div class="card">
-                <h3>🗄️ Banco de Dados</h3>
-                <p>Turma C</p>
-                <p>👨‍🏫 Professor: João</p>
-                <p>Tire dúvidas e acompanhe conteúdos.</p>
-                <button class="entrar" onclick="window.location.href='turma-detalhe.html'">
-                    Acessar
-                </button>
-            </div>
+        <div class="container-turmas" id="containerTurmas">
+            <p style="color:#666; font-size: 14px; text-align: center; padding: 20px;">Carregando turmas...</p>
         </div>
 
+        <!-- Modais -->
         <div id="modalCriar" class="modal oculta">
             <div class="modal-conteudo">
                 <h3>Criar Nova Turma</h3>
-                <input type="text" id="inputNomeTurma" placeholder="Nome da Turma" required>
-                <input type="text" id="inputDisciplina" placeholder="Disciplina vinculada (Ex: MDS)" required>
+                <input type="text" id="inputNomeTurma" placeholder="Nome da Turma (Ex: Turma A)" required>
+                <select id="selectDisciplina" required>
+                    <option value="">Selecione a Disciplina...</option>
+                </select>
+                <input type="text" id="inputHorario" placeholder="Horário (Ex: Seg/Qua 14:00-16:00)" required>
+                <input type="text" id="inputPeriodo" placeholder="Período (Ex: 2026.1)" value="2026.1" required>
                 <div class="modal-botoes">
                     <button id="btnCancelarCriar" class="btn-cancelar">Cancelar</button>
                     <button id="btnConfirmarCriar" class="btn-confirmar">Criar</button>
@@ -89,11 +74,10 @@
                 </div>
             </div>
         </div>
-
     </main>
 
+    <script src="config.js"></script>
     <script src="turmas.js"></script>
-
 </body>
 
 </html>

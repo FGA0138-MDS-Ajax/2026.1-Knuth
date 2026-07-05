@@ -67,3 +67,19 @@ def get_me(
             payload["professor_email"] = professor.email
 
     return payload
+
+
+@router.post("/forgot-password", summary="Recuperar senha")
+def forgot_password(body: dict, session: SessionDependency):
+    email = body.get("email")
+    if not email:
+        raise HTTPException(status_code=400, detail="E-mail é obrigatório")
+    
+    # Valida se o usuário existe
+    try:
+        UsuarioService.get_by_username(session, email)
+    except HTTPException:
+        raise HTTPException(status_code=404, detail="Usuário com este e-mail não encontrado")
+        
+    return {"detail": "Se o e-mail existir, enviamos instruções de recuperação."}
+

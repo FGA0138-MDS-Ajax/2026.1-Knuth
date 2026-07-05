@@ -13,11 +13,16 @@
 
     <nav class="sidebar">
         <div class="logo">KNUTHS</div>
+        <div class="sidebar-perfil">
+            <span class="sidebar-nome" id="sidebarNome">...</span>
+            <small class="sidebar-cargo" id="sidebarCargo"></small>
+        </div>
         <ul>
-            <li><a href="dashboard.html">Mural Geral</a></li>
-            <li><a href="dashboard-academico.html">Acadêmico</a></li>
-            <li><a href="turmas.html">Turmas</a></li>
-            <li><a href="disciplinas.html" class="active">Disciplinas</a></li>
+            <li><a href="dashboard.html" id="menuGeral">🏠 Mural Geral</a></li>
+            <li><a href="dashboard-academico.html" id="menuAcademico">👤 Perfil &amp; Acadêmico</a></li>
+            <li><a href="turmas.html" id="menuTurmas">📚 Turmas</a></li>
+            <li><a href="disciplinas.html" id="menuDisciplinas">📖 Disciplinas</a></li>
+            <li><a href="duvidas.html" id="menuDuvidas">❓ Dúvidas</a></li>
         </ul>
         <button id="btnSair" class="btn-sair">Sair</button>
     </nav>
@@ -69,6 +74,7 @@
 
     </main>
 
+    <script src="config.js"></script>
     <script src="disciplina-detalhe.js"></script>
 </body>
 

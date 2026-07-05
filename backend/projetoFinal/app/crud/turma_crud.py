@@ -142,7 +142,14 @@ class TurmaCRUD:
             )
             turmas_matriculadas = session.exec(statement_matriculado).all()
             turmas_monitoradas = session.exec(statement_monitor).all()
-            return list(dict.fromkeys([*turmas_matriculadas, *turmas_monitoradas]))
+            
+            seen = set()
+            result = []
+            for t in [*turmas_matriculadas, *turmas_monitoradas]:
+                if t.id not in seen:
+                    seen.add(t.id)
+                    result.append(t)
+            return result
         
     @staticmethod
     def is_usuario_monitor(session: Session, username: str, turma_id: int):

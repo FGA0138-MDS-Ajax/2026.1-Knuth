@@ -3,6 +3,8 @@ from sqlmodel import SQLModel, Field
 class UsuarioCreate(SQLModel):
     username: str = Field(index=True, min_length=5, max_length=100)
     password: str
+    is_aluno: bool = True
+    is_professor: bool = False
 
 class UsuarioRead(SQLModel):
     id: int
