@@ -5,22 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNUTHS - Dúvidas</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="duvidas.css">
 </head>
 
-<body>
+<body class="dashboard-layout">
 
-    <header>
-        <h1>KNUTHS</h1>
+    <nav class="sidebar">
+        <div class="logo">KNUTHS</div>
+        <div class="sidebar-perfil">
+            <span class="sidebar-nome" id="sidebarNome">...</span>
+            <small class="sidebar-cargo" id="sidebarCargo"></small>
+        </div>
+        <ul>
+            <li><a href="dashboard.html" id="menuGeral">🏠 Mural Geral</a></li>
+            <li><a href="dashboard-academico.html" id="menuAcademico">👤 Perfil &amp; Acadêmico</a></li>
+            <li><a href="turmas.html" id="menuTurmas">📚 Turmas</a></li>
+            <li><a href="disciplinas.html" id="menuDisciplinas">📖 Disciplinas</a></li>
+            <li><a href="duvidas.html" id="menuDuvidas">❓ Dúvidas</a></li>
+        </ul>
+        <button id="btnSair" class="btn-sair">Sair</button>
+    </nav>
 
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="turmas.html">Turmas</a>
-            <a href="duvidas.html">Dúvidas</a>
-        </nav>
-    </header>
-
-    <main>
+    <main class="main-content">
 
         <div class="topo">
             <h2>❓ Sistema de Dúvidas</h2>

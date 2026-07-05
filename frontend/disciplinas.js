@@ -1,82 +1,74 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const btnSair = document.getElementById("btnSair");
-    if (btnSair) {
-        btnSair.addEventListener("click", () => window.location.href = "login.html");
+const token = localStorage.getItem("access_token");
+if (!token) {
+    window.location.href = "login.html";
+}
+
+let todasDisciplinas = [];
+
+function authHeader() {
+    return { "Authorization": `Bearer ${token}` };
+}
+
+async function carregarDisciplinas() {
+    const container = document.querySelector(".cards");
+    try {
+        const res = await fetch(`${API_BASE_URL}/disciplinas/`, {
+            headers: authHeader()
+        });
+        if (res.status === 401) {
+            localStorage.removeItem("access_token");
+            window.location.href = "login.html";
+            return;
+        }
+        if (!res.ok) {
+            container.innerHTML = `<p style="color:#ef4444;text-align:center;">Erro ao carregar disciplinas do servidor.</p>`;
+            return;
+        }
+        todasDisciplinas = await res.json();
+        renderizarDisciplinas(todasDisciplinas);
+    } catch (e) {
+        console.error("Falha ao buscar disciplinas:", e);
+        container.innerHTML = `<p style="color:#ef4444;text-align:center;">Erro de conexão com o servidor.</p>`;
     }
-});
+}
 
-// Banco de dados simulado com TODAS as disciplinas do sistema
-const bancoGlobalDisciplinas = [
-    { nome: "MDS", desc: "Desenvolvimento de Software" },
-    { nome: "Estrutura de Dados", desc: "Listas, Pilhas e Filas" },
-    { nome: "Banco de Dados", desc: "SQL e Modelagem" },
-    { nome: "Cálculo 1", desc: "Limites, Derivadas e Integrais" },
-    { nome: "Sistemas Digitais", desc: "Portas lógicas e circuitos combinacionais" },
-    { nome: "Física 1", desc: "Mecânica Clássica e Cinemática" }
-];
-
-function filtrarDisciplinas() {
-    let input = document.getElementById("pesquisa").value.toLowerCase().trim();
-    let container = document.querySelector(".cards");
-    let mensagem = document.getElementById("mensagem-sem-resultados");
-
-    // Se a busca estiver vazia, exibe apenas as 3 disciplinas padrões do usuário
-    if (input === "") {
-        mensagem.style.display = "none";
-        mostrarDisciplinasPadrao();
+function renderizarDisciplinas(lista) {
+    const container = document.querySelector(".cards");
+    const mensagem = document.getElementById("mensagem-sem-resultados");
+    container.innerHTML = "";
+    
+    if (lista.length === 0) {
+        mensagem.style.display = "block";
         return;
     }
+    
+    mensagem.style.display = "none";
+    lista.forEach(d => {
+        const card = document.createElement("div");
+        card.className = "card disciplina";
+        card.innerHTML = `
+            <h2>${d.nome}</h2>
+            <p>Código: ${d.codigo}</p>
+            <span>Fórum geral da disciplina</span>
+            <button onclick="window.location.href='disciplina-detalhe.html?id=${d.id}'">Acessar Fórum</button>
+        `;
+        container.appendChild(card);
+    });
+}
 
-    // Procura o termo digitado no banco global de disciplinas
-    let resultados = bancoGlobalDisciplinas.filter(disciplina => 
-        disciplina.nome.toLowerCase().includes(input) || 
-        disciplina.desc.toLowerCase().includes(input)
-    );
-
-    // Limpa a tela para colocar os resultados da busca
-    container.innerHTML = "";
-
-    if (resultados.length > 0) {
-        mensagem.style.display = "none";
-        
-        // Cria os cards dinamicamente na tela para cada resultado encontrado
-        resultados.forEach(disciplina => {
-            container.innerHTML += `
-                <div class="card disciplina">
-                    <h2>${disciplina.nome}</h2>
-                    <p>${disciplina.desc}</p>
-                    <span>Fórum geral da disciplina</span>
-                    <button onclick="window.location.href='disciplina-detalhe.html'">Acessar Fórum</button>
-                </div>
-            `;
-        });
-    } else {
-        // Se não achar nada no banco global, mostra a mensagem de erro
-        mensagem.style.display = "block";
+function filtrarDisciplinas() {
+    const input = document.getElementById("pesquisa").value.toLowerCase().trim();
+    if (input === "") {
+        renderizarDisciplinas(todasDisciplinas);
+        return;
     }
+    
+    const filtradas = todasDisciplinas.filter(d => 
+        d.nome.toLowerCase().includes(input) || 
+        d.codigo.toLowerCase().includes(input)
+    );
+    renderizarDisciplinas(filtradas);
 }
 
-// Função para renderizar a visão inicial (apenas as matriculadas)
-function mostrarDisciplinasPadrao() {
-    let container = document.querySelector(".cards");
-    container.innerHTML = `
-        <div class="card disciplina">
-            <h2>MDS</h2>
-            <p>Desenvolvimento de Software</p>
-            <span>Fórum geral da disciplina</span>
-            <button onclick="window.location.href='disciplina-detalhe.html'">Acessar Fórum</button>
-        </div>
-        <div class="card disciplina">
-            <h2>Estrutura de Dados</h2>
-            <p>Listas, Pilhas e Filas</p>
-            <span>Fórum geral da disciplina</span>
-            <button onclick="window.location.href='disciplina-detalhe.html'">Acessar Fórum</button>
-        </div>
-        <div class="card disciplina">
-            <h2>Banco de Dados</h2>
-            <p>SQL e Modelagem</p>
-            <span>Fórum geral da disciplina</span>
-            <button onclick="window.location.href='disciplina-detalhe.html'">Acessar Fórum</button>
-        </div>
-    `;
-}
+// Inicializa
+carregarDisciplinas();

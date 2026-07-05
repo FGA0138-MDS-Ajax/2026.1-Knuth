@@ -3,11 +3,7 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-document.getElementById("btnSair").addEventListener("click", () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user_name");
-    window.location.href = "login.html";
-});
+// A sidebar e o botão sair são gerenciados automaticamente pelo config.js
 
 const feedDuvidas      = document.getElementById("feedDuvidas");
 const seletorTurmaFeed = document.getElementById("seletorTurmaFeed");
@@ -28,6 +24,7 @@ function jsonAuthHeaders() {
 function tratarNaoAutorizado(status) {
     if (status === 401) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("user_profile_cache");
         window.location.href = "login.html";
         return true;
     }
@@ -57,25 +54,25 @@ function formatarData(isoString) {
 
 async function carregarPerfil() {
     try {
-        const resposta = await fetch(`${API_BASE_URL}/me`, {
-            headers: authHeader(),
-        });
-        if (tratarNaoAutorizado(resposta.status)) return;
-        if (!resposta.ok) throw new Error();
+        const cached = localStorage.getItem("user_profile_cache");
+        let dados;
+        if (cached) {
+            dados = JSON.parse(cached);
+        } else {
+            const resposta = await fetch(`${API_BASE_URL}/me`, {
+                headers: authHeader(),
+            });
+            if (tratarNaoAutorizado(resposta.status)) return;
+            if (!resposta.ok) throw new Error();
+            dados = await resposta.json();
+            localStorage.setItem("user_profile_cache", JSON.stringify(dados));
+        }
 
-        const dados = await resposta.json();
-        const nome  = dados.aluno_nome || dados.sub.split("@")[0];
-        const cargo = dados.is_professor ? "Professor" : (dados.is_admin ? "Administrador" : "Aluno");
-
-        document.getElementById("boas-vindas").textContent  = `Olá, ${nome}!`;
-        document.getElementById("sidebarNome").textContent  = nome;
-        document.getElementById("sidebarCargo").textContent = cargo;
-
-        localStorage.setItem("user_name", nome);
+        const nome = dados.aluno_nome || dados.professor_nome || dados.sub.split("@")[0];
+        document.getElementById("boas-vindas").textContent = `Olá, ${nome}!`;
     } catch {
         const nomeSalvo = localStorage.getItem("user_name") || "Usuário";
         document.getElementById("boas-vindas").textContent = `Olá, ${nomeSalvo}!`;
-        document.getElementById("sidebarNome").textContent = nomeSalvo;
     }
 }
 
